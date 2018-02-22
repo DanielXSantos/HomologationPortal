@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+    >
+<head>
+    <title>Login</title>
+    <meta charset="UTF-8"/>
+	
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"/>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+</head>
+<body>
+
+	<!-- NavBar que tem q por em todo html -->
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+    <h5 class="my-0 mr-md-auto font-weight-normal">Homologação</h5>
+    <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark" href="#">Relatórios</a>
+        <a class="p-2 text-dark" href="#">Gerenciamento</a>
+        <a class="p-2 text-dark" href="#">Usuários</a>
+        <a class="p-2 text-dark" href="/equipamento/novo" sec:authorize="!hasRole('ROLE_ANONYMOUS')">Novo</a>
+			
+		
+    </nav>
+    <a class="btn btn-outline-primary" th:href="@{/login} " sec:authorize="hasRole('ROLE_ANONYMOUS')">Login</a>
+	<a class="btn btn-outline-danger" th:href="@{/logout}" sec:authorize="!hasRole('ROLE_ANONYMOUS')">Logout</a>
+</div>
+
+
+
+
+
+
+<div >
+    <div class="container">
+         <form th:action="@{/login}" method="POST" class="form-signin">
+				      <h3 class="form-signin-heading" >Logar</h3>
+				      <br/>
+				      
+				       <label for="InputEmail">Email:</label>
+				      <input type="text" id="email" name="email"  th:placeholder="Email"
+				        class="form-control" /> <br/> 
+				         <label for="Inputpassword">Senha:</label>
+				      <input type="password"  th:placeholder="Password"
+				        id="password" name="password" class="form-control" /> <br /> 
+				      
+				      <div align="center" th:if="${param.error}">
+				        <p style="font-size: 20; color: #FF1C19;">Email or Password invalid, please verify</p>
+				      </div>
+				      <br/>
+				      		    <p class="text-right"><a  th:href="@{/registration}"  >Registre-se</a></p>
+				      <button class="btn btn-lg btn-primary " name="Submit" value="Login" type="Submit" th:text="Logar" >Log-in</button>
+				      <a  class="btn btn-lg btn-secondary "   type="button"  th:href="@{/equipamento}">Voltar</a>
+				    </form>
+    </div>
+</div>
+</body>
+</html>

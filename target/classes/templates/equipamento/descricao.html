@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+   <head>
+      <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+      </meta>
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      </meta>
+      <title>Homologação</title>
+     
+     
+      <!-- Links para funcionar a DataTable -->
+      <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://www.datatables.net/rss.xml">
+      </link>
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css">
+      </link>
+      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
+      </link>
+      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.bootstrap4.min.css">
+      </link>
+         
+     
+      <!-- Css para funcionar o Bootstrap v4.0 -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      </link>
+      
+      
+      <!-- Scripts para funcionar o Bootstrap v4.0 -->
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+            
+      
+   </head>
+   
+   <!-- NavBar que tem q por em todo html -->
+   <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+      <h5 class="my-0 mr-md-auto font-weight-normal">Homologação</h5>
+      <nav class="my-2 my-md-0 mr-md-3">
+         <a class="p-2 text-dark" href="#">Relatórios</a>
+         <a class="p-2 text-dark" href="#">Gerenciamento</a>
+         <a class="p-2 text-dark" href="#">Usuários</a>
+         <a class="p-2 text-dark" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Novo</a>
+         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="/equipamento/novo">Equipamento</a>
+            <a class="dropdown-item" href="/fabricante/novo">Fabricante</a>
+            <a class="dropdown-item" href="/features/novo">Features</a>
+            <a class="dropdown-item" href="/precificacao/novo">Precificação</a>
+            <a class="dropdown-item" href="/tipo/novo">Tipo</a>
+         </div>
+      </nav>
+      <a class="btn btn-outline-primary" th:href="@{/login} " sec:authorize="hasRole('ROLE_ANONYMOUS')">Login</a>
+      <a class="btn btn-outline-danger" th:href="@{/logout}" sec:authorize="!hasRole('ROLE_ANONYMOUS')">Logout</a>
+   </div>
+   
+   <body>
+   
+   <div tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 th:text="${equipamento.nome}"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#1" data-toggle="tab">Relatório</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#2" data-toggle="tab">Caderno de Testes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#3" data-toggle="tab">DataSheet</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#4" data-toggle="tab">Itens Avulsos / Precificação</a>
+                        </li>
+                        <!--             <li class="nav-item">
+              <a class="nav-link" href="#5" data-toggle="tab">Precificação</a>
+            </li> -->
+                    </ul>
+                    <div class="tab-content ">
+                        <div class="tab-pane active" id="1">
+                            <hr>
+                            <div class="col-md-12">
+                                <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                                    <img class="card-img-right flex-auto d-none d-md-block" data-src="holder.js/200x250?theme=thumb" alt="Thumbnail [200x250]" style="width: 200px; height: 250px;" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22250%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20250%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_161475449b0%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A13pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_161475449b0%22%3E%3Crect%20width%3D%22200%22%20height%3D%22250%22%20fill%3D%22%2355595c%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2256.203125%22%20y%3D%22131%22%3EThumbnail%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+                                        data-holder-rendered="true">
+                                    <div class="card-body d-flex flex-column align-items-start" >
+                                        <strong th:text="${equipamento.nome}"> </strong>
+                                        <div class="mb-1 text-muted"">Homologado em: <strong th:text="${equipamento.data}"></strong></div><br>
+                                        <p class="card-text mb-auto">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo, et sapiente, consequatur ipsa recusandae iste unde repudiandae perferendis repellendus fugit quis sequi? Itaque ut alias animi maiores at aperiam dignissimos
+                                            consectetur veritatis, obcaecati dolor quos. Itaque beatae aut quae, minima aliquid minus nesciunt neque, reiciendis a assumenda nulla, ipsum, saepe!</p>
+                                    </div>
+                                    <!-- <img class="card-img-right flex-auto d-none d-md-block" data-src="holder.js/200x250?theme=thumb" alt="Thumbnail [200x250]" style="width: 200px; height: 250px;" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22250%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20250%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_161475449b0%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A13pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_161475449b0%22%3E%3Crect%20width%3D%22200%22%20height%3D%22250%22%20fill%3D%22%2355595c%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2256.203125%22%20y%3D%22131%22%3EThumbnail%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true"> -->
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                                    <div class="card-body d-flex flex-column align-items-start">
+                                        <div class="mb-1 text-muted">Homologado para:</strong>
+                                        </div><br>
+                                        <div class="bd-example" th:text="${equipamento.features.nome}">
+                                        < ></>
+                                        </div>
+                                    </div>
+                                    <!-- <img class="card-img-right flex-auto d-none d-md-block" data-src="holder.js/200x250?theme=thumb" alt="Thumbnail [200x250]" style="width: 200px; height: 250px;" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22250%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20250%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_161475449b0%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A13pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_161475449b0%22%3E%3Crect%20width%3D%22200%22%20height%3D%22250%22%20fill%3D%22%2355595c%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2256.203125%22%20y%3D%22131%22%3EThumbnail%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true"> -->
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                                    <div class="card-body d-flex flex-column align-items-start">
+                                        <div class="mb-1 text-muted">Institucional:</strong>
+                                        </div><br>
+                                        <div class="embed-responsive embed-responsive-16by9">
+                                            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/0_iejnmrVHE" allowfullscreen></iframe>
+                                        </div>
+                                    </div>
+                                    <!-- <img class="card-img-right flex-auto d-none d-md-block" data-src="holder.js/200x250?theme=thumb" alt="Thumbnail [200x250]" style="width: 200px; height: 250px;" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22250%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20250%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_161475449b0%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A13pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_161475449b0%22%3E%3Crect%20width%3D%22200%22%20height%3D%22250%22%20fill%3D%22%2355595c%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2256.203125%22%20y%3D%22131%22%3EThumbnail%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true"> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="2">
+                            <hr>
+
+                            <div class="col-md-12">
+                                <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                                    <div class="card-body d-flex flex-column align-items-start">
+                                        <h3 class="mb-0">
+                                            <a class="text-dark">Caderno de Testes - <a th:text="${equipamento.nome}"></a></a>
+                                        </h3>
+                                        <div class="mb-1 text-muted">Família de Equipamentos</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                                    <div class="card-body d-flex flex-column align-items-start">
+                                        <h5 class="mb-0">
+                                            <a class="text-dark">Responsabilidades do Fabricante</a>
+                                        </h5><br>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores porro, consequatur beatae recusandae accusantium molestias sequi eaque labore est et fugiat rem modi mollitia, quisquam quaerat quo similique
+                                            dolorum quidem at iure nemo delectus iste impedit. Commodi est mollitia placeat tempore id! Dignissimos odio dicta ab a, tempora voluptatem omnis aspernatur quo nobis magni repellendus sequi ad nostrum optio.
+                                            Aperiam ab, voluptate. Iusto dolorum provident corrupti quidem mollitia vitae architecto quisquam maiores blanditiis vero quibusdam a, magni magnam aspernatur officiis ducimus incidunt facere modi consequatur
+                                            repellendus placeat, nulla. Nobis, dolorum laboriosam at consequatur. Nemo dolorem deleniti, nihil accusamus, enim, tempora unde qui quae vero assumenda doloremque quidem voluptatum, eaque non saepe corrupti
+                                            error rem facere esse mollitia. Iure veniam provident debitis accusantium impedit, incidunt quibusdam tempora consequuntur quos porro minus assumenda et aperiam neque fugit quae dicta doloribus ipsum tenetur,
+                                            perspiciatis itaque, hic voluptatibus. Nihil consequatur ipsam quae architecto mollitia.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                                    <div class="card-body d-flex flex-column align-items-start">
+                                        <h5 class="mb-0">
+                                            <a class="text-dark" href="#">Funcionabilidades / Features</a>
+                                        </h5> <br>
+                                        <div class="col-md-12">
+                                            <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                                                <div class="card-body d-flex flex-column align-items-start">
+                                                    <div class="bd-example">
+                                                        <button id="aciona" type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">MPLS</button>
+                                                        <button id="aciona" type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">VPN IPsec</button>
+                                                        <button id="aciona" type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">BGP</button>
+                                                        <button id="aciona" type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">QinQ</button>
+                                                        <button id="aciona" type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">SNMP</button>
+                                                        <button id="aciona" type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">VRF</button>
+                                                        <button id="aciona" type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">ACL</button>
+                                                        <button id="aciona" type="button" class="btn btn-outline-secondary" data-toggle="button" aria-pressed="false" autocomplete="off">RIP</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                                    <div class="card-body d-flex flex-column align-items-start">
+                                        <div class="col-md-12">
+                                            <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                                                <div class="card-body d-flex flex-column align-items-start">
+                                                    <div id="contentFunc">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane" id="3"><br>
+                            <div class="col-md-12">
+                                <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                                    <div class="card-body d-flex flex-column align-items-start">
+                                        <div class="embed-responsive-item">
+                                            <object data="https://www.cisco.com/c/en/us/products/collateral/routers/4000-series-integrated-services-routers-isr/datasheet-c78-732542.pdf" type="application/pdf" width="700px" height="800px"></object>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="4">
+                            <div class="col-md-12">
+                                <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                                    <div class="card-body d-flex flex-column align-items-start">
+                                        <table class="table table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tipo</th>
+                                                    <th>R12</th>
+                                                    <th>PartNumber</th>
+                                                    <th>Descrição</th>
+                                                    <th>Preço</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Hardware</td>
+                                                    <td>000046278</td>
+                                                    <td>ISR43/K9</td>
+                                                    <td>Cisco ISR 4221</td>
+                                                    <th class="row">7.000,00</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>Fonte</td>
+                                                    <td>000046532</td>
+                                                    <td>NIM-1MTF</td>
+                                                    <td>256-channel DSP module</td>
+                                                    <th class="row">1.000,00</th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+   </body>
+   </html>
