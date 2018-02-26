@@ -51,10 +51,10 @@ import com.ctl.repository.TipoRepository;
 		@PostMapping("/salvar")
 		public String salvar(@Valid Tipo tipo, BindingResult bindingResult) {
 			if(bindingResult.hasErrors()) {
-				return "features/formulario";
+				return "tipo/formulario";
 			}
 			tipoRepository.save(tipo);
-			return "precificacao/listar";
+			return "tipo/listar";
 
 			}
 		
