@@ -111,7 +111,7 @@
                <th>Segmento</th>
                <th>Data</th>
                <th>Status</th>
-               <th hidden>Tipo</th>
+               <th>Tipo</th>
                <th hidden >Features</th>
                <th>Alteração</th>
                <th>Informações</th>
@@ -124,7 +124,7 @@
                <td th:text="${equipamento.segmento}"></td>
                <td th:text="${equipamento.data}"></td>
                <td th:text="${equipamento.status}" ></td>
-               <td hidden th:text="${equipamento.tipo}" hidden></td>
+               <td th:text="${equipamento.tipo.nome}"></td>
                <td hidden th:text="${equipamento.features.nome}" ></td>
                <td><a th:href="@{/equipamento/editar(id=${equipamento.id})}">Editar</a></td>
                <td><a th:href="@{/equipamento/view(id=${equipamento.id})}">Informações</a></td>
