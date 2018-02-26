@@ -48,7 +48,17 @@
             $(document).ready(function() {
             var table = $('#example').DataTable( {
             lengthChange: true,
-            buttons: [ 'copy', 'excel', 'pdf', 'colvis' ]
+            buttons: [ 'copy', {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4, 6]
+                }
+            }, {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                	columns: [ 0, 1, 2, 3, 4, 6]
+                }
+            }, 'colvis' ]
             } );
 
             table.buttons().container()

@@ -55,12 +55,17 @@
          	var table = $('#example').DataTable( {
          		lengthChange: true,
          		responsive: true,
-         		buttons: [ 'copy', 'excel', 
-         		{
-                extend: 'pdfHtml5',
-                download: 'open'
-                }
-                , 'colvis' ],
+         		buttons: [ 'copy', {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: [ 0, 1, 2, 3, 4, 5, 8]
+                    }
+                }, {
+                    extend: 'pdfHtml5',
+                    exportOptions: {
+                    	columns: [ 0, 1, 2, 3, 4, 5, 8]
+                    }
+                }, 'colvis' ],
          		
       		
          	} );
