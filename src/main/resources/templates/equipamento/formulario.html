@@ -78,14 +78,14 @@
 
                     <div class="form-group">
                         <label for="inputStatus">Tipo</label>
-                        <select th:field="*{status}" class="form-control" id="inputStatus">
+                        <select th:field="*{tipo}" class="form-control" id="inputStatus">
                             <option value="" selected="selected">Selecione...</option>
                             <option th:each="tipo : ${tipos}" th:value="${tipo.id}" th:text="${tipo.nome}"></option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="inputFeatures">Fetures</label>
+                        <label for="inputFeatures">Features</label>
                         <div th:each="features : ${featuress}"> <!--Isso aqui faz a aba de opcoes para escolher as features so que nao se usa o value pq ele so
                                                                                                                       esta salvando so uma das checkbox, e algum outro comando mas n e esse value NAO E -->
                             <input type="checkbox" th:field="*{features}" th:value="${features.id}" />
