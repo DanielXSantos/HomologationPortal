@@ -1,8 +1,10 @@
 package com.ctl.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 public class Equipamento {
@@ -12,16 +14,16 @@ public class Equipamento {
     @GeneratedValue
     private Long id;
 	
-	@NotBlank
+	@NotEmpty
 	private String nome="";
 	
-	@NotBlank
+	@NotEmpty
 	private String status="";
 	
-	@NotBlank
+	@NotEmpty
 	private String data="";
 	
-	@NotBlank
+	@NotEmpty
 	private String segmento="";	
 	
 	
@@ -59,11 +61,12 @@ public class Equipamento {
 	public void setSegmento(String segmento) {
 		this.segmento = segmento;
 	}
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fabricante_id", referencedColumnName = "id")
 	private Fabricante fabricante;
 	
+        @NotNull
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "features_id", referencedColumnName = "id")
 	private Features features;
@@ -73,6 +76,7 @@ public class Equipamento {
 	@JoinColumn(name = "precificacao_id", referencedColumnName = "id")
 	private Precificacao precificacao;
 	
+        @NotNull
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "tipo_id", referencedColumnName = "id")
 	private Tipo tipo;
