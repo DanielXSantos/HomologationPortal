@@ -61,15 +61,37 @@ public class EquipamentoController {
     }
 
     @GetMapping
-    public String list(Model model) {
-        model.addAttribute("equipamento", new Equipamento());
-        model.addAttribute("equipamentos", equipamentoRepository.findAll());
-        return "equipamento/listar";
+    public String list(@RequestParam(required=false, value="segmento") String segmento,
+                       @RequestParam(required=false, value="tipo") Long tipo, Model model) {
+        
+        // Escolhendo o Segmento (ex.: B2B, B2C ou ambos)
+        if(segmento == null && tipo == null){
+            return "equipamento/segmento";
+            
+         // Segmento e tipo escolhidos
+        }else if(segmento != null && tipo != null){
+            model.addAttribute("equipamento", new Equipamento());
+            model.addAttribute("equipamentos", equipamentoRepository.findBysegmentoAndTipo_id(segmento, tipo));
+            return "equipamento/listar";   
+            
+         // em caso de alguma falha retorna o usuário para escolher o segmento
+         // ex.:(caso o usuário tente inserir o tipo sem escolher o segmento, modificando a url)
+        }else if(segmento == null && tipo != null){
+            return "redirect:/equipamento";
+            
+         // Escolhe o Tipo de equipamento
+        }else{
+            model.addAttribute("tipos", tipoRepository.findAll());
+            return "equipamento/tipo";
+        }
     }
 
     @GetMapping("/editar")
     public String edit(Model model, @RequestParam Long id) {
-        model.addAttribute("equipamento", equipamentoRepository.findOne(id));
+        FormEquipamento form = new FormEquipamento();
+        form.setEquipamento(equipamentoRepository.findOne(id));
+        
+        model.addAttribute("equipamento", form);
         model.addAttribute("fabricantes", fabricanteRepository.findAll());
         model.addAttribute("featuress", featuresRepository.findAll());
         model.addAttribute("precificacaos", precificacaoRepository.findAll());
