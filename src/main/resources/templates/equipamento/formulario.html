@@ -16,7 +16,9 @@
     </head>
     <!-- NavBar que tem q por em todo html -->
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-        <h5 class="my-0 mr-md-auto font-weight-normal">Homologação</h5>
+        <h5 class="my-0 mr-md-auto font-weight-normal"
+            <a class="text-dark" href="/equipamento">Homologação</a>
+        </h5>
         <nav class="my-2 my-md-0 mr-md-3">
             <a class="p-2 text-dark" href="#">Relatórios</a>
             <a class="p-2 text-dark" href="#">Gerenciamento</a>
@@ -90,13 +92,13 @@
                         <input type="file" class="form-control" id="inputImagem" th:field="${equipamento.imagem}" />
                         <span th:if="${#fields.hasErrors('imagem')}" th:errors="${imagem}" class="badge badge-danger">erro na imagem</span>
                     </div>
-                    
+
                     <div class="form-horizontal">
                         <label for="inputCaderno">Selecione o Caderno de Testes</label>
                         <input type="file" class="form-control" id="inputImagem" th:field="${equipamento.caderno}" />
                         <span th:if="${#fields.hasErrors('caderno')}" th:errors="${caderno}" class="badge badge-danger">erro no caderno</span>
                     </div>
-                    
+
                     <div class="form-horizontal">
                         <label for="inputDataSheet">Selecione o DataSheet</label>
                         <input type="file" class="form-control" id="inputImagem" th:field="${equipamento.dataSheet}" />
