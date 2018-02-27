@@ -18,11 +18,25 @@ import com.ctl.repository.FabricanteRepository;
 import com.ctl.repository.FeaturesRepository;
 import com.ctl.repository.PrecificacaoRepository;
 import com.ctl.repository.TipoRepository;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.http.HttpServletResponse;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
@@ -35,6 +49,8 @@ public class EquipamentoController {
 	private FeaturesRepository featuresRepository;
 	private PrecificacaoRepository precificacaoRepository;
 	private TipoRepository tipoRepository;
+        
+        private static String uploadDir = System.getProperty("user.dir")+"/uploads/";
 	
 	public EquipamentoController(EquipamentoRepository equipamentoRepository, FabricanteRepository fabricanteRepository, FeaturesRepository featuresRepository, PrecificacaoRepository precificacaoRepository, TipoRepository tipoRepository) {
 		this.equipamentoRepository = equipamentoRepository;
@@ -63,11 +79,14 @@ public class EquipamentoController {
 	
 	@GetMapping("/view")
 	public String view(Model model, @RequestParam Long id) {
+                String[] anexos  = new File(uploadDir+id.toString()+"/anexos").list();
+                model.addAttribute("anexos", anexos);
 		model.addAttribute("equipamento", equipamentoRepository.findOne(id));
 		model.addAttribute("fabricantes", fabricanteRepository.findAll());
 		model.addAttribute("featuress", featuresRepository.findAll());
 		model.addAttribute("precificacaos", precificacaoRepository.findAll());
 		model.addAttribute("tipos", tipoRepository.findAll());
+                
 		return "equipamento/descricao";
 	}
 	
@@ -96,7 +115,7 @@ public class EquipamentoController {
                 
                 try{
                     equipamento.setEquipamento(equipamentoRepository.save(equipamento.getEquipamento()));
-                    String path = System.getProperty("user.dir")+"/uploads/"+equipamento.getEquipamento().getId();
+                    String path = uploadDir + equipamento.getEquipamento().getId();
                     // Abrindo a pasta, e criando se não existe
                     File f = new File(path);
                     if(!f.exists())
@@ -108,7 +127,7 @@ public class EquipamentoController {
                     if(pointer == -1)
                         throw new Exception("Imagem não inserida");
                     imgType = imgType.substring(pointer);
-                    File img = new File(path + "/image" + imgType);
+                    File img = new File(path + "/image");// + imgType);
                     img.createNewFile();
                     equipamento.getImagem().transferTo(img);
                     
@@ -137,7 +156,7 @@ public class EquipamentoController {
                     }
                     
                 }catch(Exception e){
-                    File directory = new File(System.getProperty("user.dir")+"/uploads/"+equipamento.getEquipamento().getId());
+                    File directory = new File(uploadDir+equipamento.getEquipamento().getId());
                     try{
                         FileUtils.cleanDirectory(directory);
                         FileUtils.forceDelete(directory);
@@ -169,5 +188,63 @@ public class EquipamentoController {
 		model.addAttribute("equipamentos", equipamentoRepository.findByNomeLike("%" + nome + "%"));
 		return "equipamento/formulario";
 	}
+        
+        @GetMapping("/image/{imageName}")
+        @ResponseBody
+        public byte[] getImage(@PathVariable("imageName") Integer fileName){
+            try{
+                File file = new File(uploadDir+fileName+"/image");
+                return Files.readAllBytes(file.toPath());
+            } catch (IOException ex) {
+                Logger.getLogger(EquipamentoController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return null;
+        }
+        
+        @GetMapping("/pdf/{type}/{imageName}")
+        @ResponseBody
+        public ResponseEntity<byte[]> getPDF(@PathVariable("imageName") Integer fileName, @PathVariable("type") Integer type){
+            try{
+                File file;
+                if(type==1){
+                    file = new File(uploadDir+fileName+"/dataSheet.pdf");
+                }else{
+                    file = new File(uploadDir+fileName+"/caderno.pdf");
+                }
+                byte[] contents = Files.readAllBytes(file.toPath());
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.parseMediaType("application/pdf"));
+                String filename = "output.pdf";
+                headers.setContentDispositionFormData(filename, filename);
+                headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+                ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(contents, headers, HttpStatus.OK);
+                return response;
+            } catch (IOException ex) {
+                Logger.getLogger(EquipamentoController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return null;
+        }
+        
+        @GetMapping("/file/{id}/{fileName}.{type}")
+        public void downloadFile(HttpServletResponse resonse, @PathVariable(value="id") Integer id, @PathVariable(value="fileName") String fileName,
+                                @PathVariable(value="type") String tipo) {
+            try {
+                File file = new File(uploadDir+id.toString()+"/anexos/"+fileName + "." + tipo);
+                resonse.setContentType("application/pdf");
+                resonse.setHeader("Content-Disposition", "attachment;filename=" + fileName + "."+ tipo);
+                BufferedInputStream inStrem = new BufferedInputStream(new FileInputStream(file));
+                BufferedOutputStream outStream = new BufferedOutputStream(resonse.getOutputStream());
+
+                byte[] buffer = new byte[1024];
+                int bytesRead = 0;
+                while ((bytesRead = inStrem.read(buffer)) != -1) {
+                  outStream.write(buffer, 0, bytesRead);
+                }
+                outStream.flush();
+                inStrem.close();
+            } catch (IOException ex) {
+                Logger.getLogger(EquipamentoController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
 
 }
