@@ -36,30 +36,31 @@
     <body>
         <div class="row">
             <div class="col-sm-12  btn-table">
-                <form th:action="@{/equipamento/salvar}" th:object="${equipamento}" method="post">
-                    <input th:field="*{id}" type="hidden" />
+                <form th:action="@{/equipamento/salvar}" th:object="${equipamento}" method="post" enctype="multipart/form-data">
+
+                    <input th:field="${equipamento.equipamento.id}" type="hidden" />
                     <p class="h1">Cadastro Equipamento</p>
                     <div class="form-group">
                         <label for="inputNome">Nome</label>
-                        <input type="text" class="form-control" id="inputNome" th:field="*{nome}" />
-                        <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="badge badge-danger">erro</span>
+                        <input type="text" class="form-control" id="inputNome" th:field="${equipamento.equipamento.nome}" />
+                        <span th:if="${#fields.hasErrors('equipamento.nome')}" th:errors="${equipamento.equipamento.nome}" class="badge badge-danger">erro</span>
                     </div>
 
                     <div class="form-group">
                         <label for="inputFabricante">Fabricante</label>
-                        <select th:field="*{fabricante}" class="form-control" id="inputFabricante">
+                        <select th:field="${equipamento.equipamento.fabricante}" class="form-control" id="inputFabricante">
                             <option value="" selected="selected">Selecione...</option>
                             <option th:each="fabricante : ${fabricantes}" th:value="${fabricante.id}" th:text="${fabricante.nome}"></option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="inputData">Data</label>
-                        <input type="date" class="form-control" id="inputData" th:field="*{data}" />
-                        <span th:if="${#fields.hasErrors('data')}" th:errors="*{data}" class="badge badge-danger">erro</span>
+                        <input type="date" class="form-control" id="inputData" th:field="${equipamento.equipamento.data}" />
+                        <span th:if="${#fields.hasErrors('equipamento.data')}" th:errors="${equipamento.equipamento.data}" class="badge badge-danger">erro</span>
                     </div>
                     <div class="form-group">
                         <label for="inputSegmento">Segmento</label>
-                        <select th:field="*{segmento}" class="form-control" id="inputSegmento">
+                        <select th:field="${equipamento.equipamento.segmento}" class="form-control" id="inputSegmento">
                             <option value="" selected="selected">Selecione...</option>
                             <option th:value="B2B">B2B</option>
                             <option th:value="B2C">B2C</option>
@@ -68,7 +69,7 @@
                     </div>
                     <div class="form-group">
                         <label for="inputStatus">Status</label>
-                        <select th:field="*{status}" class="form-control" id="inputStatus">
+                        <select th:field="${equipamento.equipamento.status}" class="form-control" id="inputStatus">
                             <option value="" selected="selected">Selecione...</option>
                             <option th:value="EmTestes">Em Testes</option>
                             <option th:value="NaoHomologado">Não Homologado</option>
@@ -78,24 +79,42 @@
 
                     <div class="form-group">
                         <label for="inputStatus">Tipo</label>
-                        <select th:field="*{tipo}" class="form-control" id="inputStatus">
+                        <select th:field="${equipamento.equipamento.tipo}" class="form-control" id="inputStatus">
                             <option value="" selected="selected">Selecione...</option>
                             <option th:each="tipo : ${tipos}" th:value="${tipo.id}" th:text="${tipo.nome}"></option>
                         </select>
                     </div>
 
+                    <div class="form-horizontal">
+                        <label for="inputImagem">Selecione a Imagem</label>
+                        <input type="file" class="form-control" id="inputImagem" th:field="${equipamento.imagem}" />
+                        <span th:if="${#fields.hasErrors('imagem')}" th:errors="${imagem}" class="badge badge-danger">erro na imagem</span>
+                    </div>
+                    
+                    <div class="form-horizontal">
+                        <label for="inputCaderno">Selecione o Caderno de Testes</label>
+                        <input type="file" class="form-control" id="inputImagem" th:field="${equipamento.caderno}" />
+                        <span th:if="${#fields.hasErrors('caderno')}" th:errors="${caderno}" class="badge badge-danger">erro no caderno</span>
+                    </div>
+                    
+                    <div class="form-horizontal">
+                        <label for="inputDataSheet">Selecione o DataSheet</label>
+                        <input type="file" class="form-control" id="inputImagem" th:field="${equipamento.dataSheet}" />
+                        <span th:if="${#fields.hasErrors('dataSheet')}" th:errors="${dataSheet}" class="badge badge-danger">erro no DataSheet</span>
+                    </div>
+
+                    <div class="form-horizontal">
+                        <label for="inputImagem">Selecione os anexos</label>
+                        <input type="file" class="form-control" multiple="multiple" id="inputFiles" th:field="${equipamento.files}" />
+                        <span th:if="${#fields.hasErrors('files')}" th:errors="${files}" class="badge badge-danger">erro nos arquivos</span>
+                    </div>
+
                     <div class="form-group">
                         <label for="inputFeatures">Features</label>
-                        <div th:each="features : ${featuress}"> <!--Isso aqui faz a aba de opcoes para escolher as features so que nao se usa o value pq ele so
-                                                                                                                      esta salvando so uma das checkbox, e algum outro comando mas n e esse value NAO E -->
-                            <input type="checkbox" th:field="*{features}" th:value="${features.id}" />
+                        <div th:each="features : ${featuress}"> 
+                            <input type="checkbox" th:field="${equipamento.equipamento.features}" th:value="${features.id}" />
                             <label th:text="${features.nome}"></label>
                         </div>
-
-
-
-
-
 
                     </div>
                     <div class="modal-footer">
