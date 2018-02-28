@@ -18,51 +18,51 @@ import com.ctl.repository.FeaturesRepository;
 @RequestMapping("/features")
 public class FeaturesController {
 
-	private FeaturesRepository featuresRepository;
-	
+    private FeaturesRepository featuresRepository;
+
     public FeaturesController(FeaturesRepository featuresRepository) {
         this.featuresRepository = featuresRepository;
     }
-	
-	@GetMapping
-	public String list(Model model) {
-		model.addAttribute("featuress", featuresRepository.findAll());
-		return "features/listar";
-	}
-	
-	@GetMapping("/editar")
-	public String edit(Model model, @RequestParam Long id) {
-		model.addAttribute("features", featuresRepository.findOne(id));
-		return "features/formulario";
-	}
-	
-	@GetMapping("/view")
-	public String view(Model model, @RequestParam Long id) {
-		model.addAttribute("features", featuresRepository.findOne(id));
-		return "features/descricao";
-	}
-	
-	@GetMapping("/novo")
-	public String novo(Model model) {
-		model.addAttribute("features", new Features());
-		return "features/formulario";
-	}
-	
-	@PostMapping("/salvar")
-	public String salvar(@Valid Features features, BindingResult bindingResult) {
-		if(bindingResult.hasErrors()) {
-			return "features/formulario";
-		}
-		featuresRepository.save(features);
-		return "features/listar";
 
-		}
-	
-	@GetMapping("/buscar")
-	public String buscar(Model model, @RequestParam String nome) {
-		model.addAttribute("features", new Equipamento());
-		model.addAttribute("featuress", featuresRepository.findByNomeLike("%" + nome + "%"));
-		return "features/listar";
-	}
-	
+    @GetMapping
+    public String list(Model model) {
+        model.addAttribute("featuress", featuresRepository.findAll());
+        return "features/listar";
+    }
+
+    @GetMapping("/editar")
+    public String edit(Model model, @RequestParam Long id) {
+        model.addAttribute("features", featuresRepository.findOne(id));
+        return "features/formulario";
+    }
+
+    @GetMapping("/view")
+    public String view(Model model, @RequestParam Long id) {
+        model.addAttribute("features", featuresRepository.findOne(id));
+        return "features/descricao";
+    }
+
+    @GetMapping("/novo")
+    public String novo(Model model) {
+        model.addAttribute("features", new Features());
+        return "features/formulario";
+    }
+
+    @PostMapping("/salvar")
+    public String salvar(@Valid Features features, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "features/formulario";
+        }
+        featuresRepository.save(features);
+        return "redirect:/features/";
+
+    }
+
+    @GetMapping("/buscar")
+    public String buscar(Model model, @RequestParam String nome) {
+        model.addAttribute("features", new Equipamento());
+        model.addAttribute("featuress", featuresRepository.findByNomeLike("%" + nome + "%"));
+        return "features/listar";
+    }
+
 }

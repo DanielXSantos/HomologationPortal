@@ -54,7 +54,7 @@ public class TipoController {
             return "tipo/formulario";
         }
         tipoRepository.save(tipo);
-        return "tipo/listar";
+        return "redirect:/tipo/";
 
     }
 

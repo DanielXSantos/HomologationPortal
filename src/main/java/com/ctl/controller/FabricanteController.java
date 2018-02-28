@@ -54,7 +54,7 @@ public class FabricanteController {
 			return "fabricante/formulario";
 		}
 		fabricanteRepository.save(fabricante);
-		return "fabricante/listar";
+		return "redirect:/fabricante/";
 		}
 	
 	@GetMapping("/buscar")
