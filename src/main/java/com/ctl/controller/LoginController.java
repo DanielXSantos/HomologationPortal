@@ -82,7 +82,10 @@ public class LoginController {
 	
 	
 	
-	
+	@GetMapping("/listar")
+        public String controle(){
+            return "error/404";
+        }
 	
 	
 	

@@ -14,57 +14,55 @@ import com.ctl.model.Equipamento;
 import com.ctl.model.Tipo;
 import com.ctl.repository.TipoRepository;
 
-	@Controller
-	@RequestMapping("/tipo")
-	public class TipoController {
+@Controller
+@RequestMapping("/tipo")
+public class TipoController {
 
-		private TipoRepository tipoRepository;
-		
-	    public TipoController(TipoRepository tipoRepository) {
-	        this.tipoRepository = tipoRepository;
-	    }
-	    
-		@GetMapping
-		public String list(Model model) {
-			model.addAttribute("tipos", tipoRepository.findAll());
-			return "tipo/listar";
-		}
-		
-		@GetMapping("/editar")
-		public String edit(Model model, @RequestParam Long id) {
-			model.addAttribute("tipo", tipoRepository.findOne(id));
-			return "tipo/formulario";
-		}
-		
-		@GetMapping("/view")
-		public String view(Model model, @RequestParam Long id) {
-			model.addAttribute("tipo", tipoRepository.findOne(id));
-			return "tipo/descricao";
-		}
-		
-		@GetMapping("/novo")
-		public String novo(Model model) {
-			model.addAttribute("tipo", new Tipo());
-			return "tipo/formulario";
-		}
-		
-		@PostMapping("/salvar")
-		public String salvar(@Valid Tipo tipo, BindingResult bindingResult) {
-			if(bindingResult.hasErrors()) {
-				return "tipo/formulario";
-			}
-			tipoRepository.save(tipo);
-			return "tipo/listar";
+    private TipoRepository tipoRepository;
 
-			}
-		
-		@GetMapping("/buscar")
-		public String buscar(Model model, @RequestParam String nome) {
-			model.addAttribute("tipo", new Equipamento());
-			model.addAttribute("tipos", tipoRepository.findByNomeLike("%" + nome + "%"));
-			return "tipo/listar";
-		}
-		
-	}
-	
+    public TipoController(TipoRepository tipoRepository) {
+        this.tipoRepository = tipoRepository;
+    }
 
+    @GetMapping
+    public String list(Model model) {
+        model.addAttribute("tipos", tipoRepository.findAll());
+        return "tipo/listar";
+    }
+
+    @GetMapping("/editar")
+    public String edit(Model model, @RequestParam Long id) {
+        model.addAttribute("tipo", tipoRepository.findOne(id));
+        return "tipo/formulario";
+    }
+
+    @GetMapping("/view")
+    public String view(Model model, @RequestParam Long id) {
+        model.addAttribute("tipo", tipoRepository.findOne(id));
+        return "tipo/descricao";
+    }
+
+    @GetMapping("/novo")
+    public String novo(Model model) {
+        model.addAttribute("tipo", new Tipo());
+        return "tipo/formulario";
+    }
+
+    @PostMapping("/salvar")
+    public String salvar(@Valid Tipo tipo, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "tipo/formulario";
+        }
+        tipoRepository.save(tipo);
+        return "tipo/listar";
+
+    }
+
+    @GetMapping("/buscar")
+    public String buscar(Model model, @RequestParam String nome) {
+        model.addAttribute("tipo", new Equipamento());
+        model.addAttribute("tipos", tipoRepository.findByNomeLike("%" + nome + "%"));
+        return "tipo/listar";
+    }
+
+}
