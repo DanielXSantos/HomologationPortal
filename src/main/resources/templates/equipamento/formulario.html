@@ -83,6 +83,13 @@
                             <input type="checkbox" th:field="${equipamento.equipamento.features}" th:value="${features.id}" />
                             <label th:text="${features.nome}"></label>
                         </div>
+                    
+					<div class="form-group">
+                        <label for="inputHomologado">Homologado Para:</label>
+                        <div th:each="homologado : ${homologados}"> 
+                            <input type="checkbox" th:field="${equipamento.equipamento.homologado}" th:value="${homlogado.id}" />
+                            <label th:text="${homologado.nome}"></label>
+                        </div>
 
                     </div>
                     <div class="modal-footer">
