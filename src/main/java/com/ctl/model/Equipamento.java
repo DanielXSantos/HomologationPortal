@@ -73,7 +73,7 @@ public class Equipamento {
     private Fabricante fabricante;
 
     @NotNull
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.MERGE})
     @JoinTable(name = "Equipamento_Features",
             joinColumns =        {@JoinColumn(name = "equipamento_id")},
             inverseJoinColumns = {@JoinColumn(name = "features_id")})
