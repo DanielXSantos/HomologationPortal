@@ -44,10 +44,10 @@
             </tr>
          </thead>
          <tbody>
-            <tr th:each="precificacao: ${precificacaos}">
-               <td th:text="${precificacao.tipo}"></td>
-               <td th:text="${precificacao.descricao}"></td>
-               <td><a th:href="@{/precificacao/editar(id=${precificacao.id})}">Editar</a></td>
+            <tr th:each="homologado: ${homologados}">
+               <td th:text="${homologado.nome}"></td>
+               <td th:text="${homologado.descricao}"></td>
+               <td><a th:href="@{/homologado/editar(id=${homologado.id})}">Editar</a></td>
             </tr>
          </tbody>
       </table>

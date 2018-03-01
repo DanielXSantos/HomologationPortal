@@ -26,8 +26,20 @@ public class Equipamento {
 
     @NotEmpty
     private String segmento = "";
+    
+    private String descricao = "";
+    
+    
 
-    public Long getId() {
+    public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public Long getId() {
         return id;
     }
 

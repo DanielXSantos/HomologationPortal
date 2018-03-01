@@ -26,11 +26,6 @@
                 <span  th:if="${#fields.hasErrors('part_nro')}" th:errors="*{part_nro}" class="badge badge-danger" >erro</span>
             </div>
 
-            <div class="form-group">
-                <label for="inputPreco">Preço</label>
-                <input type="number" class="form-control" id="inputPreco" th:field="*{preco}"/>
-                <span  th:if="${#fields.hasErrors('preco')}" th:errors="*{preco}" class="badge badge-danger" >erro</span>
-            </div>
 
             <div class="form-group">
                 <label for="inputTelefone">Descricao</label>
@@ -40,7 +35,7 @@
 
 
             <button type="submit" class="btn btn-primary">Salvar</button>
-            <a th:href="@{/fabricante}" class="btn btn-secondary">Cancelar</a>
+            <a th:href="@{/precificacao}" class="btn btn-secondary">Cancelar</a>
 
         </form>
     </body>

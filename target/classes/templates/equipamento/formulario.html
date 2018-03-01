@@ -80,16 +80,34 @@
                     <div class="form-group">
                         <label for="inputFeatures">Features</label>
                         <div th:each="features : ${featuress}"> 
-                            <input type="checkbox" th:field="${equipamento.equipamento.features}" th:value="${features.id}" />
-                            <label th:text="${features.nome}"></label>
+                            <button type="button" class="btn btn-outline-primary" th:field="${equipamento.equipamento.features}" th:value="${features.id}"
+                           th:text="${features.nome}"></button>
                         </div>
                     
-					<div class="form-group">
+                    <div class="form-group">
                         <label for="inputHomologado">Homologado Para:</label>
                         <div th:each="homologado : ${homologados}"> 
-                            <input type="checkbox" th:field="${equipamento.equipamento.homologado}" th:value="${homlogado.id}" />
-                            <label th:text="${homologado.nome}"></label>
+                            <button type="button" class="btn btn-outline-primary" th:field="${equipamento.equipamento.homologado}" th:value="${homologado.id}"
+                           th:text="${homologado.nome}"></button>
+                    </div>
+			
+			
+						<div class="form-group">
+                        <label for="inputPrecificacao">Itens Avulsos</label>
+                        <div th:each="precificacao : ${precificacaos}"> 
+                            <input type="checkbox" th:field="${equipamento.equipamento.precificacao}" th:value="${precificacao.id}" />
+                            <label th:text="${precificacao.tipo}"></label>
                         </div>
+                        
+                        
+					<div class="form-group">
+                        <label for="inputDescricao">Descricao</label>
+                        <textarea type="text" class="form-control" id="inputDescricao" rows="3" th:field="${equipamento.equipamento.descricao}" />
+                        <span th:if="${#fields.hasErrors('equipamento.descricao')}" th:errors="${equipamento.equipamento.descricao}" class="badge badge-danger">erro</span>
+                    </div>
+			
+			
+			
 
                     </div>
                     <div class="modal-footer">

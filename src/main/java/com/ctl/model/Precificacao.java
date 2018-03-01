@@ -22,9 +22,6 @@ public class Precificacao {
 	@NotBlank
 	private String descricao="";
 	
-	@NotNull
-	private Double preco;
-	
 	
 	public Long getId() {
 		return id;
@@ -49,12 +46,6 @@ public class Precificacao {
 	}
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
-	}
-	public Double getPreco() {
-		return preco;
-	}
-	public void setPreco(Double preco) {
-		this.preco = preco;
 	}
 	
 	

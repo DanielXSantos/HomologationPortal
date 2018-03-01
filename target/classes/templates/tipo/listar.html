@@ -46,7 +46,7 @@
          <tbody>
             <tr th:each="tipo: ${tipos}">
                <td th:text="${tipo.nome}"></td>
-               <td th:text="${tipo.nome}"></td>
+               <td th:text="${tipo.descricao}"></td>
                <td><a th:href="@{/tipo/editar(id=${tipo.id})}">Editar</a></td>
 
             </tr>
