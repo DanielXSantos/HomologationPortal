@@ -1,8 +1,10 @@
 package com.ctl.model;
 
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -10,7 +12,7 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Features {
 
 	@Id
-    @GeneratedValue
+        @GeneratedValue
 	private Long id;
 	
 	@NotBlank
@@ -18,6 +20,9 @@ public class Features {
 	
 	@NotBlank
 	private String descricao="";
+        
+        @ManyToMany(mappedBy="features")
+        private Set<Equipamento> equipamentos;
 	
 	public Long getId() {
 		return id;

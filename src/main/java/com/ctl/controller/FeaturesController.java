@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ctl.model.Equipamento;
 import com.ctl.model.Features;
 import com.ctl.repository.FeaturesRepository;
+import org.springframework.validation.ObjectError;
 
 @Controller
 @RequestMapping("/features")
@@ -51,6 +52,9 @@ public class FeaturesController {
     @PostMapping("/salvar")
     public String salvar(@Valid Features features, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
+            for(ObjectError e: bindingResult.getAllErrors()){
+                System.out.println(e.getCode());
+            }
             return "features/formulario";
         }
         featuresRepository.save(features);

@@ -34,13 +34,20 @@ CREATE TABLE equipamento (
     status	VARCHAR (250),
     data	VARCHAR (250),
     segmento	VARCHAR (250),
-    id_tipo	BIGINT,
-    id_fabricante	BIGINT,
-    id_features	BIGINT,
-    id_precificacao	BIGINT,
+    tipo_id	BIGINT,
+    fabricante_id	BIGINT,
+    precificacao_id	BIGINT,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_fabricante) REFERENCES fabricante(id) on delete cascade,
-    FOREIGN KEY (id_features) REFERENCES features(id) on delete cascade,
-    FOREIGN KEY (id_precificacao) REFERENCES precificacao(id) on delete cascade,
-    FOREIGN KEY (id_tipo) REFERENCES tipo(id) on delete cascade
+    FOREIGN KEY (fabricante_id) REFERENCES fabricante(id) on delete cascade,
+    FOREIGN KEY (precificacao_id) REFERENCES precificacao(id) on delete cascade,
+    FOREIGN KEY (tipo_id) REFERENCES tipo(id) on delete cascade
+);
+
+-- Tabela auxiliar ManyToMany
+CREATE TABLE equipamento_features(
+    equipamento_id  BIGINT NOT NULL,
+    features_id     BIGINT NOT NULL,
+    PRIMARY KEY(equipamento_id, features_id),
+    CONSTRAINT equipamento_id_fk FOREIGN KEY (equipamento_id) REFERENCES equipamento(id),
+    CONSTRAINT features_id_fk FOREIGN KEY (features_id) REFERENCES features(id)    
 );

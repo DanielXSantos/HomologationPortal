@@ -22,6 +22,25 @@ and open the template in the editor.
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"></link>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
         <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        
+        <script type="application/javascript">
+            function build(){
+                var url="";
+                var cbox = document.getElementsByName("");
+                for(var i = 0; i < cbox.length;i++){
+                    if(cbox[i].checked){
+                        if(url.length > 0)
+                            url += ",";
+                        url += cbox[i].value;
+                    }
+                }
+                var final = document.location.href+"&tipo="+url;
+//                var searchParams = new URLSearchParams(final.search);
+//                final += searchParams.get('segmento');
+                document.location.href = final;
+            }
+        </script>
+        
     </head>
 
     <style>
@@ -75,16 +94,24 @@ and open the template in the editor.
     <body>
         <div class = "container">
             <div class="wrapper">
-                <form action="" name="Login_Form" class="form-signin">       
+                <div name="typeForm" class="form-signin">
                     <h3 class="form-signin-heading"><strong>EQUIPAMENTOS</strong></h3>
                     <hr class="colorgraph"><br> 
-                    <table>
+                    <div class="form-group">
+                        <label for="inputFeatures">Features</label>
+                        <div th:each="tipo : ${tipos}"> 
+                            <input type="checkbox" th:attr="name='checkOption'" th:field="${tipoSearch}" th:value="${tipo.id}" />
+                            <label th:text="${tipo.nome}"></label>
+                        </div>
+                        <button onclick='build()'>Buscar</button>
+                    </div>
+<!--                    <table>
                         <tr th:each="tipo: ${tipos}">
                             <td><a  class="btn btn-lg btn-primary btn-block" th:text="${tipo.nome}"  type="button"  th:href="@{${#httpServletRequest.requestURI} + '?segmento=' + ${#httpServletRequest.getParameter('segmento')} + '&tipo=' +${tipo.id}}"></a></td>
                         </tr>
-                    </table>
+                    </table>-->
 
-                </form>			
+                </div>			
             </div>
         </div>
     </body>

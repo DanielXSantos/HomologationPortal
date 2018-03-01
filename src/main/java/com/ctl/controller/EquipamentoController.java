@@ -24,6 +24,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletResponse;
@@ -62,7 +66,7 @@ public class EquipamentoController {
 
     @GetMapping
     public String list(@RequestParam(required=false, value="segmento") String segmento,
-                       @RequestParam(required=false, value="tipo") Long tipo, Model model) {
+                       @RequestParam(required=false, value="tipo") List<Long> tipo, Model model) {
         
         // Escolhendo o Segmento (ex.: B2B, B2C ou ambos)
         if(segmento == null && tipo == null){
@@ -71,7 +75,7 @@ public class EquipamentoController {
          // Segmento e tipo escolhidos
         }else if(segmento != null && tipo != null){
             model.addAttribute("equipamento", new Equipamento());
-            model.addAttribute("equipamentos", equipamentoRepository.findBysegmentoAndTipo_id(segmento, tipo));
+            model.addAttribute("equipamentos", equipamentoRepository.findBySegmentoAndTipo_idIn(segmento, tipo));
             return "equipamento/listar";   
             
          // em caso de alguma falha retorna o usuário para escolher o segmento
@@ -82,6 +86,7 @@ public class EquipamentoController {
          // Escolhe o Tipo de equipamento
         }else{
             model.addAttribute("tipos", tipoRepository.findAll());
+            model.addAttribute("tipoSearch", new HashSet<String>());
             return "equipamento/tipo";
         }
     }
@@ -135,9 +140,11 @@ public class EquipamentoController {
         }
 
         try {
+            // Salvando Equipamento
             equipamento.setEquipamento(equipamentoRepository.save(equipamento.getEquipamento()));
-            String path = uploadDir + equipamento.getEquipamento().getId();
+            
             // Abrindo a pasta, e criando se não existe
+            String path = uploadDir + equipamento.getEquipamento().getId();
             File f = new File(path);
             if (!f.exists()) {
                 f.mkdirs();
