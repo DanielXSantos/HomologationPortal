@@ -97,14 +97,20 @@
                         <span th:if="${#fields.hasErrors('files')}" th:errors="${files}" class="badge badge-danger">erro nos arquivos</span><br>
                         
 
-                        <div class="form-group">
-                            <label for="inputFeatures">Features</label>
-                            <div th:each="features : ${featuress}"> 
-                                <input type="checkbox" th:field="${equipamento.equipamento.features}" th:value="${features.id}" />
-                                <label th:text="${features.nome}"></label>
-                            </div>
-
+                    <div class="form-group">
+                        <label for="inputFeatures">Features</label>
+                        <div th:each="features : ${featuress}"> 
+                            <input type="checkbox" th:field="${equipamento.equipamento.features}" th:value="${features.id}" />
+                            <label th:text="${features.nome}"></label>
                         </div>
+                    
+                    <div class="form-group">
+                        <label for="inputHomologado">Homologado Para:</label>
+                        <div th:each="homologado : ${homologados}"> 
+                            <input type="checkbox" th:field="${equipamento.equipamento.homologado}" th:value="${homlogado.id}" />
+                            <label th:text="${homologado.nome}"></label>
+                        </div>
+                    </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary" >Salvar</button>
                             <a th:href="@{/equipamento}" class="btn btn-secondary">Cancelar</a>
