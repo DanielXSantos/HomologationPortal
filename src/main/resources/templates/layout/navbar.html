@@ -3,10 +3,17 @@
         <h5 class="my-0 mr-md-auto font-weight-normal">Homologação</h5>
         <nav class="my-2 my-md-0 mr-md-3">
             <a class="p-2 text-dark" href="#">Relatórios</a>
-            <a class="p-2 text-dark" href="#">Gerenciamento</a>
+            <a class="p-2 text-dark" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButtonGerenciamento">Gerenciamento</a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonGerenciamento">
+                <a class="dropdown-item" href="/equipamento">Equipamento</a>
+                <a class="dropdown-item" href="/fabricante">Fabricante</a>
+                <a class="dropdown-item" href="/features">Features</a>
+                <a class="dropdown-item" href="/precificacao">Precificação</a>
+                <a class="dropdown-item" href="/tipo">Tipo</a>
+            </div>
             <a class="p-2 text-dark" href="#">Usuários</a>
-            <a class="p-2 text-dark" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Novo</a>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="p-2 text-dark" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButtonNovo">Novo</a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonNovo">
                 <a class="dropdown-item" href="/equipamento/novo">Equipamento</a>
                 <a class="dropdown-item" href="/fabricante/novo">Fabricante</a>
                 <a class="dropdown-item" href="/features/novo">Features</a>

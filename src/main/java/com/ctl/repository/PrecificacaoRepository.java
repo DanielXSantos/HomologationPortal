@@ -7,5 +7,5 @@ import org.springframework.data.repository.CrudRepository;
 import com.ctl.model.Precificacao;
 
 public interface PrecificacaoRepository extends CrudRepository<Precificacao, Long>{
-	List<Precificacao> findByPrecoLike(String preco);
+	List<Precificacao> findByIdLike(String id);
 }

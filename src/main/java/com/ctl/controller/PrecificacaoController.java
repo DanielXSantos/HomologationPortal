@@ -59,9 +59,9 @@ public class PrecificacaoController {
 		}
 	
 	@GetMapping("/buscar")
-	public String buscar(Model model, @RequestParam String preco) {
+	public String buscar(Model model, @RequestParam String id) {
 		model.addAttribute("precificacao", new Equipamento());
-		model.addAttribute("precificacaos", precificacaoRepository.findByPrecoLike("%" + preco + "%"));
+		model.addAttribute("precificacaos", precificacaoRepository.findByIdLike("%" + id + "%"));
 		return "precificacao/listar";
 	}
 	

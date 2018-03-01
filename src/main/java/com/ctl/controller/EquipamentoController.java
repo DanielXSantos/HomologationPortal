@@ -16,6 +16,7 @@ import com.ctl.model.FormEquipamento;
 import com.ctl.repository.EquipamentoRepository;
 import com.ctl.repository.FabricanteRepository;
 import com.ctl.repository.FeaturesRepository;
+import com.ctl.repository.HomologadoRepository;
 import com.ctl.repository.PrecificacaoRepository;
 import com.ctl.repository.TipoRepository;
 import java.io.BufferedInputStream;
@@ -24,10 +25,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletResponse;
@@ -53,54 +50,36 @@ public class EquipamentoController {
     private FeaturesRepository featuresRepository;
     private PrecificacaoRepository precificacaoRepository;
     private TipoRepository tipoRepository;
+    private HomologadoRepository homologadoRepository;
 
     private static String uploadDir = System.getProperty("user.dir") + "/uploads/";
 
-    public EquipamentoController(EquipamentoRepository equipamentoRepository, FabricanteRepository fabricanteRepository, FeaturesRepository featuresRepository, PrecificacaoRepository precificacaoRepository, TipoRepository tipoRepository) {
+    public EquipamentoController(EquipamentoRepository equipamentoRepository, FabricanteRepository fabricanteRepository, FeaturesRepository featuresRepository, PrecificacaoRepository precificacaoRepository, TipoRepository tipoRepository, HomologadoRepository homologadoRepository) {
         this.equipamentoRepository = equipamentoRepository;
         this.fabricanteRepository = fabricanteRepository;
         this.featuresRepository = featuresRepository;
         this.precificacaoRepository = precificacaoRepository;
         this.tipoRepository = tipoRepository;
+        this.homologadoRepository = homologadoRepository;
     }
 
     @GetMapping
-    public String list(@RequestParam(required=false, value="segmento") String segmento,
-                       @RequestParam(required=false, value="tipo") List<Long> tipo, Model model) {
-        
-        // Escolhendo o Segmento (ex.: B2B, B2C ou ambos)
-        if(segmento == null && tipo == null){
-            return "equipamento/segmento";
-            
-         // Segmento e tipo escolhidos
-        }else if(segmento != null && tipo != null){
-            model.addAttribute("equipamento", new Equipamento());
-            model.addAttribute("equipamentos", equipamentoRepository.findBySegmentoAndTipo_idIn(segmento, tipo));
-            return "equipamento/listar";   
-            
-         // em caso de alguma falha retorna o usuário para escolher o segmento
-         // ex.:(caso o usuário tente inserir o tipo sem escolher o segmento, modificando a url)
-        }else if(segmento == null && tipo != null){
-            return "redirect:/equipamento";
-            
-         // Escolhe o Tipo de equipamento
-        }else{
-            model.addAttribute("tipos", tipoRepository.findAll());
-            model.addAttribute("tipoSearch", new HashSet<String>());
-            return "equipamento/tipo";
-        }
+    public String list(Model model) {
+        model.addAttribute("equipamento", new Equipamento());
+        model.addAttribute("equipamentos", equipamentoRepository.findAll());
+        return "equipamento/listar";
     }
 
     @GetMapping("/editar")
     public String edit(Model model, @RequestParam Long id) {
-        FormEquipamento form = new FormEquipamento();
-        form.setEquipamento(equipamentoRepository.findOne(id));
-        
+    	FormEquipamento form = new FormEquipamento();
+    	form.setEquipamento(equipamentoRepository.findOne(id));
         model.addAttribute("equipamento", form);
         model.addAttribute("fabricantes", fabricanteRepository.findAll());
         model.addAttribute("featuress", featuresRepository.findAll());
         model.addAttribute("precificacaos", precificacaoRepository.findAll());
         model.addAttribute("tipos", tipoRepository.findAll());
+        model.addAttribute("homologados", homologadoRepository.findAll());
         return "equipamento/formulario";
     }
 
@@ -113,7 +92,7 @@ public class EquipamentoController {
         model.addAttribute("featuress", featuresRepository.findAll());
         model.addAttribute("precificacaos", precificacaoRepository.findAll());
         model.addAttribute("tipos", tipoRepository.findAll());
-
+        model.addAttribute("homologados", homologadoRepository.findAll());
         return "equipamento/descricao";
     }
 
@@ -124,6 +103,7 @@ public class EquipamentoController {
         model.addAttribute("featuress", featuresRepository.findAll());
         model.addAttribute("precificacaos", precificacaoRepository.findAll());
         model.addAttribute("tipos", tipoRepository.findAll());
+        model.addAttribute("homologados", homologadoRepository.findAll());
         return "equipamento/formulario";
     }
 
@@ -136,15 +116,14 @@ public class EquipamentoController {
             model.addAttribute("featuress", featuresRepository.findAll());
             model.addAttribute("precificacaos", precificacaoRepository.findAll());
             model.addAttribute("tipos", tipoRepository.findAll());
+            model.addAttribute("homologados", homologadoRepository.findAll());
             return "equipamento/formulario";
         }
 
         try {
-            // Salvando Equipamento
             equipamento.setEquipamento(equipamentoRepository.save(equipamento.getEquipamento()));
-            
-            // Abrindo a pasta, e criando se não existe
             String path = uploadDir + equipamento.getEquipamento().getId();
+            // Abrindo a pasta, e criando se não existe
             File f = new File(path);
             if (!f.exists()) {
                 f.mkdirs();
@@ -164,7 +143,7 @@ public class EquipamentoController {
             // verifica se o usuário inseriu o caderno e o dataSheet
             // todo: validar formulário
             if (equipamento.getCaderno().getOriginalFilename().isEmpty()
-                    || equipamento.getDataSheet().getOriginalFilename().isEmpty()) {
+                    && equipamento.getDataSheet().getOriginalFilename().isEmpty()) {
                 throw new Exception("Caderno e DataSheet é obrigatorio");
             }
 
@@ -200,6 +179,7 @@ public class EquipamentoController {
             model.addAttribute("featuress", featuresRepository.findAll());
             model.addAttribute("precificacaos", precificacaoRepository.findAll());
             model.addAttribute("tipos", tipoRepository.findAll());
+            model.addAttribute("homologados", homologadoRepository.findAll());
             return "equipamento/formulario";
 //                    return "equipamento/listar";
 
