@@ -54,41 +54,61 @@
                     </div>
 
                     <div class="form-horizontal">
-                        <label for="inputImagem">Selecione a Imagem</label>
+                        <label for="inputImagem">Selecione a Imagem</label><br>
+                        <label th:if="${editar}">A imagem anterior será substituida caso você escolha outra aqui</label>
                         <input type="file" class="form-control" id="inputImagem" th:field="${equipamento.imagem}" />
                         <span th:if="${#fields.hasErrors('imagem')}" th:errors="${imagem}" class="badge badge-danger">erro na imagem</span>
-                    </div>
+                    </div><br>
 
                     <div class="form-horizontal">
-                        <label for="inputCaderno">Selecione o Caderno de Testes</label>
+                        <label for="inputCaderno">Selecione o Caderno de Testes</label><br>
+                        <label th:if="${editar}">O Caderno de testes anterior será substituida caso você escolha outro aqui</label>
                         <input type="file" class="form-control" id="inputImagem" th:field="${equipamento.caderno}" />
                         <span th:if="${#fields.hasErrors('caderno')}" th:errors="${caderno}" class="badge badge-danger">erro no caderno</span>
-                    </div>
+                    </div><br>
 
                     <div class="form-horizontal">
-                        <label for="inputDataSheet">Selecione o DataSheet</label>
+                        <label for="inputDataSheet">Selecione o DataSheet</label><br>
+                        <label th:if="${editar}">O DataSheet de testes anterior será substituida caso você escolha outro aqui</label>
                         <input type="file" class="form-control" id="inputImagem" th:field="${equipamento.dataSheet}" />
                         <span th:if="${#fields.hasErrors('dataSheet')}" th:errors="${dataSheet}" class="badge badge-danger">erro no DataSheet</span>
                     </div>
-
+                    <br>
                     <div class="form-horizontal">
                         <label for="inputImagem">Selecione os anexos</label>
+                        <div th:if="${editar}" style="width: 250px; height: 200px; overflow-y: scroll;">
+                            <label><strong>Anexos já cadastrados:</strong><br> Selecione para remover</label>
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="anexo: ${anexos}">
+                                        <td>
+                                            <input type="checkbox" th:field="${equipamento.filesName}" th:value="${anexo}" />
+                                            <label><a th:href="@{'/equipamento/file/'+${equipamento.equipamento.id}+'/'+${anexo}}"><span th:text="${anexo}"></span></a></label>
+                                        </td>
+                                    </tr>
+                                <label th:if="${anexos.length} == 0"><br><center>Este equipamento não possui anexos.</center></label>
+                                </tbody>
+                            </table>
+                        </div><br>
+                        <label th:if="${editar}">Adicione mais anexos utilizando o campo abaixo</label>
                         <input type="file" class="form-control" multiple="multiple" id="inputFiles" th:field="${equipamento.files}" />
-                        <span th:if="${#fields.hasErrors('files')}" th:errors="${files}" class="badge badge-danger">erro nos arquivos</span>
-                    </div>
+                        <span th:if="${#fields.hasErrors('files')}" th:errors="${files}" class="badge badge-danger">erro nos arquivos</span><br>
+                        
 
-                    <div class="form-group">
-                        <label for="inputFeatures">Features</label>
-                        <div th:each="features : ${featuress}"> 
-                            <input type="checkbox" th:field="${equipamento.equipamento.features}" th:value="${features.id}" />
-                            <label th:text="${features.nome}"></label>
+                        <div class="form-group">
+                            <label for="inputFeatures">Features</label>
+                            <div th:each="features : ${featuress}"> 
+                                <input type="checkbox" th:field="${equipamento.equipamento.features}" th:value="${features.id}" />
+                                <label th:text="${features.nome}"></label>
+                            </div>
+
                         </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" >Salvar</button>
-                        <a th:href="@{/equipamento}" class="btn btn-secondary">Cancelar</a>
-                    </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" >Salvar</button>
+                            <a th:href="@{/equipamento}" class="btn btn-secondary">Cancelar</a>
+                        </div>
                 </form>
             </div>
         </div>
