@@ -5,6 +5,9 @@
  */
 package com.ctl.model;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,15 +16,14 @@ import org.springframework.web.multipart.MultipartFile;
  * @author rgrj
  */
 public class FormEquipamento {
-    
+    @Valid
     private Equipamento equipamento;
-    @NotNull
     private MultipartFile imagem;
-    @NotNull
     private MultipartFile caderno;
-    @NotNull
     private MultipartFile dataSheet;
     private MultipartFile[] files;
+    private String filesName;
+    
 
     public FormEquipamento() {
         this.equipamento = new Equipamento();
@@ -72,9 +74,14 @@ public class FormEquipamento {
     public void setDataSheet(MultipartFile dataSheet) {
         this.dataSheet = dataSheet;
     }
-    
-    
-    
-    
+
+    public String getFilesName() {
+        return filesName;
+    }
+
+    public void setFilesName(String filesName) {
+        this.filesName = filesName;
+    }
+ 
     
 }

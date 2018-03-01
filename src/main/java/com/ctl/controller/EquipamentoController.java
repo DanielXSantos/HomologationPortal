@@ -96,13 +96,21 @@ public class EquipamentoController {
 
     @GetMapping("/editar")
     public String edit(Model model, @RequestParam Long id) {
-    	FormEquipamento form = new FormEquipamento();
-    	form.setEquipamento(equipamentoRepository.findOne(id));
+        FormEquipamento form = new FormEquipamento();
+        form.setEquipamento(equipamentoRepository.findOne(id));
+        String[] anexos = new File(uploadDir + id.toString() + "/anexos").list();
+        // NULL SAFE
+        if(anexos==null){
+            anexos = new String[0];
+        }
+        System.out.println(anexos);
+        model.addAttribute("anexos", anexos);
         model.addAttribute("equipamento", form);
         model.addAttribute("fabricantes", fabricanteRepository.findAll());
         model.addAttribute("featuress", featuresRepository.findAll());
         model.addAttribute("precificacaos", precificacaoRepository.findAll());
         model.addAttribute("tipos", tipoRepository.findAll());
+        model.addAttribute("editar", true);
         model.addAttribute("homologados", homologadoRepository.findAll());
         return "equipamento/formulario";
     }
@@ -110,6 +118,10 @@ public class EquipamentoController {
     @GetMapping("/view")
     public String view(Model model, @RequestParam Long id) {
         String[] anexos = new File(uploadDir + id.toString() + "/anexos").list();
+        // NULL SAFE
+        if(anexos==null){
+            anexos = new String[0];
+        }
         model.addAttribute("anexos", anexos);
         model.addAttribute("equipamento", equipamentoRepository.findOne(id));
         model.addAttribute("fabricantes", fabricanteRepository.findAll());
@@ -127,6 +139,7 @@ public class EquipamentoController {
         model.addAttribute("featuress", featuresRepository.findAll());
         model.addAttribute("precificacaos", precificacaoRepository.findAll());
         model.addAttribute("tipos", tipoRepository.findAll());
+        model.addAttribute("editar", false);
         model.addAttribute("homologados", homologadoRepository.findAll());
         return "equipamento/formulario";
     }
@@ -152,51 +165,62 @@ public class EquipamentoController {
             if (!f.exists()) {
                 f.mkdirs();
             }
-
+            if(!equipamento.getImagem().isEmpty()){
             // salvando imagem
-            String imgType = equipamento.getImagem().getOriginalFilename();
-            int pointer = imgType.lastIndexOf(".");
-            if (pointer == -1) {
-                throw new Exception("Imagem não inserida");
-            }
-            imgType = imgType.substring(pointer);
-            File img = new File(path + "/image");// + imgType);
-            img.createNewFile();
-            equipamento.getImagem().transferTo(img);
+                String imgType = equipamento.getImagem().getOriginalFilename();
+                int pointer = imgType.lastIndexOf(".");
+                if (pointer == -1) {
+                    throw new Exception("Imagem não inserida");
+                }
 
-            // verifica se o usuário inseriu o caderno e o dataSheet
-            // todo: validar formulário
-            if (equipamento.getCaderno().getOriginalFilename().isEmpty()
-                    && equipamento.getDataSheet().getOriginalFilename().isEmpty()) {
-                throw new Exception("Caderno e DataSheet é obrigatorio");
+                imgType = imgType.substring(pointer);
+                File img = new File(path + "/image");
+                img.createNewFile();
+                equipamento.getImagem().transferTo(img);
+
             }
 
-            // salvando caderno de Testes
-            File caderno = new File(path + "/caderno.pdf");
-            caderno.createNewFile();
-            equipamento.getCaderno().transferTo(caderno);
+            if(!equipamento.getCaderno().isEmpty()){
+                // salvando caderno de Testes
+                File caderno = new File(path + "/caderno.pdf");
+                caderno.createNewFile();
+                equipamento.getCaderno().transferTo(caderno);
+            }
 
-            // salvando dataSheet
-            File dataSheet = new File(path + "/dataSheet.pdf");
-            dataSheet.createNewFile();
-            equipamento.getDataSheet().transferTo(dataSheet);
-
+            if(!equipamento.getCaderno().isEmpty()){
+                // salvando dataSheet
+                File dataSheet = new File(path + "/dataSheet.pdf");
+                dataSheet.createNewFile();
+                equipamento.getDataSheet().transferTo(dataSheet);
+            }
             // Salvando anexos
-            if (equipamento.getFiles().length > 0) {
-                new File(path + "/anexos").mkdirs();
-                for (MultipartFile file : equipamento.getFiles()) {
+            File dir = new File(path + "/anexos");
+            if(!dir.exists())
+                dir.mkdirs();
+            for (MultipartFile file : equipamento.getFiles()) {
+                if(!file.isEmpty())
                     file.transferTo(new File(path + "/anexos/" + file.getOriginalFilename()));
+            }
+            String names = equipamento.getFilesName();
+            if(names!=null && names.length() > 0){
+                if(names.contains(",")){
+                    String files[] = names.split(",");
+                    for(String n: files){
+                        FileUtils.forceDelete(new File(path+"/anexos/"+n));
+                    }
+                }else{
+                    FileUtils.forceDelete(new File(path+"/anexos/"+names));
                 }
             }
 
         } catch (Exception e) {
             File directory = new File(uploadDir + equipamento.getEquipamento().getId());
             try {
-                FileUtils.cleanDirectory(directory);
-                FileUtils.forceDelete(directory);
+//                FileUtils.cleanDirectory(directory);
+//                FileUtils.forceDelete(directory);
             } catch (Exception ex) {
             }
-            equipamentoRepository.delete(equipamento.getEquipamento());
+//            equipamentoRepository.delete(equipamento.getEquipamento());
             e.printStackTrace();
             model.addAttribute("equipamento", new FormEquipamento());
             model.addAttribute("fabricantes", fabricanteRepository.findAll());
