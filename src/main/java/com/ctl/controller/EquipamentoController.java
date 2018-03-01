@@ -25,6 +25,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletResponse;
@@ -64,11 +68,31 @@ public class EquipamentoController {
     }
 
     @GetMapping
-    public String list(Model model) {
-        model.addAttribute("equipamento", new Equipamento());
-        model.addAttribute("equipamentos", equipamentoRepository.findAll());
-        return "equipamento/listar";
-    }
+    public String list(@RequestParam(required=false, value="segmento") String segmento,
+                       @RequestParam(required=false, value="tipo") List<Long> tipo, Model model) {
+        
+        // Escolhendo o Segmento (ex.: B2B, B2C ou ambos)
+        if(segmento == null && tipo == null){
+            return "equipamento/segmento";
+            
+         // Segmento e tipo escolhidos
+        }else if(segmento != null && tipo != null){
+            model.addAttribute("equipamento", new Equipamento());
+            model.addAttribute("equipamentos", equipamentoRepository.findBySegmentoAndTipo_idIn(segmento, tipo));
+            return "equipamento/listar";   
+            
+         // em caso de alguma falha retorna o usuário para escolher o segmento
+         // ex.:(caso o usuário tente inserir o tipo sem escolher o segmento, modificando a url)
+        }else if(segmento == null && tipo != null){
+            return "redirect:/equipamento";
+            
+         // Escolhe o Tipo de equipamento
+        }else{
+            model.addAttribute("tipos", tipoRepository.findAll());
+            model.addAttribute("tipoSearch", new HashSet<String>());
+            return "equipamento/tipo";
+        }
+        }
 
     @GetMapping("/editar")
     public String edit(Model model, @RequestParam Long id) {
