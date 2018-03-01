@@ -38,9 +38,9 @@ CREATE TABLE equipamento (
     fabricante_id	BIGINT,
     precificacao_id	BIGINT,
     PRIMARY KEY (id),
-    FOREIGN KEY (fabricante_id) REFERENCES fabricante(id) on delete cascade,
-    FOREIGN KEY (precificacao_id) REFERENCES precificacao(id) on delete cascade,
-    FOREIGN KEY (tipo_id) REFERENCES tipo(id) on delete cascade
+    FOREIGN KEY (fabricante_id) REFERENCES fabricante(id),
+    FOREIGN KEY (precificacao_id) REFERENCES precificacao(id),
+    FOREIGN KEY (tipo_id) REFERENCES tipo(id)
 );
 
 -- Tabela auxiliar ManyToMany

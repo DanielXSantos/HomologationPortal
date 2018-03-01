@@ -164,7 +164,7 @@ public class EquipamentoController {
             // verifica se o usuário inseriu o caderno e o dataSheet
             // todo: validar formulário
             if (equipamento.getCaderno().getOriginalFilename().isEmpty()
-                    && equipamento.getDataSheet().getOriginalFilename().isEmpty()) {
+                    || equipamento.getDataSheet().getOriginalFilename().isEmpty()) {
                 throw new Exception("Caderno e DataSheet é obrigatorio");
             }
 
