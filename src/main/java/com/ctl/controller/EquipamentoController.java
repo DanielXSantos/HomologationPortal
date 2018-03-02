@@ -122,8 +122,11 @@ public class EquipamentoController {
         if(anexos==null){
             anexos = new String[0];
         }
+        Equipamento e = equipamentoRepository.findOne(id);
+        if(e==null)
+            return "redirect:/equipamento";
         model.addAttribute("anexos", anexos);
-        model.addAttribute("equipamento", equipamentoRepository.findOne(id));
+        model.addAttribute("equipamento", e);
         model.addAttribute("fabricantes", fabricanteRepository.findAll());
         model.addAttribute("featuress", featuresRepository.findAll());
         model.addAttribute("precificacaos", precificacaoRepository.findAll());
