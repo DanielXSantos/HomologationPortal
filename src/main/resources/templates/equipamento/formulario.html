@@ -4,7 +4,7 @@
     <body>
         <div layout:fragment="content" class="row">
             <div class="col-sm-12  btn-table">
-                <form th:action="@{/equipamento/salvar}" th:object="${equipamento}" method="post" enctype="multipart/form-data">
+                <form th:action="@{/equipamento/salvar(editar=true)}" th:object="${equipamento}" method="post" enctype="multipart/form-data">
 
                     <input th:field="${equipamento.equipamento.id}" type="hidden" />
                     <p class="h1">Cadastro Equipamento</p>
@@ -22,9 +22,14 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="inputData">Data</label>
-                        <input type="date" class="form-control" id="inputData" th:field="${equipamento.equipamento.data}" />
-                        <span th:if="${#fields.hasErrors('equipamento.data')}" th:errors="${equipamento.equipamento.data}" class="badge badge-danger">erro</span>
+                        <label for="inputData">Data de início do processo Homologação</label>
+                        <input type="date" class="form-control" id="inputData" th:field="${equipamento.equipamento.dataInicio}" />
+                        <span th:if="${#fields.hasErrors('equipamento.dataInicio')}" th:errors="${equipamento.equipamento.dataInicio}" class="badge badge-danger">erro</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputData">Data de término do processo Homologação</label>
+                        <input type="date" class="form-control" id="inputData" th:field="${equipamento.equipamento.dataTermino}" />
+                        <span th:if="${#fields.hasErrors('equipamento.dataTermino')}" th:errors="${equipamento.equipamento.dataTermino}" class="badge badge-danger">erro</span>
                     </div>
                     <div class="form-group">
                         <label for="inputSegmento">Segmento</label>

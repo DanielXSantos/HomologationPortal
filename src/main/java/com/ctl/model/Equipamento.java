@@ -1,8 +1,19 @@
 package com.ctl.model;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -21,9 +32,10 @@ public class Equipamento {
     @NotEmpty
     private String status = "";
 
-    @NotEmpty
-    private String data = "";
+    private String dataInicio = "";
 
+    private String dataTermino = "";
+    
     @NotEmpty
     private String segmento = "";
 
@@ -51,12 +63,20 @@ public class Equipamento {
         this.status = status;
     }
 
-    public String getData() {
-        return data;
+    public String getDataInicio() {
+        return dataInicio;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setDataInicio(String dataInicio) {
+        this.dataInicio = dataInicio;
+    }
+
+    public String getDataTermino() {
+        return dataTermino;
+    }
+
+    public void setDataTermino(String dataTermino) {
+        this.dataTermino = dataTermino;
     }
 
     public String getSegmento() {

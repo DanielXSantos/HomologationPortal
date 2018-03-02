@@ -49,7 +49,7 @@ public class FormEquipamento {
         System.out.println(equipamento.getNome());
         System.out.println(equipamento.getSegmento());
         System.out.println(equipamento.getStatus());
-        System.out.println(equipamento.getData());
+//        System.out.println(equipamento.getData());
     }
     public MultipartFile[] getFiles() {
         return files;

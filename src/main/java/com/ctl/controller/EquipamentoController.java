@@ -146,6 +146,7 @@ public class EquipamentoController {
 
     @PostMapping("/salvar")
     public String salvar(@Valid @ModelAttribute("equipamento") FormEquipamento equipamento,
+            @RequestParam(required=false, value="editar") boolean editar,
             BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("equipamento", new FormEquipamento());
@@ -215,12 +216,14 @@ public class EquipamentoController {
 
         } catch (Exception e) {
             File directory = new File(uploadDir + equipamento.getEquipamento().getId());
-            try {
-//                FileUtils.cleanDirectory(directory);
-//                FileUtils.forceDelete(directory);
-            } catch (Exception ex) {
+            if(!editar){
+                try {
+                    FileUtils.cleanDirectory(directory);
+                    FileUtils.forceDelete(directory);
+                } catch (Exception ex) {
+                }
+                equipamentoRepository.delete(equipamento.getEquipamento());
             }
-//            equipamentoRepository.delete(equipamento.getEquipamento());
             e.printStackTrace();
             model.addAttribute("equipamento", new FormEquipamento());
             model.addAttribute("fabricantes", fabricanteRepository.findAll());
