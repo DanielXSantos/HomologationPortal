@@ -62,3 +62,11 @@ CREATE TABLE equipamento_features(
     CONSTRAINT equipamento_id_fk FOREIGN KEY (equipamento_id) REFERENCES equipamento(id),
     CONSTRAINT features_id_fk FOREIGN KEY (features_id) REFERENCES features(id)    
 );
+
+CREATE TABLE homologado_para(
+    equipamento_id BIGINT NOT NULL,
+    homologado_id  BIGINT NOT NULL,
+    PRIMARY KEY(equipamento_id, homologado_id),
+    CONSTRAINT equipamento_id_homologado_fk FOREIGN KEY (equipamento_id) REFERENCES equipamento(id),
+    CONSTRAINT homologado_id_fk FOREIGN KEY (homologado_id) REFERENCES homologado(id)
+);

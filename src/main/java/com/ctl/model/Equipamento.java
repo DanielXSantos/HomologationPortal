@@ -111,6 +111,14 @@ public class Equipamento {
             inverseJoinColumns = {@JoinColumn(name = "features_id")})
     private Set<Features> features = new HashSet<>();
     
+    @NotNull
+    @ManyToMany(cascade = {CascadeType.MERGE})
+    @JoinTable(name = "Homologado_Para",
+            joinColumns =        {@JoinColumn(name = "equipamento_id")},
+            inverseJoinColumns = {@JoinColumn(name = "homologado_id")})
+    private Set<Features> homologado = new HashSet<>();
+
+    
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "precificacao_id", referencedColumnName = "id")
@@ -153,4 +161,11 @@ public class Equipamento {
         this.precificacao = precificacao;
     }
 
+    public Set<Features> getHomologado() {
+        return homologado;
+    }
+
+    public void setHomologado(Set<Features> homologado) {
+        this.homologado = homologado;
+    }
 }

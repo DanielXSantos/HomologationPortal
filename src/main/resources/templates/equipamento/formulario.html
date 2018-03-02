@@ -111,8 +111,8 @@
                     <div class="form-group">
                         <label for="inputFeatures">Features</label>
                         <div th:each="features : ${featuress}"> 
-                            <button type="button" class="btn btn-outline-primary" th:field="${equipamento.equipamento.features}" th:value="${features.id}"
-                           th:text="${features.nome}"></button>
+                            <input type="checkbox" th:field="${equipamento.equipamento.features}" th:value="${features.id}"
+                           th:text="${features.nome}"></input>
                         </div>
                         <div class="alert alert-warning" th:if="${featuress.empty}">
                             <label>Não há itens cadastrados, cadastre eles antes de cadastrar o equipamento</label>
@@ -121,8 +121,8 @@
                     <div class="form-group">
                         <label for="inputHomologado">Homologado Para:</label>
                         <div th:each="homologado : ${homologados}"> 
-                            <button type="button" class="btn btn-outline-primary" th:field="${equipamento.equipamento.homologado}" th:value="${homologado.id}"
-                           th:text="${homologado.nome}"></button>
+                            <input type="checkbox" th:field="${equipamento.equipamento.homologado}" th:value="${homologado.id}"
+                           th:text="${homologado.nome}"></input>
                     </div>
                         <div class="alert alert-warning" th:if="${homologados.empty}">
                             <label>Não há itens cadastrados, cadastre eles antes de cadastrar o equipamento</label>
