@@ -116,7 +116,7 @@ public class Equipamento {
     @JoinTable(name = "Homologado_Para",
             joinColumns =        {@JoinColumn(name = "equipamento_id")},
             inverseJoinColumns = {@JoinColumn(name = "homologado_id")})
-    private Set<Features> homologado = new HashSet<>();
+        private Set<Features> homologado = new HashSet<>();
 
     
 
