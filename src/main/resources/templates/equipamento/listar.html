@@ -2,6 +2,22 @@
 <html xmlns:th="http://www.thymeleaf.org">
    
     <head>
+    
+    
+    <style>
+.emtestes {
+color:rgba(255,255,0,1.00);
+}
+.nhomologado {
+color:rgba(255,0,0,1.00);
+}
+.homologado {
+color:rgba(0,255,0,1.00);
+}
+</style>
+    
+    
+    
         <div th:replace="layout/headerListar :: head"></div>
     <!-- E script para caralho para a DataTable funcionar certinho kkkkk-->
     <script type="text/javascript" class="init">
@@ -12,12 +28,17 @@
                 buttons: ['copy', {
                         extend: 'excelHtml5',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5]
-                        }
-                    }, {
+                            columns: [0, 1, 2, 3, 4, {if (${equipamento.status} == "EmTestes") {
+                                return '<p class="emtestes">'+${equipamento.status}+'</p>';
+                            } else if (${equipamento.status} == "Homologado") {
+                                return '<p class="homologado">'+${equipamento.status}+'</p>';
+                            }  else if (${equipamento.status} == "NaoHomologado") {
+                                return '<p class="nhomologado">'+${equipamento.status}+'</p>';
+                            } 
+                    }, 6] {
                         extend: 'pdfHtml5',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5]
+                            columns: [0, 1, 2, 3, 4, 5, 6]
                         }
                     }, 'colvis'],
 
@@ -25,11 +46,8 @@
 
             table.buttons().container()
                     .appendTo('#example_wrapper .col-md-6:eq(0)');
-
-
         });
-
-
+        
     </script>
     </head>
  
@@ -41,7 +59,8 @@
                <th>Fabricante</th>
                <th>Equipamento</th>
                <th>Segmento</th>
-               <th>Data</th>
+               <th>Data início de testes</th>
+               <th>Data término de testes</th>
                <th>Status</th>
                <th>Tipo</th>
                <th>Alteração</th>
@@ -54,7 +73,8 @@
                <td th:text="${equipamento.nome}"></td>
                <td th:text="${equipamento.segmento}"></td>
                <td th:text="${equipamento.dataInicio}"></td>
-               <td th:text="${equipamento.status}" ></td>
+               <td th:text="${equipamento.dataTermino}"></td>
+               <td th:text="${equipamento.status}" style="color:#ff0000"></td>
                <td th:text="${equipamento.tipo.nome}"></td>
                <td><a th:href="@{/equipamento/editar(id=${equipamento.id})}">Editar</a></td>
                <td><a th:href="@{/equipamento/view(id=${equipamento.id})}">Informações</a></td>
