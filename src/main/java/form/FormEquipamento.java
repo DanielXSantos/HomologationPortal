@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ctl.model;
+package com.ctl.form;
 
+import com.ctl.model.Equipamento;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;

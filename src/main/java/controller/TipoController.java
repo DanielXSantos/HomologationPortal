@@ -13,43 +13,51 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ctl.model.Equipamento;
 import com.ctl.model.Tipo;
 import com.ctl.repository.TipoRepository;
+import com.ctl.util.AdvancedSearchUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Controller
 @RequestMapping("/tipo")
 public class TipoController {
 
+    @Autowired
     private TipoRepository tipoRepository;
+    
+    @Autowired
+    private AdvancedSearchUtil advancedSearch;
 
-    public TipoController(TipoRepository tipoRepository) {
-        this.tipoRepository = tipoRepository;
-    }
 
     @GetMapping
     public String list(Model model) {
+        model = advancedSearch.build(model);
         model.addAttribute("tipos", tipoRepository.findAll());
         return "tipo/listar";
     }
 
     @GetMapping("/editar")
     public String edit(Model model, @RequestParam Long id) {
+        model = advancedSearch.build(model);
         model.addAttribute("tipo", tipoRepository.findOne(id));
         return "tipo/formulario";
     }
 
     @GetMapping("/view")
     public String view(Model model, @RequestParam Long id) {
+        model = advancedSearch.build(model);
         model.addAttribute("tipo", tipoRepository.findOne(id));
         return "tipo/descricao";
     }
 
     @GetMapping("/novo")
     public String novo(Model model) {
+        model = advancedSearch.build(model);
         model.addAttribute("tipo", new Tipo());
         return "tipo/formulario";
     }
 
     @PostMapping("/salvar")
-    public String salvar(@Valid Tipo tipo, BindingResult bindingResult) {
+    public String salvar(@Valid Tipo tipo, BindingResult bindingResult, Model model) {
+        model = advancedSearch.build(model);
         if (bindingResult.hasErrors()) {
             return "tipo/formulario";
         }
@@ -60,6 +68,7 @@ public class TipoController {
 
     @GetMapping("/buscar")
     public String buscar(Model model, @RequestParam String nome) {
+        model = advancedSearch.build(model);
         model.addAttribute("tipo", new Equipamento());
         model.addAttribute("tipos", tipoRepository.findByNomeLike("%" + nome + "%"));
         return "tipo/listar";

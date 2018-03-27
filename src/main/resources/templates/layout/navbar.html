@@ -1,9 +1,23 @@
     <!-- NavBar que tem q por em todo html -->
-    <div th:fragment="navbar" class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+    <div th:fragment="navbar" >
+        <link href="css/multiple-select.css" th:href="@{/css/multiple-select.css}" rel="stylesheet"/>
+        <style>
+            .multiple-div{
+                width: 250px;
+                padding-top: 10px;
+                padding-right: 10px;
+                display:inline-block;
+            }
+        </style>
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
         <h5 class="my-0 mr-md-auto font-weight-normal">Homologação</h5>
         <nav class="my-2 my-md-0 mr-md-3">
-            <!--<a class="p-2 text-dark" href="#">Relatórios</a>-->
-            <!--<a class="p-2 text-dark" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuLink">Gerenciamento</a>-->
+            
+            <button class="btn" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                Buscar
+            </button>
+            
+            
             <a class="p-2 text-dark" href="/equipamento">Equipamentos</a>
             <a class="p-2 text-dark" href="/fabricante">Fabricantes</a>
             <a class="p-2 text-dark" href="/features">Features</a>
@@ -23,4 +37,82 @@
         </nav>
         <a class="btn btn-outline-primary" th:href="@{/login} " sec:authorize="hasRole('ROLE_ANONYMOUS')">Login</a>
         <a class="btn btn-outline-danger" th:href="@{/logout}" sec:authorize="!hasRole('ROLE_ANONYMOUS')">Logout</a>
+    </div>
+        <p>
+        <div class="collapse" id="collapseExample">
+                    <div class="container">
+                        <center><label>Busca Avançada</label></center>
+                        <form th:action="@{/equipamento/search}" th:object="${form}" method="get">
+                            <input th:field="${form.nome}" type="text" class="form-control" id="inputNome" placeholder="Nome"/>
+                            <div style="display:inline-block;padding-top: 15px;padding-bottom: 20px">
+                                <div class="multiple-div">
+                                    <select th:field=${form.status} id="status" multiple="multiple">
+                                        <option value="EmTestes"> Em Testes</option>
+                                        <option value="NaoHomologado"> Não Homologado</option>
+                                        <option value="Homologado"> Homologado</option>
+                                    </select>
+                                </div>
+                                <div class="multiple-div"> 
+                                    <select th:field=${form.segmento} id="segmento" multiple="multiple">
+                                        <option value="B2B"> B2B</option>
+                                        <option value="B2C"> B2C</option>
+                                        <option value="B2B-B2C"> B2B-B2C</option>
+                                    </select>
+                                </div>
+                                <div class="multiple-div">
+                                    <select th:field=${form.fabricantes} id="fabricante" multiple="multiple">
+                                        <option th:each="fabricante: ${fabricantesForm}" th:value="${fabricante.id}" th:text="${fabricante.nome}"> </option>
+                                    </select>
+                                </div>
+                                <div class="multiple-div">
+                                    <select th:field=${form.tipos} id="tipo" multiple="multiple">
+                                        <option th:each="tipo: ${tiposForm}" th:value="${tipo.id}" th:text="${tipo.nome}"> </option>
+                                    </select>
+                                </div>
+                                <div class="multiple-div">
+                                    <select th:field=${form.features} id="features" multiple="multiple">
+                                        <option th:each="features: ${featuresForm}" th:value="${features.id}" th:text="${features.nome}"> </option>
+                                    </select>
+                                </div>
+                                <div class="multiple-div">
+                                    <select th:field=${form.homologado} id="homologado" multiple="multiple">
+                                        <option th:each="homologado: ${homologadoForm}" th:value="${homologado.id}" th:text="${homologado.nome}"> </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <center><button type="submit" class="btn btn-dark">Buscar</button></center>
+                        </form>
+                    <script th:src="@{/js/multiple-select.js}"></script>
+                    <script>
+                        $('#status').multipleSelect({
+                            width: 250, 
+                            placeholder: "Status de Homologação"
+                        });
+                        $('#segmento').multipleSelect({
+                            width: 250, 
+                            placeholder: "Segmento do Equipamento"
+                        });
+                        $('#fabricante').multipleSelect({
+                            width: 250, 
+                            placeholder: "Fabricantes"
+                        });
+                        $('#tipo').multipleSelect({
+                            width: 250, 
+                            placeholder: "Tipos de Equipamentos"
+                        });
+                        $('#features').multipleSelect({
+                            width: 250, 
+                            placeholder: "Features de Equipamentos"
+                        });
+                        $('#homologado').multipleSelect({
+                            width: 250, 
+                            placeholder: "Homologados Para..."
+                        });
+                    </script>
+                    
+                    
+                    </div>
+            </div>
+        </p>
     </div>

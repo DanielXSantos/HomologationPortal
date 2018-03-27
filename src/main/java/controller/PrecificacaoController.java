@@ -13,56 +13,64 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ctl.model.Equipamento;
 import com.ctl.model.Precificacao;
 import com.ctl.repository.PrecificacaoRepository;
+import com.ctl.util.AdvancedSearchUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Controller
 @RequestMapping("/precificacao")
 public class PrecificacaoController {
 
-	private PrecificacaoRepository precificacaoRepository;
-	
-    public PrecificacaoController(PrecificacaoRepository precificacaoRepository) {
-        this.precificacaoRepository = precificacaoRepository;
-    }
-	
-	@GetMapping
-	public String list(Model model) {
-		model.addAttribute("precificacaos", precificacaoRepository.findAll());
-		return "precificacao/listar";
-	}
-	
-	@GetMapping("/editar")
-	public String edit(Model model, @RequestParam Long id) {
-		model.addAttribute("precificacao", precificacaoRepository.findOne(id));
-		return "precificacao/formulario";
-	}
-	
-	@GetMapping("/view")
-	public String view(Model model, @RequestParam Long id) {
-		model.addAttribute("precificacao", precificacaoRepository.findOne(id));
-		return "precificacao/descricao";
-	}
-	
-	@GetMapping("/novo")
-	public String novo(Model model) {
-		model.addAttribute("precificacao", new Precificacao());
-		return "precificacao/formulario";
-	}
-	
-	@PostMapping("/salvar")
-	public String salvar(@Valid Precificacao precificacao, BindingResult bindingResult) {
-		if(bindingResult.hasErrors()) {
-			return "precificacao/formulario";
-		}
-		precificacaoRepository.save(precificacao);
-		return "precificacao/listar";
+    @Autowired
+    private PrecificacaoRepository precificacaoRepository;
+    
+    @Autowired
+    private AdvancedSearchUtil advancedSearch;
 
-		}
-	
-	@GetMapping("/buscar")
-	public String buscar(Model model, @RequestParam String id) {
-		model.addAttribute("precificacao", new Equipamento());
-		model.addAttribute("precificacaos", precificacaoRepository.findByIdLike("%" + id + "%"));
-		return "precificacao/listar";
-	}
-	
+    @GetMapping
+    public String list(Model model) {
+        model = advancedSearch.build(model);
+        model.addAttribute("precificacaos", precificacaoRepository.findAll());
+        return "precificacao/listar";
+    }
+
+    @GetMapping("/editar")
+    public String edit(Model model, @RequestParam Long id) {
+        model = advancedSearch.build(model);
+        model.addAttribute("precificacao", precificacaoRepository.findOne(id));
+        return "precificacao/formulario";
+    }
+
+    @GetMapping("/view")
+    public String view(Model model, @RequestParam Long id) {
+        model = advancedSearch.build(model);
+        model.addAttribute("precificacao", precificacaoRepository.findOne(id));
+        return "precificacao/descricao";
+    }
+
+    @GetMapping("/novo")
+    public String novo(Model model) {
+        model = advancedSearch.build(model);
+        model.addAttribute("precificacao", new Precificacao());
+        return "precificacao/formulario";
+    }
+
+    @PostMapping("/salvar")
+    public String salvar(@Valid Precificacao precificacao, BindingResult bindingResult, Model model) {
+        model = advancedSearch.build(model);
+        if (bindingResult.hasErrors()) {
+            return "precificacao/formulario";
+        }
+        precificacaoRepository.save(precificacao);
+        return "precificacao/listar";
+
+    }
+
+    @GetMapping("/buscar")
+    public String buscar(Model model, @RequestParam String id) {
+        model = advancedSearch.build(model);
+        model.addAttribute("precificacao", new Equipamento());
+        model.addAttribute("precificacaos", precificacaoRepository.findByIdLike("%" + id + "%"));
+        return "precificacao/listar";
+    }
+
 }

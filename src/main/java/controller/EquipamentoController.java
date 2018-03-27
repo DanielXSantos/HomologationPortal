@@ -1,5 +1,6 @@
 package com.ctl.controller;
 
+import com.ctl.form.FormEquipamento;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,33 +13,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ctl.model.Equipamento;
-import com.ctl.model.FormEquipamento;
 import com.ctl.repository.EquipamentoRepository;
+import com.ctl.repository.EquipamentoSearchRepositoryImpl;
 import com.ctl.repository.FabricanteRepository;
 import com.ctl.repository.FeaturesRepository;
 import com.ctl.repository.HomologadoRepository;
 import com.ctl.repository.PrecificacaoRepository;
 import com.ctl.repository.TipoRepository;
+import com.ctl.util.AdvancedSearchUtil;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletResponse;
+import form.SearchForm;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -50,27 +49,35 @@ public class EquipamentoController {
 
     @Autowired
     private EquipamentoRepository equipamentoRepository;
+    
+    @Autowired
     private FabricanteRepository fabricanteRepository;
+    
+    @Autowired
     private FeaturesRepository featuresRepository;
+    
+    @Autowired
     private PrecificacaoRepository precificacaoRepository;
+    
+    @Autowired
     private TipoRepository tipoRepository;
+    
+    @Autowired
     private HomologadoRepository homologadoRepository;
+    
+    @Autowired
+    private  AdvancedSearchUtil advancedSearch;
+    
+    @Autowired
+    private EquipamentoSearchRepositoryImpl repo;
 
     private static String uploadDir = System.getProperty("user.dir") + "/uploads/";
-
-    public EquipamentoController(EquipamentoRepository equipamentoRepository, FabricanteRepository fabricanteRepository, FeaturesRepository featuresRepository, PrecificacaoRepository precificacaoRepository, TipoRepository tipoRepository, HomologadoRepository homologadoRepository) {
-        this.equipamentoRepository = equipamentoRepository;
-        this.fabricanteRepository = fabricanteRepository;
-        this.featuresRepository = featuresRepository;
-        this.precificacaoRepository = precificacaoRepository;
-        this.tipoRepository = tipoRepository;
-        this.homologadoRepository = homologadoRepository;
-    }
-
+    
     @GetMapping
     public String list(@RequestParam(required=false, value="segmento") String segmento,
                        @RequestParam(required=false, value="tipo") List<Long> tipo, Model model) {
         
+        model = advancedSearch.build(model);
         // Escolhendo o Segmento (ex.: B2B, B2C ou ambos)
         if(segmento == null && tipo == null){
             return "equipamento/segmento";
@@ -96,6 +103,7 @@ public class EquipamentoController {
 
     @GetMapping("/editar")
     public String edit(Model model, @RequestParam Long id) {
+        model = advancedSearch.build(model);
         FormEquipamento form = new FormEquipamento();
         form.setEquipamento(equipamentoRepository.findOne(id));
         String[] anexos = new File(uploadDir + id.toString() + "/anexos").list();
@@ -117,6 +125,7 @@ public class EquipamentoController {
 
     @GetMapping("/view")
     public String view(Model model, @RequestParam Long id) {
+        model = advancedSearch.build(model);        
         String[] anexos = new File(uploadDir + id.toString() + "/anexos").list();
         // NULL SAFE
         if(anexos==null){
@@ -137,6 +146,7 @@ public class EquipamentoController {
 
     @GetMapping("/novo")
     public String novo(Model model) {
+        model = advancedSearch.build(model);
         model.addAttribute("equipamento", new FormEquipamento());
         model.addAttribute("fabricantes", fabricanteRepository.findAll());
         model.addAttribute("featuress", featuresRepository.findAll());
@@ -151,6 +161,7 @@ public class EquipamentoController {
     public String salvar(@Valid @ModelAttribute("equipamento") FormEquipamento equipamento,
             @RequestParam(required=false, value="editar") boolean editar,
             BindingResult bindingResult, Model model) {
+        model = advancedSearch.build(model);
         if (bindingResult.hasErrors()) {
             model.addAttribute("equipamento", new FormEquipamento());
             model.addAttribute("fabricantes", fabricanteRepository.findAll());
@@ -250,6 +261,7 @@ public class EquipamentoController {
 
     @GetMapping("/buscar")
     public String buscar(Model model, @RequestParam String nome) {
+        model = advancedSearch.build(model);
         model.addAttribute("equipamento", new Equipamento());
         model.addAttribute("equipamentos", equipamentoRepository.findByNomeLike("%" + nome + "%"));
         return "equipamento/formulario";
@@ -312,5 +324,15 @@ public class EquipamentoController {
             Logger.getLogger(EquipamentoController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    @GetMapping("/search")
+    public String search(Model model, SearchForm s){
+        
+        model = advancedSearch.build(model);
+        model = advancedSearch.build(model);
+        model.addAttribute("equipamento", new Equipamento());
+        model.addAttribute("equipamentos", repo.search(s));
 
+        return "equipamento/listar";
+    }
 }
