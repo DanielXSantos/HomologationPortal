@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -116,9 +117,9 @@ public class Equipamento {
 
     
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "precificacao_id", referencedColumnName = "id")
-    private Precificacao precificacao;
+    private Set<Precificacao> precificacao;
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
@@ -149,11 +150,11 @@ public class Equipamento {
         this.features = features;
     }
 
-    public Precificacao getPrecificacao() {
+    public Set<Precificacao> getPrecificacao() {
         return precificacao;
     }
 
-    public void setPrecificacao(Precificacao precificacao) {
+    public void setPrecificacao(Set<Precificacao> precificacao) {
         this.precificacao = precificacao;
     }
 
