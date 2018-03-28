@@ -5,7 +5,9 @@
  */
 package form;
 
+import java.util.Date;
 import java.util.List;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -20,6 +22,12 @@ public class SearchForm {
     private List<Integer> tipos;
     private List<Integer> features;
     private List<Integer> homologado;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date initialDate;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date finalDate;
 
     public SearchForm() {
     }
@@ -80,44 +88,33 @@ public class SearchForm {
         this.homologado = homologado;
     }
 
+    public Date getInitialDate() {
+        return initialDate;
+    }
+
+    public void setInitialDate(Date initialDate) {
+        this.initialDate = initialDate;
+    }
+
+    public Date getFinalDate() {
+        return finalDate;
+    }
+
+    public void setFinalDate(Date finalDate) {
+        this.finalDate = finalDate;
+    }
+    
     @Override
     public String toString() {
         String ans = "";
 
-        if (this.nome != null) {
-            ans += this.nome + "<br>";
+        if(this.initialDate != null){
+            ans += this.initialDate.toString()+"111\n";
         }
-        if (this.status != null) {
-            for (String s : this.status) {
-                ans += s + ", ";
-            }
+        if(this.finalDate != null){
+            ans += this.finalDate.toString()+"222\n";
         }
-        if (this.segmento != null) {
-            for (String s : this.segmento) {
-                ans += s + ", ";
-            }
-        }
-        if (this.fabricantes != null) {
-            for (Integer s : this.fabricantes) {
-                ans += s.toString() + ", ";
-            }
-        }
-        if (this.tipos != null) {
-            for (Integer s : this.tipos) {
-                ans += s.toString() + ", ";
-            }
-        }
-        if (this.features != null) {
-            for (Integer s : this.features) {
-                ans += s.toString() + ", ";
-            }
-        }
-        if (this.homologado != null) {
-            for (Integer s : this.homologado) {
-                ans += s.toString() + ", ";
-            }
-        }
-        System.out.println("ans: " + ans);
+        System.out.println(ans);
         return ans;
     }
 }

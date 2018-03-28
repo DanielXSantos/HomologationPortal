@@ -57,6 +57,18 @@ public class EquipamentoSearchRepositoryImpl implements EquipamentoSearchReposit
         if(s.getHomologado() != null && !s.getHomologado().isEmpty()){
             predicate = builder.and(predicate, r.join("homologado").in(s.getHomologado()));
         }
+        if(s.getInitialDate() != null && s.getFinalDate() != null){
+            predicate = builder.and(predicate, 
+                            builder.or(
+                                builder.between(r.get("dataInicio"), s.getInitialDate(), s.getFinalDate()),
+                                builder.between(r.get("dataTermino"), s.getInitialDate(), s.getFinalDate())
+                            )
+                        );
+        }else if(s.getInitialDate() != null){
+            predicate = builder.and(predicate, builder.greaterThanOrEqualTo(r.get("dataTermino"), s.getInitialDate()));
+        }else if(s.getFinalDate() != null){
+            predicate = builder.and(predicate,builder.lessThanOrEqualTo(r.get("dataInicio"), s.getFinalDate()));
+        }
 
         query.distinct(true);
         query.where(predicate);

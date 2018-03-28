@@ -79,6 +79,12 @@
                                         <option th:each="homologado: ${homologadoForm}" th:value="${homologado.id}" th:text="${homologado.nome}"> </option>
                                     </select>
                                 </div>
+                                <div class="mutiple-div">
+                                    <input type="date" class="form-control" id="initialDate" th:field="${form.initialDate}"/>
+                                </div>
+                                <div class="mutiple-div">
+                                    <input type="date" class="form-control" id="finalDate" th:field="${form.finalDate}"/>
+                                </div>
                             </div>
 
                             <center><button type="submit" class="btn btn-dark">Buscar</button></center>

@@ -321,13 +321,10 @@ public class EquipamentoController {
     }
     
     @GetMapping("/search")
-    public String search(Model model, SearchForm s){
-        
-        model = advancedSearch.build(model);
+    public String search(Model model, SearchForm s){        
         model = advancedSearch.build(model);
         model.addAttribute("equipamento", new Equipamento());
         model.addAttribute("equipamentos", repo.search(s));
-
         return "equipamento/listar";
     }
 }
