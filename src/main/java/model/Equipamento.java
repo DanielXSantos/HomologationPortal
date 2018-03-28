@@ -1,5 +1,6 @@
 package com.ctl.model;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -15,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Equipamento {
@@ -29,9 +31,11 @@ public class Equipamento {
     @NotEmpty
     private String status = "";
     
-    private String dataInicio = "";
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date dataInicio;
 
-    private String dataTermino = "";
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date dataTermino;
     
     @NotEmpty
     private String segmento = "";
@@ -72,19 +76,19 @@ public class Equipamento {
         this.status = status;
     }
 
-    public String getDataInicio() {
+    public Date getDataInicio() {
         return dataInicio;
     }
 
-    public void setDataInicio(String dataInicio) {
+    public void setDataInicio(Date dataInicio) {
         this.dataInicio = dataInicio;
     }
 
-    public String getDataTermino() {
+    public Date getDataTermino() {
         return dataTermino;
     }
 
-    public void setDataTermino(String dataTermino) {
+    public void setDataTermino(Date dataTermino) {
         this.dataTermino = dataTermino;
     }
 
