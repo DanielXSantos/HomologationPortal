@@ -6,20 +6,14 @@
 package com.ctl.repository;
 
 import com.ctl.model.Equipamento;
-import com.ctl.model.Features;
 import form.SearchForm;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.criteria.SetJoin;
-import javax.persistence.criteria.Subquery;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 

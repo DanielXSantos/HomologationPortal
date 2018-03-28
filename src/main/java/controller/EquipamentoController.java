@@ -136,11 +136,6 @@ public class EquipamentoController {
             return "redirect:/equipamento";
         model.addAttribute("anexos", anexos);
         model.addAttribute("equipamento", e);
-        model.addAttribute("fabricantes", fabricanteRepository.findAll());
-        model.addAttribute("featuress", featuresRepository.findAll());
-        model.addAttribute("precificacaos", precificacaoRepository.findAll());
-        model.addAttribute("tipos", tipoRepository.findAll());
-        model.addAttribute("homologados", homologadoRepository.findAll());
         return "equipamento/descricao";
     }
 
