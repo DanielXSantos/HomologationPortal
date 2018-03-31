@@ -1,124 +1,174 @@
-    <!-- NavBar que tem q por em todo html -->
-    <div th:fragment="navbar" >
-        <link href="css/multiple-select.css" th:href="@{/css/multiple-select.css}" rel="stylesheet"/>
-        <style>
-            .multiple-div{
-                width: 250px;
-                padding-top: 10px;
-                padding-right: 10px;
-                display:inline-block;
-            }
-        </style>
-    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-        <h5 class="my-0 mr-md-auto font-weight-normal">Homologação</h5>
-        <nav class="my-2 my-md-0 mr-md-3">
-            
-            <button class="btn" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                Buscar
-            </button>
-            
-            
-            <a class="p-2 text-dark" href="/equipamento">Equipamentos</a>
-            <a class="p-2 text-dark" href="/fabricante">Fabricantes</a>
-            <a class="p-2 text-dark" href="/features">Features</a>
-            <a class="p-2 text-dark" href="/precificacao">Itens Avulsos</a>
-            <a class="p-2 text-dark" href="/tipo">Tipos</a>
-            <a class="p-2 text-dark" href="/homologado">Plataformas</a>
-            <!--<a class="p-2 text-dark" href="#">Usuários</a>-->
-            <a class="p-2 text-dark" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Novo</a>
-            <div class="dropdown-menu" aria-labelledby="dropdownNovo">
-                <a class="dropdown-item" href="/equipamento/novo">Equipamento</a>
-                <a class="dropdown-item" href="/fabricante/novo">Fabricante</a>
-                <a class="dropdown-item" href="/features/novo">Features</a>
-                <a class="dropdown-item" href="/precificacao/novo">Itens Avulsos</a>
-                <a class="dropdown-item" href="/tipo/novo">Tipo</a>
-                <a class="dropdown-item" href="/homologado/novo">Plataforma</a>
-            </div>
-        </nav>
-        <a class="btn btn-outline-primary" th:href="@{/login} " sec:authorize="hasRole('ROLE_ANONYMOUS')">Login</a>
-        <a class="btn btn-outline-danger" th:href="@{/logout}" sec:authorize="!hasRole('ROLE_ANONYMOUS')">Logout</a>
-    </div>
-        <p>
-        <div class="collapse" id="collapseExample">
-                    <div class="container">
-                        <center><label>Busca Avançada</label></center>
-                        <form th:action="@{/equipamento/search}" th:object="${form}" method="get">
-                            <input th:field="${form.nome}" type="text" class="form-control" id="inputNome" placeholder="Nome"/>
-                            <div style="display:inline-block;padding-top: 15px;padding-bottom: 20px">
-                                <div class="multiple-div">
-                                    <select th:field=${form.status} id="status" multiple="multiple">
-                                        <option value="EmTestes"> Em Testes</option>
-                                        <option value="NaoHomologado"> Não Homologado</option>
-                                        <option value="Homologado"> Homologado</option>
-                                    </select>
-                                </div>
-                                <div class="multiple-div"> 
-                                    <select th:field=${form.segmento} id="segmento" multiple="multiple">
-                                        <option value="B2B"> B2B</option>
-                                        <option value="B2C"> B2C</option>
-                                        <option value="B2B-B2C"> B2B-B2C</option>
-                                    </select>
-                                </div>
-                                <div class="multiple-div">
-                                    <select th:field=${form.fabricantes} id="fabricante" multiple="multiple">
-                                        <option th:each="fabricante: ${fabricantesForm}" th:value="${fabricante.id}" th:text="${fabricante.nome}"> </option>
-                                    </select>
-                                </div>
-                                <div class="multiple-div">
-                                    <select th:field=${form.tipos} id="tipo" multiple="multiple">
-                                        <option th:each="tipo: ${tiposForm}" th:value="${tipo.id}" th:text="${tipo.nome}"> </option>
-                                    </select>
-                                </div>
-                                <div class="multiple-div">
-                                    <select th:field=${form.features} id="features" multiple="multiple">
-                                        <option th:each="features: ${featuresForm}" th:value="${features.id}" th:text="${features.nome}"> </option>
-                                    </select>
-                                </div>
-                                <div class="multiple-div">
-                                    <select th:field=${form.homologado} id="homologado" multiple="multiple">
-                                        <option th:each="homologado: ${homologadoForm}" th:value="${homologado.id}" th:text="${homologado.nome}"> </option>
-                                    </select>
-                                </div>
-                                <div class="mutiple-div">
-                                    <input type="date" class="form-control" id="initialDate" th:field="${form.initialDate}"/>
-                                </div>
-                                <div class="mutiple-div">
-                                    <input type="date" class="form-control" id="finalDate" th:field="${form.finalDate}"/>
-                                </div>
-                            </div>
+<!-- NavBar que tem q por em todo html -->
+<div th:fragment="navbar">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Homologação</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-                            <center><button type="submit" class="btn btn-dark">Buscar</button></center>
-                        </form>
-                    <script th:src="@{/js/multiple-select.js}"></script>
-                    <script>
-                        $('#status').multipleSelect({
-                            width: 250, 
-                            placeholder: "Status de Homologação"
-                        });
-                        $('#segmento').multipleSelect({
-                            width: 250, 
-                            placeholder: "Segmento do Equipamento"
-                        });
-                        $('#fabricante').multipleSelect({
-                            width: 250, 
-                            placeholder: "Fabricantes"
-                        });
-                        $('#tipo').multipleSelect({
-                            width: 250, 
-                            placeholder: "Tipos de Equipamentos"
-                        });
-                        $('#features').multipleSelect({
-                            width: 250, 
-                            placeholder: "Features de Equipamentos"
-                        });
-                        $('#homologado').multipleSelect({
-                            width: 250, 
-                            placeholder: "Homologados Para..."
-                        });
-                    </script>
-                    
-                    
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+
+                <li class="nav-item specialNavItem">
+                    <a class="btn btn-outline-secondary" data-toggle="collapse" href="#collapseSearchBar" role="button"
+                       aria-expanded="false" aria-controls="collapseSearchBar">
+                        Buscar
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/equipamento">Equipamentos</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/fabricante">Fabricantes</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/features">Features</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/precificacao">Itens Avulsos</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/tipo">Tipos</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/homologado">Plataformas</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/requisito">Requisito</a>
+                </li>
+
+                <li class="specialNavItem nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Novo
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/equipamento/novo">Equipamento</a>
+                        <a class="dropdown-item" href="/fabricante/novo">Fabricante</a>
+                        <a class="dropdown-item" href="/features/novo">Features</a>
+                        <a class="dropdown-item" href="/precificacao/novo">Itens Avulsos</a>
+                        <a class="dropdown-item" href="/tipo/novo">Tipo</a>
+                        <a class="dropdown-item" href="/homologado/novo">Plataforma</a>
+                        <a class="dropdown-item" href="/requisito/novo">Requisito</a>
                     </div>
-            </div>
-        </p>
+                </li>
+
+                <li class="nav-item">
+                    <a class="btn btn-outline-primary" th:href="@{/login} "
+                       sec:authorize="hasRole('ROLE_ANONYMOUS')">Login</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="btn btn-outline-danger" th:href="@{/logout}"
+                       sec:authorize="!hasRole('ROLE_ANONYMOUS')">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="collapse" id="collapseSearchBar">
+        <div class="container" id="containerAdvancedSearch">
+            <h6 id="titleAdvancedSearch">Busca Avançada</h6>
+
+            <form th:action="@{/equipamento/search}" th:object="${form}" method="get" style="margin-top:10px">
+
+                <div class="form-group">
+                    <input type="text" th:field="${form.nome}" class="form-control" id="inputNome" placeholder="Nome">
+                </div>
+
+                <div class="form-inline" style="margin-top: 20px">
+                    <div class="form-group selectFormGroup" style="display:inline;">
+                        <label for="status">Status:</label>
+                        <select class="form-control selectpicker" multiple title="Selecione pelo menos um..."
+                                data-style="btn-info" th:field="${form.status}" id="status">
+                            <option value="EmTestes"> Em Testes</option>
+                            <option value="NaoHomologado"> Não Homologado</option>
+                            <option value="Homologado"> Homologado</option>
+                            <option value="PHP">PHP</option>
+                            <option value="CSS">CSS</option>
+                            <option value="HTM">HTML</option>
+                            <option value="sdfsdf">CSS 3</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group selectFormGroup" style="display:inline;">
+                        <label for="segmento">Segmento:</label>
+                        <select class="form-control selectpicker" multiple title="Selecione pelo menos um..."
+                                data-style="btn-info" th:field="${form.segmento}" id="segmento">
+                            <option value="B2B"> B2B</option>
+                            <option value="B2C"> B2C</option>
+                            <option value="B2B-B2C"> B2B-B2C</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group selectFormGroup" style="display:inline;">
+                        <label for="fabricante">Fabricantes:</label>
+                        <select class="form-control selectpicker" multiple title="Selecione pelo menos um..."
+                                data-style="btn-info" th:field="${form.fabricantes}" id="fabricante">
+                            <option th:each="fabricante: ${fabricantesForm}"
+                                    th:value="${fabricante.id}"
+                                    th:text="${fabricante.nome}"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-inline" style="margin-top: 20px">
+                    <div class="form-group selectFormGroup" style="display:inline;">
+                        <label for="tipo">Tipos:</label>
+                        <select class="form-control selectpicker" multiple title="Selecione pelo menos um..."
+                                data-style="btn-info" th:field="${form.tipos}" id="tipo">
+                            <option th:each="tipo: ${tiposForm}"
+                                    th:value="${tipo.id}"
+                                    th:text="${tipo.nome}"></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group selectFormGroup" style="display:inline;">
+                        <label for="features">Features:</label>
+                        <select class="form-control selectpicker" multiple title="Selecione pelo menos um..."
+                                data-style="btn-info" th:field="${form.features}" id="features">
+                            <option th:each="features: ${featuresForm}"
+                                    th:value="${features.id}"
+                                    th:text="${features.nome}"></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group selectFormGroup" style="display:inline;">
+                        <label for="homologado">Homologado:</label>
+                        <select class="form-control selectpicker" multiple title="Selecione pelo menos um..."
+                                data-style="btn-info" th:field="${form.homologado}" id="homologado">
+                            <option th:each="homologado: ${homologadoForm}"
+                                    th:value="${homologado.id}"
+                                    th:text="${homologado.nome}"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-inline" style="margin-top: 25px">
+                    <div class="form-group dateFormGroup" style="display:inline;">
+                        <label for="initialDate">Data de Inicio:</label>
+                        <input type="date" class="form-control" id="initialDate" th:field="${form.initialDate}"/>
+                    </div>
+
+                    <div class="form-group dateFormGroup" style="display:inline;">
+                        <label for="finalDate">Data de Termino:</label>
+                        <input type="date" class="form-control" id="finalDate" th:field="${form.finalDate}"/>
+                    </div>
+                </div>
+
+                <div id="divSearchButton">
+                    <button type="submit" class="btn btn-dark">Buscar</button>
+                </div>
+            </form>
+        </div>
     </div>
+</div>
