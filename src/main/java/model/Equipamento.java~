@@ -177,12 +177,4 @@ public class Equipamento {
     public void setHomologado(Set<Features> homologado) {
         this.homologado = homologado;
     }
-    public Set<Requisito> getRequisito() {
-        return requisito;
-    }
-
-    public void setRequisito(Set<Requisito> requisito) {
-        this.requisito = requisito;
-    }
-
 }

@@ -163,17 +163,6 @@
                 </div>
             </div>
 
-                                    <div class="form-group">
-                                        <label for="inputRequisito">Requisito:</label>
-                                        <div th:each="requisito : ${requisitos}"> 
-                                            <input type="checkbox" th:field="${equipamento.equipamento.requisito}" th:value="${requisito.id}"
-                                                   th:text="${requisito.nome}"></input>
-                                        </div>
-                                        <div class="alert alert-warning" th:if="${requisitos.empty}">
-                                            <label>Não há itens cadastrados, cadastre eles antes de cadastrar o equipamento</label>
-                                        </div>
-
-
             <div class="form-group">
                 <label for="inputDescricao">Descrição</label>
                 <textarea type="text" class="form-control" id="inputDescricao" rows="3"
