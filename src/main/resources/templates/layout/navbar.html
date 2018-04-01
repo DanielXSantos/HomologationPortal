@@ -77,9 +77,9 @@
 
     <div class="collapse" id="collapseSearchBar">
         <div class="container" id="containerAdvancedSearch">
-            <h6 id="titleAdvancedSearch">Busca Avançada</h6>
+            <h5 id="titleAdvancedSearch">Busca Avançada</h5>
 
-            <form th:action="@{/equipamento/search}" th:object="${form}" method="get" style="margin-top:10px">
+            <form th:action="@{/equipamento/search}" th:object="${form}" method="get" style="margin-top:15px">
 
                 <div class="form-group">
                     <input type="text" th:field="${form.nome}" class="form-control" id="inputNome" placeholder="Nome">
@@ -93,10 +93,6 @@
                             <option value="EmTestes"> Em Testes</option>
                             <option value="NaoHomologado"> Não Homologado</option>
                             <option value="Homologado"> Homologado</option>
-                            <option value="PHP">PHP</option>
-                            <option value="CSS">CSS</option>
-                            <option value="HTM">HTML</option>
-                            <option value="sdfsdf">CSS 3</option>
                         </select>
                     </div>
 
