@@ -1,3 +1,5 @@
 uploads/
 target/
 application.properties
+
+.idea/
