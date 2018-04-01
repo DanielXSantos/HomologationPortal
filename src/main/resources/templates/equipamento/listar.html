@@ -40,7 +40,6 @@
         <th>Data início de testes</th>
         <th>Data término de testes</th>
         <th>Status</th>
-        <th>Tipo</th>
         <th>Alteração</th>
         <th>Informações</th>
     </tr>
@@ -53,7 +52,6 @@
         <td th:text="${equipamento.dataInicio}"></td>
         <td th:text="${equipamento.dataTermino}"></td>
         <td th:text="${equipamento.status}"></td>
-        <td th:text="${equipamento.tipo.nome}"></td>
         <td><a th:href="@{/equipamento/editar(id=${equipamento.id})}">Editar</a></td>
         <td><a th:href="@{/equipamento/view(id=${equipamento.id})}">Informações</a></td>
     </tr>

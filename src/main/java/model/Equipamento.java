@@ -30,29 +30,27 @@ public class Equipamento {
 
     @NotEmpty
     private String status = "";
-    
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dataInicio;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dataTermino;
-    
+
     @NotEmpty
     private String segmento = "";
-    
+
     private String descricao = "";
-    
-    
 
     public String getDescricao() {
-		return descricao;
-	}
+        return descricao;
+    }
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
 
-	public Long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -108,16 +106,20 @@ public class Equipamento {
     @NotNull
     @ManyToMany(cascade = {CascadeType.MERGE})
     @JoinTable(name = "Equipamento_Features",
-            joinColumns =        {@JoinColumn(name = "equipamento_id")},
-            inverseJoinColumns = {@JoinColumn(name = "features_id")})
+            joinColumns = {
+                @JoinColumn(name = "equipamento_id")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "features_id")})
     private Set<Features> features = new HashSet<>();
-    
+
     @NotNull
     @ManyToMany(cascade = {CascadeType.MERGE})
     @JoinTable(name = "Homologado_Para",
-            joinColumns =        {@JoinColumn(name = "equipamento_id")},
-            inverseJoinColumns = {@JoinColumn(name = "homologado_id")})
-        private Set<Features> homologado = new HashSet<>();
+            joinColumns = {
+                @JoinColumn(name = "equipamento_id")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "homologado_id")})
+    private Set<Features> homologado = new HashSet<>();
 
     @NotNull
     @ManyToMany(cascade = {CascadeType.MERGE})
@@ -127,24 +129,28 @@ public class Equipamento {
             inverseJoinColumns = {
                 @JoinColumn(name = "requisito_id")})
     private Set<Requisito> requisito = new HashSet<>();
-    
+
+    @NotNull
+    @ManyToMany(cascade = {CascadeType.MERGE})
+    @JoinTable(name = "Equipamento_Tipo",
+            joinColumns = {
+                @JoinColumn(name = "equipamento_id")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "tipo_id")})
+    private Set<Tipo> tipo = new HashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "precificacao_id", referencedColumnName = "id")
     private Set<Precificacao> precificacao;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "tipo_id", referencedColumnName = "id")
-    private Tipo tipo;
-
-    public Tipo getTipo() {
+    public Set<Tipo> getTipo() {
         return tipo;
     }
 
-    public void setTipo(Tipo tipo) {
+    public void setTipo(Set<Tipo> tipo) {
         this.tipo = tipo;
     }
+
 
     public Fabricante getFabricante() {
         return fabricante;
@@ -177,6 +183,7 @@ public class Equipamento {
     public void setHomologado(Set<Features> homologado) {
         this.homologado = homologado;
     }
+
     public Set<Requisito> getRequisito() {
         return requisito;
     }

@@ -29,12 +29,8 @@ public class RequisitoController {
     
     @GetMapping
     public String list(Model model) {
-        System.out.println("What");
         model = advancedSearch.build(model);
         model.addAttribute("requisitos", requisitoRepository.findAll());
-        List hello = (List) requisitoRepository.findAll();
-        System.out.println(hello.get(0));
-        System.out.println("que");
         return "requisito/listar";
     }
 

@@ -50,14 +50,12 @@ CREATE TABLE equipamento (
     data_termino DATETIME,
     segmento	VARCHAR (250),
     descricao	VARCHAR (500),
-    tipo_id	BIGINT,
     fabricante_id	BIGINT,
     precificacao_id	BIGINT,
     homologado_id BIGINT,
     PRIMARY KEY (id),
     FOREIGN KEY (fabricante_id) REFERENCES fabricante(id) on delete cascade,
     FOREIGN KEY (precificacao_id) REFERENCES precificacao(id) on delete cascade,
-    FOREIGN KEY (tipo_id) REFERENCES tipo(id) on delete cascade,
     FOREIGN KEY (homologado_id) REFERENCES homologado(id) on delete cascade
 );
 
@@ -86,6 +84,14 @@ CREATE TABLE equipamento_requisito(
     CONSTRAINT requisito_id_fk FOREIGN KEY (requisito_id) REFERENCES requisito(id)    
 );
 
+CREATE TABLE equipamento_tipo(
+    equipamento_id  BIGINT NOT NULL,
+    tipo_id     BIGINT NOT NULL,
+    PRIMARY KEY(equipamento_id, tipo_id),
+    CONSTRAINT equipamento_id_tipo_fk FOREIGN KEY (equipamento_id) REFERENCES equipamento(id),
+    CONSTRAINT tipo_id_fk FOREIGN KEY (tipo_id) REFERENCES tipo(id)    
+);
+
 
 INSERT INTO `fabricante` VALUES 
 (1,'Lucas','Lucasgomezsousa@gmail.com',992937515),
@@ -107,12 +113,10 @@ INSERT INTO `tipo` VALUES
 (2,'Mouse','Mouse Wireless'),
 (3,'Teclado','Teclado ABNT');
 
+INSERT INTO `requisito` VALUES
+(1,'wifi','wifi');
+
 INSERT INTO `homologado` VALUES
 (1,'Homologado','Concluido'),
 (2,'Em Teste','Em Testes'),
 (3,'Não-Homologado','Não foi homologado');
-
-INSERT INTO `equipamento` VALUES
-(1,'Switch','novo','2003-09-03','2012-11-17','B2B','Conexao a Internet',1,1,2,3),
-(2,'Desktop','usado','2019-03-18','2017-04-18','B2C','Uso CTT',2,2,3,3),
-(3,'Fax','antigo','2013-04-10','2017-03-18','B2B-B2C','Uso dos Associados',1,3,1,1);
