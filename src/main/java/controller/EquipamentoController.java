@@ -89,7 +89,7 @@ public class EquipamentoController {
          // Segmento e tipo escolhidos
         }else if(segmento != null && tipo != null){
             model.addAttribute("equipamento", new Equipamento());
-            model.addAttribute("equipamentos", equipamentoRepository.findBySegmentoAndTipo_idIn(segmento, tipo));
+            model.addAttribute("equipamentos", equipamentoRepository.findDistinctBySegmentoAndTipo_idIn(segmento, tipo));
             return "equipamento/listar";   
             
          // em caso de alguma falha retorna o usuário para escolher o segmento
