@@ -49,8 +49,7 @@
                                      data-holder-rendered="true">
                                 <div class="card-body d-flex flex-column align-items-start">
                                     <strong th:text="${equipamento.nome}"> </strong>
-                                    <div class="mb-1 text-muted"
-                                    ">Homologado em: <strong th:text="${equipamento.dataInicio}"></strong></div>
+                                    <div class="mb-1 text-muted">Homologado em: <strong th:text="${#dates.format(equipamento.dataInicio,'dd-MM-yyyy')}"></strong></div>
                                 <br>
                                 <p class="card-text mb-auto" th:text="${equipamento.descricao}"></p>
                             </div>

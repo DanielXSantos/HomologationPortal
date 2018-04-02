@@ -49,7 +49,7 @@ public class EquipamentoSearchRepositoryImpl implements EquipamentoSearchReposit
             predicate = builder.and(predicate, r.get("fabricante").in(s.getFabricantes()));
         }
         if(s.getTipos() != null && !s.getTipos().isEmpty()){
-            predicate = builder.and(predicate, r.get("tipo").in(s.getTipos()));
+            predicate = builder.and(predicate, r.join("tipo").in(s.getTipos()));
         }
         if(s.getFeatures() != null && !s.getFeatures().isEmpty()){
             predicate = builder.and(predicate, r.join("features").in(s.getFeatures()));
@@ -61,7 +61,11 @@ public class EquipamentoSearchRepositoryImpl implements EquipamentoSearchReposit
             predicate = builder.and(predicate, 
                             builder.or(
                                 builder.between(r.get("dataInicio"), s.getInitialDate(), s.getFinalDate()),
-                                builder.between(r.get("dataTermino"), s.getInitialDate(), s.getFinalDate())
+                                builder.between(r.get("dataTermino"), s.getInitialDate(), s.getFinalDate()),
+                                builder.and(
+                                        builder.lessThanOrEqualTo(r.get("dataInicio"), s.getInitialDate()),
+                                        builder.greaterThanOrEqualTo(r.get("dataTermino"), s.getFinalDate())
+                                )
                             )
                         );
         }else if(s.getInitialDate() != null){
