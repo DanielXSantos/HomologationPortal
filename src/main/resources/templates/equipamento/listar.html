@@ -49,8 +49,9 @@
         <td th:text="${equipamento.fabricante.nome}"></td>
         <td th:text="${equipamento.nome}"></td>
         <td th:text="${equipamento.segmento}"></td>
-        <td th:text="${#dates.format(equipamento.dataInicio, 'dd-MM-yyyy')}"></td>
-        <td th:text="${#dates.format(equipamento.dataTermino,'dd-MM-yyyy')}"></td>
+        <td th:text="${#dates.format(equipamento.dataInicio, 'dd/MM/yyyy')}"></td>
+        <td th:if="${equipamento.dataTermino != null}" th:text="${#dates.format(equipamento.dataTermino,'dd/MMyyyy')}"></td>
+        <td th:if="${equipamento.dataTermino == null}">Testes não finalizados</td>
         <td th:text="${equipamento.status}"></td>
         <td><a th:href="@{/equipamento/editar(id=${equipamento.id})}">Editar</a></td>
         <td><a th:href="@{/equipamento/view(id=${equipamento.id})}">Informações</a></td>
