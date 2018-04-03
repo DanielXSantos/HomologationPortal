@@ -1,7 +1,7 @@
 Deploy:
     1) make sure that the docker is running and
        that it has maven in the machine, run deploy.sh,
-       the image will be created and marked with homologation-portal:lastest
+       the image will be created and marked with homologation-portal:latest
     2) create a mysql container, recommended to use the mysql:8, run:
            docker pull mysql:8 && \
            docker run --name name-for-container-mysql \
