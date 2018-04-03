@@ -1,0 +1,18 @@
+Deploy:
+    1) make sure the docker is running, run deploy.sh,
+       the image will be created and marked with homologation-portal:lastest
+    2) create a mysql container, recommended to use the mysql:8, run:
+           docker pull mysql:8 && \
+           docker run --name name-for-container-mysql \
+            -e MYSQL_ROOT_PASSWORD=root-password-for-mysql -d mysql:8
+    3) run this to start the container of the homologation portal:
+        docker run -d --name=homologationPortal \
+            --link name-for-container-mysql:mysql \
+             -p 8080:8080 \
+             -e DATABASE_HOST=mysql \
+             -e DATABASE_PORT=3306 \
+             -e DATABASE_NAME=portal \
+             -e DATABASE_USER=root \
+             -e DATABASE_PASSWORD=root-password-for-mysql \
+              homologation-portal:lastest
+    4) Congratulations application ready on port 8080
