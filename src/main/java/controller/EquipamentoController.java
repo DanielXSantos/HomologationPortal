@@ -1,12 +1,12 @@
 package com.ctl.controller;
 
-import com.ctl.form.FormEquipamento;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -108,8 +108,8 @@ public class EquipamentoController {
     @GetMapping("/editar")
     public String edit(Model model, @RequestParam Long id) {
         model = advancedSearch.build(model);
-        FormEquipamento form = new FormEquipamento();
-        form.setEquipamento(equipamentoRepository.findOne(id));
+        Equipamento form = new Equipamento();
+        form = equipamentoRepository.findOne(id);
         String[] anexos = new File(uploadDir + id.toString() + "/anexos").list();
         // NULL SAFE
         if(anexos==null){
@@ -147,7 +147,7 @@ public class EquipamentoController {
     @GetMapping("/novo")
     public String novo(Model model) {
         model = advancedSearch.build(model);
-        model.addAttribute("equipamento", new FormEquipamento());
+        model.addAttribute("equipamento", new Equipamento());
         model.addAttribute("fabricantes", fabricanteRepository.findAll());
         model.addAttribute("featuress", featuresRepository.findAll());
         model.addAttribute("precificacaos", precificacaoRepository.findAll());
@@ -159,30 +159,33 @@ public class EquipamentoController {
     }
 
     @PostMapping("/salvar")
-    public String salvar(@Valid @ModelAttribute("equipamento") FormEquipamento equipamento,
-            @RequestParam(required=false, value="editar") boolean editar,
-            BindingResult bindingResult, Model model) {
+    public String salvar(@RequestParam(value = "editar", required = false) boolean editar,
+                         @Valid @ModelAttribute("equipamento") Equipamento equipamento,
+                         BindingResult bindingResult, Model model) {
         model = advancedSearch.build(model);
         if (bindingResult.hasErrors()) {
-            model.addAttribute("equipamento", new FormEquipamento());
+            model.addAttribute("equipamento", equipamento);
             model.addAttribute("fabricantes", fabricanteRepository.findAll());
             model.addAttribute("featuress", featuresRepository.findAll());
             model.addAttribute("precificacaos", precificacaoRepository.findAll());
             model.addAttribute("tipos", tipoRepository.findAll());
             model.addAttribute("homologados", homologadoRepository.findAll());
-	    model.addAttribute("requisitos", requisitoRepository.findAll());
+	        model.addAttribute("requisitos", requisitoRepository.findAll());
+	        model.addAttribute("editar",editar);
+	        model.addAttribute("anexos",new String[0]);
             return "equipamento/formulario";
         }
 
         try {
-            equipamento.setEquipamento(equipamentoRepository.save(equipamento.getEquipamento()));
-            String path = uploadDir + equipamento.getEquipamento().getId();
+            //equipamento.setEquipamento(equipamentoRepository.save(equipamento.getEquipamento()));
+            equipamento = equipamentoRepository.save(equipamento);
+            String path = uploadDir + equipamento.getId();
             // Abrindo a pasta, e criando se não existe
             File f = new File(path);
-            if (!f.exists()) {
+            if (f!=null && !f.exists()) {
                 f.mkdirs();
             }
-            if(!equipamento.getImagem().isEmpty()){
+            if(equipamento.getImagem() != null && !equipamento.getImagem().isEmpty()){
             // salvando imagem
                 String imgType = equipamento.getImagem().getOriginalFilename();
                 int pointer = imgType.lastIndexOf(".");
@@ -197,14 +200,14 @@ public class EquipamentoController {
 
             }
 
-            if(!equipamento.getCaderno().isEmpty()){
+            if(equipamento.getCaderno() != null && !equipamento.getCaderno().isEmpty()){
                 // salvando caderno de Testes
                 File caderno = new File(path + "/caderno.pdf");
                 caderno.createNewFile();
                 equipamento.getCaderno().transferTo(caderno);
             }
 
-            if(!equipamento.getCaderno().isEmpty()){
+            if(equipamento.getCaderno() != null &&!equipamento.getCaderno().isEmpty()){
                 // salvando dataSheet
                 File dataSheet = new File(path + "/dataSheet.pdf");
                 dataSheet.createNewFile();
@@ -214,9 +217,11 @@ public class EquipamentoController {
             File dir = new File(path + "/anexos");
             if(!dir.exists())
                 dir.mkdirs();
-            for (MultipartFile file : equipamento.getFiles()) {
-                if(!file.isEmpty())
-                    file.transferTo(new File(path + "/anexos/" + file.getOriginalFilename()));
+            if(equipamento.getFiles() != null) {
+                for (MultipartFile file : equipamento.getFiles()) {
+                    if (!file.isEmpty())
+                        file.transferTo(new File(path + "/anexos/" + file.getOriginalFilename()));
+                }
             }
             String names = equipamento.getFilesName();
             if(names!=null && names.length() > 0){
@@ -231,23 +236,24 @@ public class EquipamentoController {
             }
 
         } catch (Exception e) {
-            File directory = new File(uploadDir + equipamento.getEquipamento().getId());
+            File directory = new File(uploadDir + equipamento.getId());
             if(!editar){
                 try {
                     FileUtils.cleanDirectory(directory);
                     FileUtils.forceDelete(directory);
                 } catch (Exception ex) {
                 }
-                equipamentoRepository.delete(equipamento.getEquipamento());
+                equipamentoRepository.delete(equipamento);
             }
             e.printStackTrace();
-            model.addAttribute("equipamento", new FormEquipamento());
+            model.addAttribute("equipamento", equipamento);
             model.addAttribute("fabricantes", fabricanteRepository.findAll());
             model.addAttribute("featuress", featuresRepository.findAll());
             model.addAttribute("precificacaos", precificacaoRepository.findAll());
             model.addAttribute("tipos", tipoRepository.findAll());
             model.addAttribute("homologados", homologadoRepository.findAll());
-	    model.addAttribute("requisitos", requisitoRepository.findAll());
+	        model.addAttribute("requisitos", requisitoRepository.findAll());
+            model.addAttribute("editar",editar);
             return "equipamento/formulario";
 //                    return "equipamento/listar";
 

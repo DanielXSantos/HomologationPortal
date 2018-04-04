@@ -1,61 +1,66 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
       layout:decorator="layout/default">
 
     <body>
         <div layout:fragment="content" class="row">
             <div class="col-sm-12  btn-table">
-                <form th:action="@{/equipamento/salvar(editar=true)}" th:object="${equipamento}" method="post"
+                <form th:action="@{'/equipamento/salvar'(editar=${editar})}" th:object="${equipamento}" method="post"
                       enctype="multipart/form-data">
 
-                    <input th:field="${equipamento.equipamento.id}" type="hidden"/>
+                    <input th:field="${equipamento.id}" type="hidden"/>
                     <p class="h1">Cadastro Equipamento</p>
                     <div class="form-group">
                         <label for="inputNome">Nome</label>
-                        <input type="text" class="form-control" id="inputNome" th:field="${equipamento.equipamento.nome}"/>
-                        <span th:if="${#fields.hasErrors('equipamento.nome')}" th:errors="${equipamento.equipamento.nome}"
+                        <input type="text" class="form-control" id="inputNome" th:field="${equipamento.nome}"/>
+                        <span th:if="${#fields.hasErrors('nome')}" th:errors="${equipamento.nome}"
                               class="badge badge-danger">erro</span>
                     </div>
 
                     <div class="form-group">
                         <label for="inputFabricante">Fabricante</label>
-                        <select th:field="${equipamento.equipamento.fabricante}" class="form-control" id="inputFabricante">
+                        <select th:field="${equipamento.fabricante}" class="form-control" id="inputFabricante">
                             <option value="" selected="selected">Selecione...</option>
                             <option th:each="fabricante : ${fabricantes}" th:value="${fabricante.id}"
                                     th:text="${fabricante.nome}"></option>
                         </select>
+                        <span th:if="${#fields.hasErrors('fabricante')}" th:errors="${equipamento.fabricante}"
+                              class="badge badge-danger">erro</span>
                     </div>
                     <div class="form-group">
                         <label for="inputData">Data de início do processo Homologação</label>
                         <input type="date" class="form-control" id="inputData"
-                               th:field="${equipamento.equipamento.dataInicio}"/>
-                        <span th:if="${#fields.hasErrors('equipamento.dataInicio')}"
-                              th:errors="${equipamento.equipamento.dataInicio}" class="badge badge-danger">erro</span>
+                               th:field="${equipamento.dataInicio}"/>
+                        <span th:if="${#fields.hasErrors('dataInicio')}"
+                              th:errors="${equipamento.dataInicio}" class="badge badge-danger">erro</span>
                     </div>
                     <div class="form-group">
                         <label for="inputData">Data de término do processo Homologação</label>
                         <input type="date" class="form-control" id="inputData"
-                               th:field="${equipamento.equipamento.dataTermino}"/>
-                        <span th:if="${#fields.hasErrors('equipamento.dataTermino')}"
-                              th:errors="${equipamento.equipamento.dataTermino}" class="badge badge-danger">erro</span>
+                               th:field="${equipamento.dataTermino}"/>
+                        <span th:if="${#fields.hasErrors('dataTermino')}"
+                              th:errors="${equipamento.dataTermino}" class="badge badge-danger">erro</span>
                     </div>
                     <div class="form-group">
                         <label for="inputSegmento">Segmento</label>
-                        <select th:field="${equipamento.equipamento.segmento}" class="form-control" id="inputSegmento">
+                        <select th:field="${equipamento.segmento}" class="form-control" id="inputSegmento">
                             <option value="" selected="selected">Selecione...</option>
                             <option th:value="B2B">B2B</option>
                             <option th:value="B2C">B2C</option>
                             <option th:value="B2B-B2C">B2B/B2C</option>
                         </select>
+                        <span th:if="${#fields.hasErrors('segmento')}"
+                              th:errors="${equipamento.segmento}" class="badge badge-danger">erro</span>
                     </div>
                     <div class="form-group">
                         <label for="inputStatus">Status</label>
-                        <select th:field="${equipamento.equipamento.status}" class="form-control" id="inputStatus">
+                        <select th:field="${equipamento.status}" class="form-control" id="inputStatus">
                             <option value="" selected="selected">Selecione...</option>
                             <option th:value="EmTestes">Em Testes</option>
                             <option th:value="NaoHomologado">Não Homologado</option>
                             <option th:value="Homologado">Homologado</option>
                         </select>
+                        <span th:if="${#fields.hasErrors('status')}"
+                              th:errors="${equipamento.status}" class="badge badge-danger">erro</span>
                     </div>
 
 
@@ -65,9 +70,11 @@
 
                         <div th:each="tipo : ${tipos}" class="form-check">
                             <input class="form-check-input" type="checkbox" th:id="${tipo.id}"
-                                   th:field="${equipamento.equipamento.tipo}" th:value="${tipo.id}"/>
+                                   th:field="${equipamento.tipo}" th:value="${tipo.id}"/>
                             <label class="form-check-label" th:text="${tipo.nome}" th:for="${tipo.id}"></label>
                         </div>
+                        <span th:if="${#fields.hasErrors('tipo')}"
+                              th:errors="${equipamento.tipo}" class="badge badge-danger">erro</span>
                     </div>
 
 
@@ -79,6 +86,7 @@
                         </div>
                         <input type="file" class="form-control" id="inputImagem" th:field="${equipamento.imagem}"/>
                         <span th:if="${#fields.hasErrors('imagem')}" th:errors="${imagem}" class="badge badge-danger">erro na imagem</span>
+
                     </div>
                     <br>
 
@@ -113,11 +121,11 @@
                                         <td>
                                             <input type="checkbox" th:field="${equipamento.filesName}" th:value="${anexo}"/>
                                             <label><a
-                                                    th:href="@{'/equipamento/file/'+${equipamento.equipamento.id}+'/'+${anexo}}"><span
+                                                    th:href="@{'/equipamento/file/'+${equipamento.id}+'/'+${anexo}}"><span
                                                         th:text="${anexo}"></span></a></label>
                                         </td>
                                     </tr>
-                                <div class="alert alert-warning" th:if="${anexos.length} == 0"><br>
+                                <div class="alert alert-warning" th:if="${anexos} and ${anexos.length} == 0"><br>
                                     <center>Este equipamento não possui anexos.</center>
                                 </div>
                                 </tbody>
@@ -136,31 +144,35 @@
 
                         <div th:each="features : ${featuress}" class="form-check">
                             <input class="form-check-input" type="checkbox" th:id="${features.id}"
-                                   th:field="${equipamento.equipamento.features}" th:value="${features.id}"/>
+                                   th:field="${equipamento.features}" th:value="${features.id}"/>
                             <label class="form-check-label" th:text="${features.nome}" th:for="${features.id}"></label>
                         </div>
                         <div class="alert alert-warning" th:if="${featuress.empty}">
                             <label>Não há itens cadastrados, cadastre eles antes de cadastrar o equipamento</label>
                         </div>
+                        <span th:if="${#fields.hasErrors('features')}"
+                              th:errors="${equipamento.features}" class="badge badge-danger">erro</span>
                     </div>
 
                     <div class="form-group">
                         <label for="inputHomologado">Homologado Para:</label>
                         <div th:each="homologado : ${homologados}" class="form-check">
                             <input class="form-check-input" type="checkbox" th:id="${homologado.id}"
-                                   th:field="${equipamento.equipamento.homologado}" th:value="${homologado.id}"/>
+                                   th:field="${equipamento.homologado}" th:value="${homologado.id}"/>
                             <label class="form-check-label" th:text="${homologado.nome}" th:for="${homologado.id}"></label>
                         </div>
                         <div class="alert alert-warning" th:if="${homologados.empty}">
                             <label>Não há itens cadastrados, cadastre eles antes de cadastrar o equipamento</label>
                         </div>
+                        <span th:if="${#fields.hasErrors('homologado')}"
+                              th:errors="${equipamento.homologado}" class="badge badge-danger">erro</span>
                     </div>
 
                     <div class="form-group">
                         <label for="inputPrecificacao">Itens Avulsos:</label>
                         <div th:each="precificacao : ${precificacaos}" class="form-check">
                             <input class="form-check-input" type="checkbox" th:id="${precificacao.id}"
-                                   th:field="${equipamento.equipamento.precificacao}" th:value="${precificacao.id}"/>
+                                   th:field="${equipamento.precificacao}" th:value="${precificacao.id}"/>
                             <label class="form-check-label" th:text="${precificacao.tipo}" th:for="${precificacao.id}"></label>
                         </div>
                         <div class="alert alert-warning" th:if="${precificacaos.empty}">
@@ -172,20 +184,23 @@
                     <div class="form-group">
                         <label for="inputRequisito">Requisito:</label>
                         <div th:each="requisito : ${requisitos}"> 
-                            <input type="checkbox" th:field="${equipamento.equipamento.requisito}" th:value="${requisito.id}"
+                            <input type="checkbox" th:field="${equipamento.requisito}" th:value="${requisito.id}"
                                    th:text="${requisito.nome}"></input>
                         </div>
                         <div class="alert alert-warning" th:if="${requisitos.empty}">
                             <label>Não há itens cadastrados, cadastre eles antes de cadastrar o equipamento</label>
                         </div>
+                        <span th:if="${#fields.hasErrors('requisito')}"
+                              th:errors="${equipamento.requisito}" class="badge badge-danger">erro</span>
+                    </div>
 
 
                         <div class="form-group">
                             <label for="inputDescricao">Descrição</label>
                             <textarea type="text" class="form-control" id="inputDescricao" rows="3"
-                                      th:field="${equipamento.equipamento.descricao}"/>
-                            <span th:if="${#fields.hasErrors('equipamento.descricao')}"
-                                  th:errors="${equipamento.equipamento.descricao}"
+                                      th:field="${equipamento.descricao}"/>
+                            <span th:if="${#fields.hasErrors('descricao')}"
+                                  th:errors="${equipamento.descricao}"
                                   class="badge badge-danger">erro</span>
                         </div>
 

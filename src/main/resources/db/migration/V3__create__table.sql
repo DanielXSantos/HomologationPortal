@@ -123,9 +123,9 @@ INSERT INTO `homologado` VALUES
 
 
 INSERT INTO `equipamento` VALUES	
-(1,'Switch','novo','2003-09-03','2012-11-17','B2B','Conexao a Internet',1,2,3),	
-(2,'Desktop','usado','2019-03-18','2017-04-18','B2C','Uso CTT',2,3,3),	
-(3,'Fax','antigo','2013-04-10','2017-03-18','B2B-B2C','Uso dos Associados',3,1,1);
+(1,'Switch','EmTestes','2003-09-03','2012-11-17','B2B','Conexao a Internet',1,2,3),
+(2,'Desktop','NaoHomologado','2019-03-18','2017-04-18','B2C','Uso CTT',2,3,3),
+(3,'Fax','Homologado','2013-04-10','2017-03-18','B2B-B2C','Uso dos Associados',3,1,1);
 
 INSERT INTO `equipamento_tipo` VALUE
 (1,1),(1,2),(2,3),(2,1),(2,2),(3,3);
