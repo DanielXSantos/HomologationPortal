@@ -156,7 +156,6 @@ public class Equipamento {
         this.tipo = tipo;
     }
 
-
     public com.ctl.model.Fabricante getFabricante() {
         return fabricante;
     }
