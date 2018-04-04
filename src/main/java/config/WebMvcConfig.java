@@ -3,6 +3,7 @@ package com.ctl.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -28,5 +29,11 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                         "classpath:/static/css/",
                         "classpath:/static/js/");
     }
-
+ @Bean(name="multipartResolver")
+ public CommonsMultipartResolver multipartResolver() {
+ CommonsMultipartResolver multi = new CommonsMultipartResolver();
+ multi.setMaxUploadSize(1000000000);
+ 
+ return multi;
+ }
 }
