@@ -1,5 +1,6 @@
 package com.ctl.service;
 
+import com.ctl.model.Role;
 import com.ctl.model.User;
 import com.ctl.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ public class AuthProviderService implements AuthenticationProvider {
             if (user.isActive()
                     && !user.isAccountNonExpired()) {
                 Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
+                for(GrantedAuthority e: authorities){
+                    System.out.println(e.getAuthority());
+                }
                 return new UsernamePasswordAuthenticationToken(email, pass, authorities);
             } else {
                 throw new BadCredentialsException("Este usuário esta desativado.");

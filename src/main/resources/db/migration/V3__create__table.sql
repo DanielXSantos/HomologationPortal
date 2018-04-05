@@ -129,3 +129,8 @@ INSERT INTO `equipamento` VALUES
 
 INSERT INTO `equipamento_tipo` VALUE
 (1,1),(1,2),(2,3),(2,1),(2,2),(3,3);
+
+
+INSERT INTO `user` VALUE(1, 1, 'admin@admin.com','admin', 'admin','admin','2019-01-01');
+INSERT INTO `role` VALUE(DEFAULT, 'ADMIN', 1),
+                        (DEFAULT, 'USER', 1);
