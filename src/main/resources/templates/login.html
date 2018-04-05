@@ -17,8 +17,8 @@
             <input type="password" th:placeholder="Password"
                    id="password" name="password" class="form-control"/> <br/>
 
-            <div align="center" th:if="${param.error}">
-                <p style="font-size: 20; color: #FF1C19;">Email or Password invalid, please verify</p>
+            <div align="center" th:if="${param.error}" th:with="errorMsg=${session['SPRING_SECURITY_LAST_EXCEPTION'].message}">
+                <p style="font-size: 20; color: #FF1C19;" th:text="${errorMsg}"></p>
             </div>
             <br/>
             <p class="text-right"><a th:href="@{/registration}">Registre-se</a></p>
