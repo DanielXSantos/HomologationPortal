@@ -50,6 +50,9 @@ public class User implements UserDetails {
     @OneToMany(targetEntity = Role.class, mappedBy = "users", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List roles;
 
+    @ManyToOne
+    private Fabricante fabricante;
+
 
 
     public int getId() {
@@ -140,5 +143,13 @@ public class User implements UserDetails {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public Fabricante getFabricante() {
+        return fabricante;
+    }
+
+    public void setFabricante(Fabricante fabricante) {
+        this.fabricante = fabricante;
     }
 }

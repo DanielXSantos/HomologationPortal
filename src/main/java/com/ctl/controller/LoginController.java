@@ -1,5 +1,7 @@
 package com.ctl.controller;
 
+import com.ctl.util.AdvancedSearchUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +15,16 @@ import com.ctl.model.User;
 
 @Controller
 public class LoginController {
-	
+
+	@Autowired
+	private AdvancedSearchUtil advancedSearch;
+
+	@GetMapping(value = "/")
+	public String index(Model model, Authentication auth){
+		model = advancedSearch.build(model);
+		return "layout/main";
+	}
+
     @GetMapping(value = "/login")
 	public String login(Model model, Authentication auth){
 	    if(auth != null && !auth.getName().isEmpty()){

@@ -1,10 +1,10 @@
 package com.ctl.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import org.hibernate.validator.constraints.NotBlank;
+
+import java.util.List;
 
 @Entity
 public class Fabricante {
@@ -21,6 +21,9 @@ public class Fabricante {
 	
 	@NotBlank
 	private String telefone="";
+
+	@OneToMany(targetEntity = User.class, mappedBy = "fabricante", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List user;
 	
 	
 	public Long getId() {
@@ -46,7 +49,11 @@ public class Fabricante {
 	}
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
-	} 
-	
-	
+	}
+	public List getUser() {
+		return user;
+	}
+	public void setUser(List user) {
+		this.user = user;
+	}
 }

@@ -105,11 +105,11 @@
 				<th>Fabricante</th>
 				<th>Equipamento</th>
 				<th>Segmento</th>
-				<th>Data início de testes</th>
-				<th>Data término de testes</th>
+				<th>Data inÃ­cio de testes</th>
+				<th>Data tÃ©rmino de testes</th>
 				<th>Status</th>
-				<th>Alteração</th>
-				<th>Informações</th>
+				<th>AlteraÃ§Ã£o</th>
+				<th>InformaÃ§Ãµes</th>
 			</tr>
 
 		</thead>
@@ -121,13 +121,13 @@
 				<td th:text="${#dates.format(equipamento.dataInicio, 'dd-MM-yyyy')}"></td>
 				<td
 					th:text="${equipamento.dataTermino != null} ? ${#dates.format(equipamento.dataTermino, 'dd-MM-yyyy')} 
-        				: 'Teste não finalizado'"></td>
+        				: 'Teste nï¿½o finalizado'"></td>
 				<td
 					th:style="${equipamento.status == 'Homologado' ? 'background-color: #00cc00;' 
         				: equipamento.status == 'EmTestes' ? 'background-color: #ffcc00;' : 'background-color: #cc0000;'}"
 					th:text="${equipamento.status}"></td>
 				<td><a th:href="@{/equipamento/editar(id=${equipamento.id})}">Editar</a></td>
-				<td><a th:href="@{/equipamento/view(id=${equipamento.id})}">Informações</a></td>
+				<td><a th:href="@{/equipamento/view(id=${equipamento.id})}">InformaÃ§Ãµes</a></td>
 			</tr>
 		</tbody>
 	</table>

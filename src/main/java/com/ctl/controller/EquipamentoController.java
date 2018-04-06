@@ -2,7 +2,12 @@ package com.ctl.controller;
 
 import javax.validation.Valid;
 
+import com.ctl.model.Fabricante;
+import com.ctl.model.User;
+import com.ctl.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,13 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ctl.model.Equipamento;
-import com.ctl.repository.EquipamentoRepository;
-import com.ctl.repository.EquipamentoSearchRepositoryImpl;
-import com.ctl.repository.FabricanteRepository;
-import com.ctl.repository.FeaturesRepository;
-import com.ctl.repository.HomologadoRepository;
-import com.ctl.repository.PrecificacaoRepository;
-import com.ctl.repository.TipoRepository;
 import com.ctl.util.AdvancedSearchUtil;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -27,6 +25,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Level;
@@ -42,7 +41,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import com.ctl.repository.RequisitoRepository;
 
 @Controller
 @RequestMapping(value = {"/equipamento"})
@@ -75,11 +73,14 @@ public class EquipamentoController {
     @Autowired
     private RequisitoRepository requisitoRepository;
 
+    @Autowired
+    private UserRepository userRepository;
     private static String uploadDir = System.getProperty("user.dir") + "/uploads/";
     
     @GetMapping
     public String list(@RequestParam(required=false, value="segmento") String segmento,
-                       @RequestParam(required=false, value="tipo") List<Long> tipo, Model model) {
+                       @RequestParam(required=false, value="tipo") List<Integer> tipo, Model model,
+                       Authentication auth) {
         
         model = advancedSearch.build(model);
         // Escolhendo o Segmento (ex.: B2B, B2C ou ambos)
@@ -88,8 +89,21 @@ public class EquipamentoController {
             
          // Segmento e tipo escolhidos
         }else if(segmento != null && tipo != null){
+            SearchForm search = new SearchForm();
+            List<String> seg = new ArrayList<>();
+            seg.add(segmento);
+            search.setSegmento(seg);
+            search.setTipos(tipo);
+            User user = userRepository.findByEmailIgnoreCase(auth.getName());
+            Fabricante fabri = user.getFabricante();
+
+            if(fabri != null){
+                ArrayList<Integer> f = new ArrayList<>();
+                f.add(fabri.getId().intValue());
+                search.setFabricantes(f);
+            }
             model.addAttribute("equipamento", new Equipamento());
-            model.addAttribute("equipamentos", equipamentoRepository.findDistinctBySegmentoAndTipo_idIn(segmento, tipo));
+            model.addAttribute("equipamentos", repo.search(search));
             return "equipamento/listar";   
             
          // em caso de alguma falha retorna o usuário para escolher o segmento
@@ -335,7 +349,15 @@ public class EquipamentoController {
     }
     
     @GetMapping("/search")
-    public String search(Model model, SearchForm s){        
+    public String search(Model model, Authentication auth, SearchForm s){
+        User user = userRepository.findByEmailIgnoreCase(auth.getName());
+        Fabricante fabri = user.getFabricante();
+
+        if(fabri != null){
+            ArrayList<Integer> f = new ArrayList<>();
+            f.add(fabri.getId().intValue());
+            s.setFabricantes(f);
+        }
         model = advancedSearch.build(model);
         model.addAttribute("equipamento", new Equipamento());
         model.addAttribute("equipamentos", repo.search(s));
