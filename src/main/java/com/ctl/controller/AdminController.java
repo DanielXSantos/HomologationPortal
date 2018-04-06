@@ -47,7 +47,7 @@ public class AdminController {
         model = search.build(model);
         model.addAttribute("user", new User());
 
-        return "admin/register";
+        return "admin/registration";
     }
     
     @GetMapping("/users")
