@@ -25,6 +25,9 @@ public class AdminController {
 	@Autowired
     private AdvancedSearchUtil search;
 
+	@Autowired
+    private UserRepository userRepository;
+
     @GetMapping
     public String list(Model model) {
         model = search.build(model);
@@ -32,15 +35,7 @@ public class AdminController {
 
         return "admin/index";
     }
-    
-    @RequestMapping(value="/registration", method = RequestMethod.GET)
-	public ModelAndView registration(){
-		ModelAndView modelAndView = new ModelAndView();
-		User user = new User();
-		modelAndView.addObject("user", user);
-		modelAndView.setViewName("admin/registration");
-		return modelAndView;
-	}
+
 	
     @GetMapping("/register")
     public String registration(Model model) {
@@ -53,6 +48,7 @@ public class AdminController {
     @GetMapping("/users")
     public String listUsers(Model model) {
         model = search.build(model);
+        model.addAttribute("users", userRepository.findAll());
         model.addAttribute("user", new User());
 
         return "admin/users";
