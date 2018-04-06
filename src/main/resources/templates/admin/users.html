@@ -8,8 +8,6 @@
     <div class="container">
         <div class="wrapper">
             <form action="" name="Login_Form" class="form-signin">
-                <h3 class="form-signin-heading"><strong>USUARIOS</strong></h3>
-                <hr class="colorgraph">
             </form>
         </div>
     </div>
@@ -35,7 +33,8 @@
 				<td th:text="${user.name}"></td>
 				<td th:text="${user.email}"></td>
 				<td th:text="${#dates.format(user.expirationDate, 'dd-MM-yyyy')}"></td>
-				<td th:text="${user.active}"></td>
+				<td th:if="${user.active}" >Ativo</td>
+                <td th:if="not ${user.active}" >Desativado</td>
 				<td><a th:href="@{/admin/editar(id=${user.id})}">Editar</a></td>
 			</tr>
 		</tbody>
