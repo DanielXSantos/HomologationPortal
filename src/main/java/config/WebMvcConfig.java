@@ -29,11 +29,4 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                         "classpath:/static/css/",
                         "classpath:/static/js/");
     }
- @Bean(name="multipartResolver")
- public CommonsMultipartResolver multipartResolver() {
- CommonsMultipartResolver multi = new CommonsMultipartResolver();
- multi.setMaxUploadSize(1000000000);
- 
- return multi;
- }
 }

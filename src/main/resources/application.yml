@@ -9,7 +9,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/portal?verifyServerCertificate=false&useSSL=true&createDatabaseIfNotExist=true
     username: root
-    password: 123
+    password: 123456
     testWhileIdle: true
     validationQuery: SELECT 1
   jpa:
@@ -53,3 +53,11 @@ spring:
   queries:
     users-query: select email, password, active from user where email=?
     roles-query: select u.email, r.role from user u inner join user_role ur on(u.user_id=ur.user_id) inner join role r on(ur.role_id=r.role_id) where u.email=?
+    
+---
+
+spring:
+ http:
+  multipart:
+   max-file-size: 100MB
+   max-request-size: 100MB
