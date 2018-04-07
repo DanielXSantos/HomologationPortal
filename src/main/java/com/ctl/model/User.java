@@ -152,4 +152,24 @@ public class User implements UserDetails {
     public void setFabricante(Fabricante fabricante) {
         this.fabricante = fabricante;
     }
+
+    public String getRolesToString(){
+        String ans = "";
+        for (Object o: roles){
+            Role r = (Role) o;
+            if(!ans.isEmpty()){
+                ans += ", ";
+            }
+            if(r.getRole().equals("ADMIN")){
+                ans += "Admin";
+            }else if(r.getRole().equals("MASTER_ADMIN")){
+                ans += "Master Admin";
+            }else if(r.getRole().equals("USER")){
+                ans += "Usuário";
+            }else if(r.getRole().equals("FABRICANTE")){
+                ans += "Fabricante";
+            }
+        }
+        return ans;
+    }
 }

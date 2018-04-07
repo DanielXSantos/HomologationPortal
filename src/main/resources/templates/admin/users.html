@@ -24,6 +24,7 @@
 				<th>Email</th>
 				<th>Data de expiração</th>
 				<th>Status conta</th>
+                <th>Tipo de Usuário</th>
 				<th>Alteração</th>
 			</tr>
 
@@ -35,6 +36,7 @@
 				<td th:text="${#dates.format(user.expirationDate, 'dd-MM-yyyy')}"></td>
 				<td th:if="${user.active}" >Ativo</td>
                 <td th:if="not ${user.active}" >Desativado</td>
+                <td th:text="${user.getRolesToString()}"></td>
 				<td><a th:href="@{/admin/editar(id=${user.id})}">Editar</a></td>
 			</tr>
 		</tbody>
