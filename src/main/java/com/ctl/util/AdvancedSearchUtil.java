@@ -11,6 +11,8 @@ import com.ctl.repository.FeaturesRepository;
 import com.ctl.repository.HomologadoRepository;
 import com.ctl.repository.PrecificacaoRepository;
 import com.ctl.repository.TipoRepository;
+import com.ctl.repository.UserRepository;
+
 import form.SearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -37,6 +39,9 @@ public class AdvancedSearchUtil {
     @Autowired
     private HomologadoRepository homologadoRepository;
     
+    @Autowired
+    private UserRepository userRepository;
+    
     public AdvancedSearchUtil(){
     }
     
@@ -46,6 +51,7 @@ public class AdvancedSearchUtil {
         model.addAttribute("featuresForm", featuresRepository.findAll());
         model.addAttribute("tiposForm", tipoRepository.findAll());
         model.addAttribute("homologadoForm", homologadoRepository.findAll());
+        model.addAttribute("userForm", userRepository.findAll());
         model.addAttribute("form", new SearchForm());
         
         return model;

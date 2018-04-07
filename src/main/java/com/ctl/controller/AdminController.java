@@ -9,11 +9,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.ctl.model.Fabricante;
-import com.ctl.model.Historia;
 import com.ctl.model.User;
 import com.ctl.repository.UserRepository;
 import com.ctl.util.AdvancedSearchUtil;
@@ -36,12 +33,19 @@ public class AdminController {
         return "admin/index";
     }
 
-	
     @GetMapping("/register")
     public String registration(Model model) {
         model = search.build(model);
         model.addAttribute("user", new User());
 
+        return "admin/registration";
+    }
+    
+    @GetMapping("/editar")
+    public String edit(Model model, @RequestParam Long id) {
+    	model = search.build(model);
+        model.addAttribute("user", userRepository.findOne(id));
+        
         return "admin/registration";
     }
     
@@ -52,6 +56,17 @@ public class AdminController {
         model.addAttribute("user", new User());
 
         return "admin/users";
+    }
+    
+    @PostMapping("/salvar")
+    public String salvar(@Valid User user, BindingResult bindingResult, Model model) {
+        model = search.build(model);
+        if (bindingResult.hasErrors()) {
+            return "admin/registration";
+        }
+        userRepository.save(user);
+        
+        return "redirect:/admin/users/";
     }
 
 }
