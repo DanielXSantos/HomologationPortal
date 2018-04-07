@@ -4,79 +4,86 @@
       layout:decorator="layout/default">
 
 <body>
-<form layout:fragment="content" autocomplete="off" action="#" th:action="@{/registration}"
-      th:object="${user}" method="post" class="form-horizontal" role="form" style="margin-top: 15px;">
 
-    <h1 th:utext="${successMessage}"></h1>
-    <p class="h1">Cadastro de Usuarios</p>
-    <br>
+<div layout:fragment="content">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/registration.css}"/>
 
-    <div class="form-group">
-        <label for="name">Nome:</label>
-        <input type="text" th:field="*{name}" id="name" name="name" placeholder="Digite seu nome..."
-               class="form-control"/>
-        <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
-               class="validation-message"></label>
-    </div>
+    <form autocomplete="off" action="#" th:action="@{/registration}"
+          th:object="${user}" method="post" class="form-horizontal" role="form" style="margin-top: 15px;">
 
-    <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="text" th:field="*{email}" id="email" name="email" placeholder="Digite seu email..."
-               class="form-control"/>
-        <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
-               class="validation-message"></label>
-    </div>
+        <h1 th:utext="${successMessage}"></h1>
+        <p class="h1">Cadastro de Usuarios</p>
+        <br>
 
-    <div class="form-group">
-        <label for="password">Senha:</label>
-        <input type="password" th:field="*{password}" id="password" name="password"
-               placeholder="Digite sua senha..." class="form-control"/>
-        <label th:if="${#fields.hasErrors('password')}"
-               th:errors="*{password}" class="validation-message"></label>
-    </div>
+        <div class="form-group">
+            <label for="name">Nome:</label>
+            <input type="text" th:field="*{name}" id="name" name="name" placeholder="Digite seu nome..."
+                   class="form-control"/>
+            <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                   class="validation-message"></label>
+        </div>
 
-    <div class="form-group">
-        <label for="roles">Tipo de Usuario:</label>
-        <select class="form-control selectpicker" multiple title="Selecione pelo menos um..." id="roles"> <!-- add th:field -->
-            <option th:value="admin">Admin</option>
-            <option th:value="masteradmin">Master Admin</option>
-            <option th:value="user">Usuario</option>
-            <option th:value="fabricante">Fabricante</option>
-        </select>
-    </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="text" th:field="*{email}" id="email" name="email" placeholder="Digite seu email..."
+                   class="form-control"/>
+            <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                   class="validation-message"></label>
+        </div>
 
-    <div class="form-group">
-        <label for="selectState">Estado do Usuario:</label>
-        <select class="form-control" id="selectState">
-            <option value=true selected="selected">Ativado</option>
-            <option th:value=false>Desativado</option>
-        </select>
-        <span th:if="${#fields.hasErrors('active')}" th:errors="${user.active}" class="badge badge-danger">erro</span>
-    </div>
+        <div class="form-group">
+            <label for="password">Senha:</label>
+            <input type="password" th:field="*{password}" id="password" name="password"
+                   placeholder="Digite sua senha..." class="form-control"/>
+            <label th:if="${#fields.hasErrors('password')}"
+                   th:errors="*{password}" class="validation-message"></label>
+        </div>
 
-    <div class="form-group">
-        <label for="expirationDate">Data de expiração</label>
-        <input type="date" class="form-control" id="expirationDate" th:field="*{expirationDate}"/>
-        <label th:if="${#fields.hasErrors('expirationDate')}"
-               th:errors="*{expirationDate}" class="validation-message"></label>
-    </div>
+        <div class="form-group">
+            <label for="roles">Tipo de Usuario:</label>
+            <select class="form-control selectpicker" multiple title="Selecione pelo menos um..." id="roles"
+                    data-style="form-control">
+                <!-- add th:field -->
+                <option th:value="admin">Admin</option>
+                <option th:value="masteradmin">Master Admin</option>
+                <option th:value="user">Usuario</option>
+                <option th:value="fabricante">Fabricante</option>
+            </select>
+        </div>
 
-    <div class="form-group">
-        <label for="fabricante">Fabricante</label>
-        <select th:field="${user.fabricante}" class="form-control" id="fabricante">
-            <option th:each="fabricante : ${fabricantes}" th:value="${fabricante.id}"
-                    th:text="${fabricante.nome}"></option>
-        </select>
-        <span th:if="${#fields.hasErrors('fabricante')}" th:errors="${user.fabricante}"
-              class="badge badge-danger">erro</span>
-    </div>
+        <div class="form-group">
+            <label for="selectState">Estado do Usuario:</label>
+            <select class="form-control" id="selectState">
+                <option value=true selected="selected">Ativado</option>
+                <option th:value=false>Desativado</option>
+            </select>
+            <span th:if="${#fields.hasErrors('active')}" th:errors="${user.active}"
+                  class="badge badge-danger">erro</span>
+        </div>
 
-    <div class="modal-footer">
-        <button type="submit" class="btn btn-success">Salvar</button>
-        <a th:href="@{/admin}" class="btn btn-danger">Cancelar</a>
-    </div>
+        <div class="form-group">
+            <label for="expirationDate">Data de expiração</label>
+            <input type="date" class="form-control" id="expirationDate" th:field="*{expirationDate}"/>
+            <label th:if="${#fields.hasErrors('expirationDate')}"
+                   th:errors="*{expirationDate}" class="validation-message"></label>
+        </div>
 
-</form>
+        <div class="form-group">
+            <label for="fabricanteRegistro">Fabricante</label>
+            <select th:field="${user.fabricante}" class="form-control" id="fabricanteRegistro">
+                <option th:each="fabricante : ${fabricantes}" th:value="${fabricante.id}"
+                        th:text="${fabricante.nome}"></option>
+            </select>
+            <span th:if="${#fields.hasErrors('fabricante')}" th:errors="${user.fabricante}"
+                  class="badge badge-danger">erro</span>
+        </div>
+
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success">Salvar</button>
+            <a th:href="@{/admin}" class="btn btn-danger">Cancelar</a>
+        </div>
+    </form>
+</div>
 </body>
 </html>
 
