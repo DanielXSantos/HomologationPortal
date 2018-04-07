@@ -4,7 +4,6 @@
 
 <body>
 <form layout:fragment="content" th:action="@{/precificacao/salvar}" th:object="${precificacao}" method="post">
-
     <p class="h1">Cadastro Precificação</p>
 
     <div class="form-group">
@@ -33,10 +32,9 @@
     </div>
 
     <div class="modal-footer">
-        <button type="submit" class="btn btn-success" >Salvar</button>
+        <button type="submit" class="btn btn-success">Salvar</button>
         <a th:href="@{/precificacao}" class="btn btn-danger">Cancelar</a>
     </div>
-
 </form>
 </body>
 </html>
