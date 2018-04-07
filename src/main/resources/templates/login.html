@@ -7,24 +7,30 @@
 <div layout:fragment="content">
     <div class="container">
         <form th:action="@{/login}" method="POST" class="form-signin">
-            <h3 class="form-signin-heading">Logar</h3>
+            <h3 class="form-signin-heading">Bem vindo,</h3>
+            <p id="subtitleHeading" class="form-signin-heading">Faça o login para acessar todas as funcionalidades do Portal Homologaçao</p>
             <br/>
 
-            <label for="InputEmail">Email:</label>
-            <input type="text" id="email" name="email" th:placeholder="Email"
-                   class="form-control"/> <br/>
-            <label for="Inputpassword">Senha:</label>
-            <input type="password" th:placeholder="Password"
-                   id="password" name="password" class="form-control"/> <br/>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Digite seu email..." class="form-control"/>
+            </div>
 
-            <div align="center" th:if="${param.error}" th:with="errorMsg=${session['SPRING_SECURITY_LAST_EXCEPTION'].message}">
+            <div class="form-group">
+                <label for="password">Senha:</label>
+                <input type="password" placeholder="Digite sua senha..." id="password" name="password"
+                       class="form-control"/>
+            </div>
+
+            <div align="center" th:if="${param.error}"
+                 th:with="errorMsg=${session['SPRING_SECURITY_LAST_EXCEPTION'].message}">
                 <p style="font-size: 20; color: #FF1C19;" th:text="${errorMsg}"></p>
             </div>
-            <br/>
-            <p class="text-right"><a th:href="@{/registration}">Registre-se</a></p>
-            <button class="btn btn-lg btn-primary " name="Submit" value="Login" type="Submit" th:text="Logar">Log-in
-            </button>
-            <a class="btn btn-lg btn-secondary " type="button" th:href="@{/equipamento}">Voltar</a>
+
+            <div align="center">
+                <button class="btn btn-primary btn-block" name="Submit" value="Login" type="Submit">Logar</button>
+            </div>
+
         </form>
     </div>
 </div>
