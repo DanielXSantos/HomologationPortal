@@ -2,6 +2,7 @@ package com.ctl.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,36 +29,37 @@ public class FeaturesController {
     private AdvancedSearchUtil advancedSearch;
 
     @GetMapping
-    public String list(Model model) {
-        model = advancedSearch.build(model);
+    public String list(Model model, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("featuress", featuresRepository.findAll());
         return "features/listar";
     }
 
     @GetMapping("/editar")
-    public String edit(Model model, @RequestParam Long id) {
-        model = advancedSearch.build(model);
+    public String edit(Model model, @RequestParam Long id, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("features", featuresRepository.findOne(id));
         return "features/formulario";
     }
 
     @GetMapping("/view")
-    public String view(Model model, @RequestParam Long id) {
-        model = advancedSearch.build(model);
+    public String view(Model model, @RequestParam Long id, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("features", featuresRepository.findOne(id));
         return "features/descricao";
     }
 
     @GetMapping("/novo")
-    public String novo(Model model) {
-        model = advancedSearch.build(model);
+    public String novo(Model model, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("features", new Features());
         return "features/formulario";
     }
 
     @PostMapping("/salvar")
-    public String salvar(@Valid Features features, BindingResult bindingResult, Model model) {
-        model = advancedSearch.build(model);
+    public String salvar(@Valid Features features, BindingResult bindingResult, Model model,
+                         Authentication auth) {
+        model = advancedSearch.build(model, auth);
         if (bindingResult.hasErrors()) {
             for(ObjectError e: bindingResult.getAllErrors()){
                 System.out.println(e.getCode());
@@ -70,8 +72,8 @@ public class FeaturesController {
     }
 
     @GetMapping("/buscar")
-    public String buscar(Model model, @RequestParam String nome) {
-        model = advancedSearch.build(model);
+    public String buscar(Model model, @RequestParam String nome, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("features", new Equipamento());
         model.addAttribute("featuress", featuresRepository.findByNomeLike("%" + nome + "%"));
         return "features/listar";

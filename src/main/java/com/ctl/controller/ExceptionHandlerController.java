@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.config.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -19,15 +20,15 @@ public class ExceptionHandlerController {
 
     @ResponseStatus(value= HttpStatus.NOT_FOUND)
     @ExceptionHandler(value = {ResourceNotFoundException.class})
-    public String error404(Model model){
-        model = advancedSearch.build(model);
+    public String error404(Model model, Authentication auth){
+        model = advancedSearch.build(model, auth);
         return "error/404";
     }
 
     @ResponseStatus(value = HttpStatus.FORBIDDEN)
     @ExceptionHandler(value = {AccessDeniedException.class})
-    public String error403(Model model){
-        model = advancedSearch.build(model);
+    public String error403(Model model, Authentication auth){
+        model = advancedSearch.build(model, auth);
         return "error/loginError";
     }
 

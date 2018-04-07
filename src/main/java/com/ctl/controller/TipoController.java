@@ -2,6 +2,7 @@ package com.ctl.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,36 +29,37 @@ public class TipoController {
 
 
     @GetMapping
-    public String list(Model model) {
-        model = advancedSearch.build(model);
+    public String list(Model model, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("tipos", tipoRepository.findAll());
         return "tipo/listar";
     }
 
     @GetMapping("/editar")
-    public String edit(Model model, @RequestParam Long id) {
-        model = advancedSearch.build(model);
+    public String edit(Model model, @RequestParam Long id, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("tipo", tipoRepository.findOne(id));
         return "tipo/formulario";
     }
 
     @GetMapping("/view")
-    public String view(Model model, @RequestParam Long id) {
-        model = advancedSearch.build(model);
+    public String view(Model model, @RequestParam Long id, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("tipo", tipoRepository.findOne(id));
         return "tipo/descricao";
     }
 
     @GetMapping("/novo")
-    public String novo(Model model) {
-        model = advancedSearch.build(model);
+    public String novo(Model model, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("tipo", new Tipo());
         return "tipo/formulario";
     }
 
     @PostMapping("/salvar")
-    public String salvar(@Valid Tipo tipo, BindingResult bindingResult, Model model) {
-        model = advancedSearch.build(model);
+    public String salvar(@Valid Tipo tipo, BindingResult bindingResult, Model model,
+                         Authentication auth) {
+        model = advancedSearch.build(model, auth);
         if (bindingResult.hasErrors()) {
             return "tipo/formulario";
         }
@@ -67,8 +69,8 @@ public class TipoController {
     }
 
     @GetMapping("/buscar")
-    public String buscar(Model model, @RequestParam String nome) {
-        model = advancedSearch.build(model);
+    public String buscar(Model model, @RequestParam String nome, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("tipo", new Equipamento());
         model.addAttribute("tipos", tipoRepository.findByNomeLike("%" + nome + "%"));
         return "tipo/listar";

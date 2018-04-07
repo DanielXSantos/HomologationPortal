@@ -22,7 +22,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/equipamento">Equipamentos</a>
                     </li>
-                    <ul sec:authorize="hasAuthority('USER')" class="navbar-nav ml-auto">
+                    <ul sec:authorize="hasAnyAuthority('USER','ADMIN','MASTER_ADMIN')" class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="/fabricante">Fabricantes</a>
                         </li>

@@ -2,6 +2,7 @@ package com.ctl.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,36 +28,37 @@ public class PrecificacaoController {
     private AdvancedSearchUtil advancedSearch;
 
     @GetMapping
-    public String list(Model model) {
-        model = advancedSearch.build(model);
+    public String list(Model model, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("precificacaos", precificacaoRepository.findAll());
         return "precificacao/listar";
     }
 
     @GetMapping("/editar")
-    public String edit(Model model, @RequestParam Long id) {
-        model = advancedSearch.build(model);
+    public String edit(Model model, @RequestParam Long id, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("precificacao", precificacaoRepository.findOne(id));
         return "precificacao/formulario";
     }
 
     @GetMapping("/view")
-    public String view(Model model, @RequestParam Long id) {
-        model = advancedSearch.build(model);
+    public String view(Model model, @RequestParam Long id, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("precificacao", precificacaoRepository.findOne(id));
         return "precificacao/descricao";
     }
 
     @GetMapping("/novo")
-    public String novo(Model model) {
-        model = advancedSearch.build(model);
+    public String novo(Model model, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("precificacao", new Precificacao());
         return "precificacao/formulario";
     }
 
     @PostMapping("/salvar")
-    public String salvar(@Valid Precificacao precificacao, BindingResult bindingResult, Model model) {
-        model = advancedSearch.build(model);
+    public String salvar(@Valid Precificacao precificacao, BindingResult bindingResult, Model model,
+                         Authentication auth) {
+        model = advancedSearch.build(model, auth);
         if (bindingResult.hasErrors()) {
             return "precificacao/formulario";
         }
@@ -66,8 +68,8 @@ public class PrecificacaoController {
     }
 
     @GetMapping("/buscar")
-    public String buscar(Model model, @RequestParam String id) {
-        model = advancedSearch.build(model);
+    public String buscar(Model model, @RequestParam String id, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("precificacao", new Equipamento());
         model.addAttribute("precificacaos", precificacaoRepository.findByIdLike("%" + id + "%"));
         return "precificacao/listar";

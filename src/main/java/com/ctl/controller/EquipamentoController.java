@@ -82,7 +82,7 @@ public class EquipamentoController {
                        @RequestParam(required=false, value="tipo") List<Integer> tipo, Model model,
                        Authentication auth) {
         
-        model = advancedSearch.build(model);
+        model = advancedSearch.build(model,auth);
         // Escolhendo o Segmento (ex.: B2B, B2C ou ambos)
         if(segmento == null && tipo == null){
             return "equipamento/segmento";
@@ -120,8 +120,8 @@ public class EquipamentoController {
         }
 
     @GetMapping("/editar")
-    public String edit(Model model, @RequestParam Long id) {
-        model = advancedSearch.build(model);
+    public String edit(Model model, @RequestParam Long id, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         Equipamento form = new Equipamento();
         form = equipamentoRepository.findOne(id);
         String[] anexos = new File(uploadDir + id.toString() + "/anexos").list();
@@ -143,8 +143,8 @@ public class EquipamentoController {
     }
 
     @GetMapping("/view")
-    public String view(Model model, @RequestParam Long id) {
-        model = advancedSearch.build(model);        
+    public String view(Model model, @RequestParam Long id, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         String[] anexos = new File(uploadDir + id.toString() + "/anexos").list();
         // NULL SAFE
         if(anexos==null){
@@ -159,8 +159,8 @@ public class EquipamentoController {
     }
 
     @GetMapping("/novo")
-    public String novo(Model model) {
-        model = advancedSearch.build(model);
+    public String novo(Model model, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("equipamento", new Equipamento());
         model.addAttribute("fabricantes", fabricanteRepository.findAll());
         model.addAttribute("featuress", featuresRepository.findAll());
@@ -175,8 +175,8 @@ public class EquipamentoController {
     @PostMapping("/salvar")
     public String salvar(@RequestParam(value = "editar", required = false) boolean editar,
                          @Valid @ModelAttribute("equipamento") Equipamento equipamento,
-                         BindingResult bindingResult, Model model) {
-        model = advancedSearch.build(model);
+                         BindingResult bindingResult, Model model, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         if (bindingResult.hasErrors()) {
             model.addAttribute("equipamento", equipamento);
             model.addAttribute("fabricantes", fabricanteRepository.findAll());
@@ -283,8 +283,8 @@ public class EquipamentoController {
     }
 
     @GetMapping("/buscar")
-    public String buscar(Model model, @RequestParam String nome) {
-        model = advancedSearch.build(model);
+    public String buscar(Model model, @RequestParam String nome, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("equipamento", new Equipamento());
         model.addAttribute("equipamentos", equipamentoRepository.findByNomeLike("%" + nome + "%"));
         return "equipamento/formulario";
@@ -358,7 +358,7 @@ public class EquipamentoController {
             f.add(fabri.getId().intValue());
             s.setFabricantes(f);
         }
-        model = advancedSearch.build(model);
+        model = advancedSearch.build(model, auth);
         model.addAttribute("equipamento", new Equipamento());
         model.addAttribute("equipamentos", repo.search(s));
         return "equipamento/listar";

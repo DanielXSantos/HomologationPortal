@@ -2,6 +2,7 @@ package com.ctl.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,37 +28,38 @@ public class FabricanteController {
     private AdvancedSearchUtil advancedSearch;
 
     @GetMapping
-    public String list(Model model) {
+    public String list(Model model, Authentication auth) {
 
-        model = advancedSearch.build(model);
+        model = advancedSearch.build(model, auth);
         model.addAttribute("fabricantes", fabricanteRepository.findAll());
         return "fabricante/listar";
     }
 
     @GetMapping("/editar")
-    public String edit(Model model, @RequestParam Long id) {
-        model = advancedSearch.build(model);
+    public String edit(Model model, @RequestParam Long id, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("fabricante", fabricanteRepository.findOne(id));
         return "fabricante/formulario";
     }
 
     @GetMapping("/view")
-    public String view(Model model, @RequestParam Long id) {
-        model = advancedSearch.build(model);
+    public String view(Model model, @RequestParam Long id, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("fabricante", fabricanteRepository.findOne(id));
         return "fabricante/formulario";
     }
 
     @GetMapping("/novo")
-    public String novo(Model model) {
-        model = advancedSearch.build(model);
+    public String novo(Model model, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("fabricante", new Fabricante());
         return "fabricante/formulario";
     }
 
     @PostMapping("/salvar")
-    public String salvar(@Valid Fabricante fabricante, BindingResult bindingResult, Model model) {
-        model = advancedSearch.build(model);
+    public String salvar(@Valid Fabricante fabricante, BindingResult bindingResult, Model model,
+                         Authentication auth) {
+        model = advancedSearch.build(model, auth);
         if (bindingResult.hasErrors()) {
             return "fabricante/formulario";
         }
@@ -66,7 +68,8 @@ public class FabricanteController {
     }
 
     @GetMapping("/buscar")
-    public String buscar(Model model, @RequestParam String nome) {
+    public String buscar(Model model, @RequestParam String nome, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("fabricante", new Equipamento());
         model.addAttribute("fabricantes", fabricanteRepository.findByNomeLike("%" + nome + "%"));
         return "fabricante/listar";

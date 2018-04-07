@@ -2,6 +2,7 @@ package com.ctl.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,36 +29,37 @@ public class RequisitoController {
     private AdvancedSearchUtil advancedSearch;
     
     @GetMapping
-    public String list(Model model) {
-        model = advancedSearch.build(model);
+    public String list(Model model, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("requisitos", requisitoRepository.findAll());
         return "requisito/listar";
     }
 
     @GetMapping("/editar")
-    public String edit(Model model, @RequestParam Long id) {
-        model = advancedSearch.build(model);
+    public String edit(Model model, @RequestParam Long id, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("requisito", requisitoRepository.findOne(id));
         return "requisito/formulario";
     }
 
     @GetMapping("/view")
-    public String view(Model model, @RequestParam Long id) {
-        model = advancedSearch.build(model);
+    public String view(Model model, @RequestParam Long id, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("requisito", requisitoRepository.findOne(id));
         return "requisito/descricao";
     }
 
     @GetMapping("/novo")
-    public String novo(Model model) {
-        model = advancedSearch.build(model);
+    public String novo(Model model, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("requisito", new Requisito());
         return "requisito/formulario";
     }
 
     @PostMapping("/salvar")
-    public String salvar(@Valid Requisito requisito, BindingResult bindingResult, Model model) {
-        model = advancedSearch.build(model);
+    public String salvar(@Valid Requisito requisito, BindingResult bindingResult, Model model,
+                         Authentication auth) {
+        model = advancedSearch.build(model, auth);
         if (bindingResult.hasErrors()) {
             return "requisito/formulario";
         }
@@ -67,8 +69,8 @@ public class RequisitoController {
     }
 
     @GetMapping("/buscar")
-    public String buscar(Model model, @RequestParam String nome) {
-        model = advancedSearch.build(model);
+    public String buscar(Model model, @RequestParam String nome, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("requisito", new Equipamento());
         model.addAttribute("requisitos", requisitoRepository.findByNomeLike("%" + nome + "%"));
         return "requisito/listar";

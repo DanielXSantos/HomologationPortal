@@ -107,7 +107,7 @@
         <th>Data início de testes</th>
         <th>Data término de testes</th>
         <th>Status</th>
-        <th>Alteração</th>
+        <th sec:authorize="hasAnyAuthority('USER','ADMIN','MASTER_ADMIN')">Alteração</th>
         <th>Informações</th>
     </tr>
 
@@ -120,12 +120,12 @@
         <td th:text="${#dates.format(equipamento.dataInicio, 'dd-MM-yyyy')}"></td>
         <td
                 th:text="${equipamento.dataTermino != null} ? ${#dates.format(equipamento.dataTermino, 'dd-MM-yyyy')}
-        				: 'Teste n�o finalizado'"></td>
+        				: 'Teste não finalizado'"></td>
         <td
                 th:style="${equipamento.status == 'Homologado' ? 'background-color: #00cc00;'
         				: equipamento.status == 'EmTestes' ? 'background-color: #ffcc00;' : 'background-color: #cc0000;'}"
                 th:text="${equipamento.status}"></td>
-        <td><a th:href="@{/equipamento/editar(id=${equipamento.id})}">Editar</a></td>
+        <td sec:authorize="hasAnyAuthority('USER','ADMIN','MASTER_ADMIN')"><a th:href="@{/equipamento/editar(id=${equipamento.id})}">Editar</a></td>
         <td><a th:href="@{/equipamento/view(id=${equipamento.id})}">Informações</a></td>
     </tr>
     </tbody>

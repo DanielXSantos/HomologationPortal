@@ -6,6 +6,7 @@ import com.ctl.model.Role;
 import com.ctl.repository.FabricanteRepository;
 import com.ctl.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,16 +35,16 @@ public class AdminController {
     private RoleRepository roleRepository;
 
     @GetMapping
-    public String index(Model model) {
-        model = search.build(model);
+    public String index(Model model, Authentication auth) {
+        model = search.build(model, auth);
         model.addAttribute("user", new User());
 
         return "admin/index";
     }
 
     @GetMapping("/register")
-    public String registration(Model model) {
-        model = search.build(model);
+    public String registration(Model model, Authentication auth) {
+        model = search.build(model, auth);
         model.addAttribute("fabricantes", fabricanteRepository.findAll());
         model.addAttribute("user", new User());
 
@@ -52,9 +53,9 @@ public class AdminController {
 
     @PostMapping("/register")
     public String saveUser(Model model, @Valid @ModelAttribute("user") User user,
-                           BindingResult result){
+                           BindingResult result, Authentication auth){
         if(result.hasErrors()){
-            model = search.build(model);
+            model = search.build(model, auth);
             model.addAttribute("fabricantes", fabricanteRepository.findAll());
             model.addAttribute("user", user);
             return "admin/registration";
@@ -76,16 +77,17 @@ public class AdminController {
     }
     
     @GetMapping("/editar")
-    public String edit(Model model, @RequestParam Long id) {
-    	model = search.build(model);
+    public String edit(Model model, @RequestParam Long id, Authentication auth) {
+    	model = search.build(model, auth);
         model.addAttribute("user", userRepository.findOne(id));
+        model.addAttribute("fabricantes", fabricanteRepository.findAll());
         
         return "admin/registration";
     }
     
     @GetMapping("/users")
-    public String listUsers(Model model) {
-        model = search.build(model);
+    public String listUsers(Model model, Authentication auth) {
+        model = search.build(model, auth);
         model.addAttribute("users", userRepository.findAll());
         model.addAttribute("user", new User());
 
@@ -93,8 +95,8 @@ public class AdminController {
     }
     
     @PostMapping("/salvar")
-    public String salvar(@Valid User user, BindingResult bindingResult, Model model) {
-        model = search.build(model);
+    public String salvar(@Valid User user, BindingResult bindingResult, Model model, Authentication auth) {
+        model = search.build(model, auth);
         if (bindingResult.hasErrors()) {
             return "admin/registration";
         }

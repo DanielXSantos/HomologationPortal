@@ -2,6 +2,7 @@ package com.ctl.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,36 +28,37 @@ public class HomologadoController {
     private AdvancedSearchUtil advancedSearch;
 
     @GetMapping
-    public String list(Model model) {
-        model = advancedSearch.build(model);
+    public String list(Model model, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("homologados", homologadoRepository.findAll());
         return "homologado/listar";
     }
 
     @GetMapping("/editar")
-    public String edit(Model model, @RequestParam Long id) {
-        model = advancedSearch.build(model);
+    public String edit(Model model, @RequestParam Long id, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("homologado", homologadoRepository.findOne(id));
         return "homologado/formulario";
     }
 
     @GetMapping("/view")
-    public String view(Model model, @RequestParam Long id) {
-        model = advancedSearch.build(model);
+    public String view(Model model, @RequestParam Long id, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("homologado", homologadoRepository.findOne(id));
         return "homologado/descricao";
     }
 
     @GetMapping("/novo")
-    public String novo(Model model) {
-        model = advancedSearch.build(model);
+    public String novo(Model model, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("homologado", new Homologado());
         return "homologado/formulario";
     }
 
     @PostMapping("/salvar")
-    public String salvar(@Valid Homologado homologado, BindingResult bindingResult, Model model) {
-        model = advancedSearch.build(model);
+    public String salvar(@Valid Homologado homologado, BindingResult bindingResult, Model model,
+                         Authentication auth) {
+        model = advancedSearch.build(model, auth);
         if (bindingResult.hasErrors()) {
             return "homologado/formulario";
         }
@@ -66,8 +68,8 @@ public class HomologadoController {
     }
 
     @GetMapping("/buscar")
-    public String buscar(Model model, @RequestParam String nome) {
-        model = advancedSearch.build(model);
+    public String buscar(Model model, @RequestParam String nome, Authentication auth) {
+        model = advancedSearch.build(model, auth);
         model.addAttribute("homologado", new Equipamento());
         model.addAttribute("homologados", homologadoRepository.findByNomeLike("%" + nome + "%"));
         return "homologado/listar";

@@ -33,11 +33,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.
                 authorizeRequests()
-                //.antMatchers("/**").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/admin").hasAnyAuthority("ADMIN","MASTER_ADMIN")
-//                .antMatchers("/registration").hasRole("ADMIN")
+                .antMatchers("/tipo/**","/fabricante/**",
+                                        "/features/**","/precificacao/**",
+                                        "/homologado/**","/requisito/**","/equipamento/editar",
+                                        "/equipamento/novo", "/equipamento/salvar",
+                                        "/equipamento/excluir")
+                    .hasAnyAuthority("ADMIN","USER","MASTER_ADMIN")
                 .antMatchers("/equipamento").authenticated()
                     .anyRequest()
                 .authenticated().and().formLogin()

@@ -2,6 +2,7 @@ package com.ctl.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,8 +23,8 @@ public class PoliticaController {
     private AdvancedSearchUtil search;
 
     @GetMapping
-    public String list(Model model) {
-        model = search.build(model);
+    public String list(Model model, Authentication auth) {
+        model = search.build(model, auth);
         model.addAttribute("politica", new Politica());
 
         return "politica/texto_politica";
