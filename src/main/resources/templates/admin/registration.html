@@ -46,7 +46,7 @@
 							<label for="inputRole">Perfil</label> <select
 								th:field="${user.roles}" class="form-control" id="inputRole">
 								<option value="" selected="selected">Selecione...</option>
-								<option th:each="role: ${user.roles}" th:value="${role.role_id}"
+								<option th:each="role: ${user.roles}" th:value="${role.id}"
 									th:text="${role.role}"></option>
 							</select> <span th:if="${#fields.hasErrors('roles')}"
 								th:errors="${user.roles}" class="badge badge-danger">erro</span>
