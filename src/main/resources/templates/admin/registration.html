@@ -12,7 +12,7 @@
           th:object="${user}" method="post" class="form-horizontal" role="form" style="margin-top: 15px;">
 
         <h1 th:utext="${successMessage}"></h1>
-        <p class="h1">Cadastro de Usuarios</p>
+        <p class="h1">Cadastro de Usuários</p>
         <br>
 
         <div class="form-group">
@@ -23,18 +23,9 @@
                    class="validation-message"></label>
         </div>
 
-    <div class="form-group">
-        <label for="roles">Tipo de Usuario:</label>
-        <select class="form-control selectpicker" multiple title="Selecione pelo menos um..." id="roles" th:field="*{roles}"> <!-- add th:field -->
-            <option th:value="ADMIN">Admin</option>
-            <option th:value="MASTER_ADMIN">Master Admin</option>
-            <option th:value="USER">Usuario</option>
-            <option th:value="FABRICANTE">Fabricante</option>
-        </select>
-    </div>
         <div class="form-group">
             <label for="email">Email:</label>
-            <input type="text" th:field="*{email}" id="email" name="email" placeholder="Digite seu email..."
+            <input type="email" th:field="*{email}" id="email" name="email" placeholder="Digite seu email..."
                    class="form-control"/>
             <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
                    class="validation-message"></label>
@@ -49,22 +40,21 @@
         </div>
 
         <div class="form-group">
-            <label for="roles">Tipo de Usuario:</label>
+            <label for="roles">Tipo de Usuário:</label>
             <select class="form-control selectpicker" multiple title="Selecione pelo menos um..." id="roles"
                     data-style="form-control">
-                <!-- add th:field -->
-                <option th:value="admin">Admin</option>
-                <option th:value="masteradmin">Master Admin</option>
-                <option th:value="user">Usuario</option>
-                <option th:value="fabricante">Fabricante</option>
+                <option th:value="ADMIN">Admin</option>
+                <option th:value="MASTER_ADMIN">Master Admin</option>
+                <option th:value="USER">Usuario</option>
+                <option th:value="FABRICANTE">Fabricante</option>
             </select>
         </div>
 
         <div class="form-group">
-            <label for="selectState">Estado do Usuario:</label>
-            <select class="form-control" id="selectState">
+            <label for="selectState">Estado do Usuário:</label>
+            <select class="form-control" id="selectState" th:field="*{active}">
                 <option value=true selected="selected">Ativado</option>
-                <option th:value=false>Desativado</option>
+                <option value=false>Desativado</option>
             </select>
             <span th:if="${#fields.hasErrors('active')}" th:errors="${user.active}"
                   class="badge badge-danger">erro</span>
@@ -95,4 +85,3 @@
 </div>
 </body>
 </html>
-

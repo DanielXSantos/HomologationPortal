@@ -33,11 +33,14 @@
             <div class="form-group">
                 <label id="labelTipos" class="inputSelectTypes">Selecione os tipos desejados</label>
                 <div class="form-check" th:each="tipo : ${tipos}">
-                    <input class="form-check-input" type="checkbox" th:id="${tipo.id}" th:attr="name='checkOption'" th:field="${tipoSearch}" th:value="${tipo.id}"/>
+                    <input class="form-check-input" type="checkbox" th:id="${tipo.id}" th:attr="name='checkOption'"
+                           th:field="${tipoSearch}" th:value="${tipo.id}"/>
                     <label class="form-check-label" th:for="${tipo.id}" th:text="${tipo.nome}"></label>
                 </div>
                 <div class="inputSelectTypes">
-                    <button type="button" id="buttonSearchTypes" class="btn btn-outline-success" onclick='build()'>Buscar</button>
+                    <button type="button" id="buttonSearchTypes" class="btn btn-outline-success" onclick='build()'>
+                        Buscar
+                    </button>
                 </div>
             </div>
         </div>
