@@ -3,6 +3,7 @@ package com.ctl.model;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
@@ -16,8 +17,8 @@ public class Role implements GrantedAuthority {
 	@Column(name="role")
 	private String role;
 
-    @ManyToOne
-    private User users;
+	@ManyToMany(mappedBy = "roles")
+    private Set<User> users;
 
 
 	public int getId() {
@@ -33,11 +34,11 @@ public class Role implements GrantedAuthority {
 		this.role = role;
 	}
 
-    public User getUsers() {
+    public Set<User> getUsers() {
         return users;
     }
 
-    public void setUsers(User users) {
+    public void setUsers(Set<User> users) {
         this.users = users;
     }
 

@@ -24,7 +24,7 @@ public class User implements UserDetails {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     @Email(message = "*Email Inválido")
     @NotEmpty(message = "*Insira um Email")
     private String email;
@@ -47,8 +47,24 @@ public class User implements UserDetails {
     @Column(name = "active")
     private boolean active = true;
 
-    @OneToMany(targetEntity = Role.class, mappedBy = "users", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List roles;
+    //@OneToMany(targetEntity = Role.class, mappedBy = "users", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER, cascade =
+            {
+                    CascadeType.DETACH,
+                    CascadeType.MERGE,
+                    CascadeType.REFRESH,
+                    CascadeType.PERSIST
+            })
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "user_id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "role_id"),
+            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
+            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT)
+    )
+    private Set<Role> roles;
 
     @ManyToOne
     private Fabricante fabricante;
@@ -129,11 +145,11 @@ public class User implements UserDetails {
         this.expirationDate = expirationDate;
     }
 
-    public List getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
@@ -171,5 +187,16 @@ public class User implements UserDetails {
             }
         }
         return ans;
+    }
+
+    public boolean hasAuthority(String auth){
+        Role r;
+        for(Object ga: roles){
+            r = (Role) ga;
+            if(r.getAuthority().equals(auth)){
+                return true;
+            }
+        }
+        return false;
     }
 }

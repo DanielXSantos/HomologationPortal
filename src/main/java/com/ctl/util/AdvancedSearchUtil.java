@@ -50,15 +50,15 @@ public class AdvancedSearchUtil {
 
     public Model build(Model model, Authentication auth){
         model = __build__(model);
-        if(auth != null && auth.getAuthorities() != null) {
-            for (GrantedAuthority ga : auth.getAuthorities()) {
-                if (ga.getAuthority().equals("FABRICANTE")) {
-                    Role r = (Role) ga;
-                    model.addAttribute("fabricantesForm", fabricanteRepository.findByNomeLike(r.getUsers().getFabricante().getNome()));
-                    return model;
-                }
-            }
-        }
+//        if(auth != null && auth.getAuthorities() != null) {
+//            for (GrantedAuthority ga : auth.getAuthorities()) {
+//                if (ga.getAuthority().equals("FABRICANTE")) {
+//                    Role r = (Role) ga;
+//                    model.addAttribute("fabricantesForm", fabricanteRepository.findByNomeLike(r.getUsers().getFabricante().getNome()));
+//                    return model;
+//                }
+//            }
+//        }
         model.addAttribute("fabricantesForm", fabricanteRepository.findAll());
 
         return model;

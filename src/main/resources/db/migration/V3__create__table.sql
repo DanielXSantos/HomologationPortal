@@ -36,8 +36,10 @@ INSERT INTO `equipamento_tipo` VALUE
 (1,1),(1,2),(2,3),(2,1),(2,2),(3,3);
 
 
-INSERT INTO `user` VALUE(1, 1, 'admin@admin.com','admin', 'admin','2019-01-01', NULL);
-INSERT INTO `role` VALUE(DEFAULT, 'ADMIN', 1),(DEFAULT, 'USER', 1);
-
+INSERT INTO `user` VALUE (1, 1, 'admin@admin.com','admin', 'admin','2019-01-01', NULL);
 INSERT INTO `user` VALUE(2, 1, 'ronistone@gmail.com','ronistone', 'ronistone','2019-01-01', NULL);
-INSERT INTO `role` VALUE(DEFAULT, 'USER', 2);
+
+INSERT INTO `role` VALUE (DEFAULT, 'ADMIN'),(DEFAULT, 'USER'),
+                         (DEFAULT, 'MASTER_ADMIN'), (DEFAULT, 'FABRICANTE');
+
+INSERT INTO `user_roles` VALUE (1,1),(1,2),(1,3),(2,2);

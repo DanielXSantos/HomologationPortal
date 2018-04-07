@@ -37,11 +37,13 @@
 				<td th:if="${user.active}" >Ativo</td>
                 <td th:if="not ${user.active}" >Desativado</td>
                 <td th:text="${user.getRolesToString()}"></td>
-				<td><a th:href="@{/admin/editar(id=${user.id})}">Editar</a></td>
+				<td><a th:href="@{/admin/editar(id=${user.id})}">Editar</a>
+					<!--<a th:href="@{/admin/users/delete(id=${user.id})}">Excluir</a>-->
+				</td>
 			</tr>
 		</tbody>
 	</table>
     </div>  
-
+	<br>
 </body>
 </html>
