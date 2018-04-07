@@ -4,7 +4,7 @@
       layout:decorator="layout/default">
 
 <body>
-<form layout:fragment="content" autocomplete="off" action="#" th:action="@{/registration}"
+<form layout:fragment="content" autocomplete="off" action="#" th:action="@{/admin/register}"
       th:object="${user}" method="post" class="form-horizontal" role="form" style="margin-top: 15px;">
 
     <h1 th:utext="${successMessage}"></h1>
@@ -37,11 +37,11 @@
 
     <div class="form-group">
         <label for="roles">Tipo de Usuario:</label>
-        <select class="form-control selectpicker" multiple title="Selecione pelo menos um..." id="roles"> <!-- add th:field -->
-            <option th:value="admin">Admin</option>
-            <option th:value="masteradmin">Master Admin</option>
-            <option th:value="user">Usuario</option>
-            <option th:value="fabricante">Fabricante</option>
+        <select class="form-control selectpicker" multiple title="Selecione pelo menos um..." id="roles" th:field="*{roles}"> <!-- add th:field -->
+            <option th:value="ADMIN">Admin</option>
+            <option th:value="MASTER_ADMIN">Master Admin</option>
+            <option th:value="USER">Usuario</option>
+            <option th:value="FABRICANTE">Fabricante</option>
         </select>
     </div>
 
