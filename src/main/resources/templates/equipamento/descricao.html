@@ -250,47 +250,43 @@
 
                                                     doc.addImage(imgData, 'JPEG', 18, 20, 270, 165);
                                                     doc.setFontSize(40);
-                                                    doc.setTextColor(0,0,255);
+                                                    doc.setTextColor(70,130,180);
                                                     doc.setFont("helvetica");
                                                     doc.setFontType("bold");
                                                     doc.text(r1 + 7, 57, 'Cerficado de Homologação');
 
                                                     doc.setFontSize(15);
-                                                    doc.setTextColor(255,0,0);
+                                                    doc.setTextColor(0,0,0);
                                                     doc.setFont("times");
                                                     doc.setFontType("bold");
-                                                    doc.text(r1, f1, 'Certificamos que o equipamento:');
+                                                    doc.text(r1, f1, 'Certificamos que o equipamento');
 
                                                     doc.setTextColor(0,0,0);
                                                     doc.text(r1+ (31*fator) , f1, equip);
 
-                                                    doc.setTextColor(255,0,0);
-                                                    doc.text(r1+(32*fator) + ((equip.length - countU(equip)) * fator + (countU(equip) * fator2)), f1, ',Fabricante:');
+                                                    doc.setTextColor(0,0,0);
+                                                    doc.text(r1+(32*fator) + ((equip.length - countU(equip)) * fator + (countU(equip) * fator2)), f1, ',Fabricante');
 
                                                     doc.setTextColor(0,0,0);
                                                     doc.text(r1 + 34*fator + ((equip.length - countU(equip)) * fator + (countU(equip) * fator2)) + (10*fator), f1, fabricante);
 
-                                                    doc.setTextColor(255,0,0);
                                                     doc.text(r1 + 34*fator + ((equip.length - countU(equip)) * fator + (countU(equip) * fator2)) + (10*fator) + (((fabricante.length - countU(fabricante)) * fator) + (countU(fabricante)*fator2)), f1, ' está devidamente');
 
-                                                    doc.text(r1, f2, 'homologado para utilização na Rede:');
+                                                    doc.text(r1, f2, 'homologado para utilização na Rede');
 
                                                     doc.setTextColor(0,0,0);
                                                     doc.text(r1 + (34*fator), f2, rede);
 
-                                                    doc.setTextColor(255,0,0);
                                                     doc.text(r1 + (35 * fator) + (((rede.length - countU(rede)) * fator) + (countU(rede) * fator2)), f2, " da Algar Telecom, na data de ");
 
                                                     doc.setTextColor(0,0,0);
                                                     doc.text(r1 + (63 * fator) + (((rede.length - countU(rede)) * fator) + (countU(rede) * fator2)) , f2, data + '.');
 
-                                                    doc.setTextColor(255,0,0);
-                                                    doc.text(r1, f3, 'Esta homologação se estende à toda versão de firmware:');
+                                                    doc.text(r1, f3, 'Esta homologação se estende à toda versão de firmware');
 
                                                     doc.setTextColor(0,0,0);
                                                     doc.text(r1 + (52*fator),f3, frm1.fir.value + '.');
 
-                                                    doc.setTextColor(255,0,0);
                                                     doc.text(r1,f4, 'Esta homologação é expedida em nome do fabricante aqui identificado e é válida somente');
                                                     doc.text(r1, f5, 'para os produtos discriminados acima, cuja utilização deve observar as condições');
                                                     doc.text(r1, f6, 'estabelecidas no portal de homologações da Algar Telecom ou a aplicação a que se destina.');
