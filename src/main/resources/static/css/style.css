@@ -16,7 +16,10 @@
 
 .form-signin-heading {
     text-align:center;
-    margin-bottom: 30px;
+}
+
+#subtitleHeading{
+    color: #343a40ab;
 }
 
 .form-control {

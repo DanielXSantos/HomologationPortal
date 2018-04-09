@@ -10,72 +10,75 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
 
-                <li class="nav-item specialNavItem">
+                <li sec:authorize="isAuthenticated()" th:if="${#httpServletRequest.requestURI}!='/login'"
+                    class="nav-item specialNavItem">
                     <a class="btn btn-outline-secondary" data-toggle="collapse" href="#collapseSearchBar" role="button"
                        aria-expanded="false" aria-controls="collapseSearchBar">
                         Buscar
                     </a>
                 </li>
+                <ul sec:authorize="isAuthenticated()" class="navbar-nav ml-auto">
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/equipamento">Equipamentos</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/equipamento">Equipamentos</a>
+                    </li>
+                    <ul sec:authorize="hasAnyAuthority('USER','ADMIN','MASTER_ADMIN')" class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/fabricante">Fabricantes</a>
+                        </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/fabricante">Fabricantes</a>
-                </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/features">Features</a>
+                        </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/features">Features</a>
-                </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/precificacao">Itens Avulsos</a>
+                        </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/precificacao">Itens Avulsos</a>
-                </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/tipo">Tipos</a>
+                        </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/tipo">Tipos</a>
-                </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/homologado">Plataformas</a>
+                        </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="/homologado">Plataformas</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/requisito">Requisito</a>
-                </li>
-
-                <li class="specialNavItem nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                       data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false">
-                        Novo
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/equipamento/novo">Equipamento</a>
-                        <a class="dropdown-item" href="/fabricante/novo">Fabricante</a>
-                        <a class="dropdown-item" href="/features/novo">Features</a>
-                        <a class="dropdown-item" href="/precificacao/novo">Itens Avulsos</a>
-                        <a class="dropdown-item" href="/tipo/novo">Tipo</a>
-                        <a class="dropdown-item" href="/homologado/novo">Plataforma</a>
-                        <a class="dropdown-item" href="/requisito/novo">Requisito</a>
-                    </div>
-                </li>
-
+                        <li class="nav-item">
+                            <a class="nav-link" href="/requisito">Requisito</a>
+                        </li>
+                        <li class="specialNavItem nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                               data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">
+                                Novo
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/equipamento/novo">Equipamento</a>
+                                <a class="dropdown-item" href="/fabricante/novo">Fabricante</a>
+                                <a class="dropdown-item" href="/features/novo">Features</a>
+                                <a class="dropdown-item" href="/precificacao/novo">Itens Avulsos</a>
+                                <a class="dropdown-item" href="/tipo/novo">Tipo</a>
+                                <a class="dropdown-item" href="/homologado/novo">Plataforma</a>
+                                <a class="dropdown-item" href="/requisito/novo">Requisito</a>
+                            </div>
+                        </li>
+                    </ul>
+                </ul>
                 <li class="nav-item">
                     <a class="btn btn-outline-primary" th:href="@{/login} "
-                       sec:authorize="hasRole('ROLE_ANONYMOUS')">Login</a>
+                       sec:authorize="!isAuthenticated()">Login</a>
                 </li>
 
                 <li class="nav-item">
                     <a class="btn btn-outline-danger" th:href="@{/logout}"
-                       sec:authorize="!hasRole('ROLE_ANONYMOUS')">Logout</a>
+                       sec:authorize="isAuthenticated()">Logout</a>
                 </li>
             </ul>
         </div>
     </nav>
 
-    <div class="collapse" id="collapseSearchBar">
+    <div sec:authorize="isAuthenticated()" th:if="${#httpServletRequest.requestURI}!='/login'" class="collapse"
+         id="collapseSearchBar">
         <div class="container" id="containerAdvancedSearch">
             <h5 id="titleAdvancedSearch">Busca Avançada</h5>
 

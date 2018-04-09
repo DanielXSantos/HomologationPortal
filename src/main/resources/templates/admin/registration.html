@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      layout:decorator="layout/default">
+
+<body>
+
+<div layout:fragment="content">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/registration.css}"/>
+
+    <form autocomplete="off" action="#" th:action="@{/admin/register/save}"
+          th:object="${user}" method="post" class="form-horizontal" role="form" style="margin-top: 15px;">
+
+        <input th:field="${user.id}" type="hidden"/>
+        <h1 th:utext="${successMessage}"></h1>
+        <p class="h1">Cadastro de Usuários</p>
+        <br>
+
+        <div class="form-group">
+            <label for="name">Nome:</label>
+            <input type="text" th:field="*{name}" id="name" name="name" placeholder="Digite seu nome..."
+                   class="form-control"/>
+            <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                   class="validation-message"></label>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" th:field="*{email}" id="email" name="email" placeholder="Digite seu email..."
+                   class="form-control"/>
+            <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                   class="validation-message"></label>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Senha:</label>
+            <input type="password" th:field="*{password}" id="password" name="password"
+                   placeholder="Digite sua senha..." class="form-control"/>
+            <label th:if="${#fields.hasErrors('password')}"
+                   th:errors="*{password}" class="validation-message"></label>
+        </div>
+
+        <div class="form-group">
+            <label for="roles">Tipo de Usuário:</label>
+            <select class="form-control selectpicker" multiple title="Selecione pelo menos um..." id="roles"
+                    data-style="form-control" th:field="${user.roles}">
+                <option th:each="role: ${roles}" th:value="${role.id}" th:text="${role.role}"></option>
+                <!--<option th:if="not ${user.hasAuthority('ADMIN')}" th:value="ADMIN">Admin</option>-->
+                <!--<option th:if="not ${user.hasAuthority('MASTER_ADMIN')}" th:value="MASTER_ADMIN">Master Admin</option>-->
+                <!--<option th:if="not ${user.hasAuthority('USER')}" th:value="USER">Usuario</option>-->
+                <!--<option th:if="not ${user.hasAuthority('FABRICANTE')}" th:value="FABRICANTE">Fabricante</option>-->
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="selectState">Estado do Usuário:</label>
+            <select class="form-control" id="selectState" th:field="*{active}">
+                <option value=true selected="selected">Ativado</option>
+                <option value=false>Desativado</option>
+            </select>
+            <span th:if="${#fields.hasErrors('active')}" th:errors="${user.active}"
+                  class="badge badge-danger">erro</span>
+        </div>
+
+        <div class="form-group">
+            <label for="expirationDate">Data de expiração</label>
+            <input type="date" class="form-control" id="expirationDate" th:field="*{expirationDate}"/>
+            <label th:if="${#fields.hasErrors('expirationDate')}"
+                   th:errors="*{expirationDate}" class="validation-message"></label>
+        </div>
+
+        <div class="form-group">
+            <label for="fabricanteRegistro">Fabricante</label>
+            <select th:field="${user.fabricante}" class="form-control" id="fabricanteRegistro">
+                <option th:value="null">Não é um Fabricante</option>
+                <option th:each="fabricante : ${fabricantes}" th:value="${fabricante.id}"
+                        th:text="${fabricante.nome}"></option>
+            </select>
+            <span th:if="${#fields.hasErrors('fabricante')}" th:errors="${user.fabricante}"
+                  class="badge badge-danger">erro</span>
+        </div>
+
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success">Salvar</button>
+            <a th:href="@{/admin}" class="btn btn-danger">Cancelar</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

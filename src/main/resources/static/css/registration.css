@@ -1,0 +1,27 @@
+.bootstrap-select button {
+    color: grey !important;
+}
+
+.bootstrap-select {
+    border-bottom-color: rgb(206, 212, 218) !important;
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+    border-bottom-style: solid !important;
+    border-bottom-width: 1px !important;
+    border-image-outset: 0px !important;
+    border-image-repeat: stretch !important;
+    border-image-slice: 100% !important;
+    border-image-source: none !important;
+    border-image-width: 1 !important;
+    border-left-color: rgb(206, 212, 218) !important;
+    border-left-style: solid !important;
+    border-left-width: 1px !important;
+    border-right-color: rgb(206, 212, 218) !important;
+    border-right-style: solid !important;
+    border-right-width: 1px !important;
+    border-top-color: rgb(206, 212, 218) !important;
+    border-top-right-radius: 4px !important;
+    border-top-style: solid !important;
+    border-top-width: 1px !important;
+    box-sizing: border-box !important;
+}
