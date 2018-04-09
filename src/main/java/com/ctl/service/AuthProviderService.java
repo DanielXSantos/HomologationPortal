@@ -1,6 +1,5 @@
 package com.ctl.service;
 
-import com.ctl.model.Role;
 import com.ctl.model.User;
 import com.ctl.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +20,17 @@ public class AuthProviderService implements AuthenticationProvider {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoderService encoder;
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String email = authentication.getName();
         String pass  = authentication.getCredentials().toString();
 
-        User user = userRepository.findByEmailIgnoreCase(email);
+        User user = userRepository.findByDeletedFalseAndEmailIgnoreCase(email);
 
-        if(user != null && user.getPassword().equals(pass)){
+        if(user != null && !user.isDeleted() && encoder.verify(pass,user.getPassword())){
             if (user.isActive()
                     && !user.isAccountNonExpired()) {
                 Collection<? extends GrantedAuthority> authorities = user.getAuthorities();

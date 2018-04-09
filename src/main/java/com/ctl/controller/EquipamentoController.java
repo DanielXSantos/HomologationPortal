@@ -94,7 +94,7 @@ public class EquipamentoController {
             seg.add(segmento);
             search.setSegmento(seg);
             search.setTipos(tipo);
-            User user = userRepository.findByEmailIgnoreCase(auth.getName());
+            User user = userRepository.findByDeletedFalseAndEmailIgnoreCase(auth.getName());
             Fabricante fabri = user.getFabricante();
 
             if(fabri != null){
@@ -350,7 +350,7 @@ public class EquipamentoController {
     
     @GetMapping("/search")
     public String search(Model model, Authentication auth, SearchForm s){
-        User user = userRepository.findByEmailIgnoreCase(auth.getName());
+        User user = userRepository.findByDeletedFalseAndEmailIgnoreCase(auth.getName());
         Fabricante fabri = user.getFabricante();
 
         if(fabri != null){

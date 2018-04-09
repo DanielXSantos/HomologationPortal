@@ -33,12 +33,13 @@
 			<tr th:each="user: ${users}">
 				<td th:text="${user.name}"></td>
 				<td th:text="${user.email}"></td>
-				<td th:text="${#dates.format(user.expirationDate, 'dd-MM-yyyy')}"></td>
+				<td th:if="${user.expirationDate}" th:text="${#dates.format(user.expirationDate, 'dd-MM-yyyy')}"></td>
+				<td th:if="not ${user.expirationDate}">Não expira!</td>
 				<td th:if="${user.active}" >Ativo</td>
                 <td th:if="not ${user.active}" >Desativado</td>
                 <td th:text="${user.getRolesToString()}"></td>
 				<td><a th:href="@{/admin/editar(id=${user.id})}">Editar</a>
-					<!--<a th:href="@{/admin/users/delete(id=${user.id})}">Excluir</a>-->
+					<a th:href="@{/admin/users/delete(id=${user.id})}">Excluir</a>
 				</td>
 			</tr>
 		</tbody>

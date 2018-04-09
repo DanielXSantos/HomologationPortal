@@ -47,13 +47,15 @@ public class User implements UserDetails {
     @Column(name = "active")
     private boolean active = true;
 
+    @Column(name= "is_deleted")
+    private boolean deleted = false;
+
     //@OneToMany(targetEntity = Role.class, mappedBy = "users", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER, cascade =
             {
                     CascadeType.DETACH,
                     CascadeType.MERGE,
-                    CascadeType.REFRESH,
-                    CascadeType.PERSIST
+                    CascadeType.REFRESH
             })
     @JoinTable(
             name = "user_roles",
@@ -167,6 +169,14 @@ public class User implements UserDetails {
 
     public void setFabricante(Fabricante fabricante) {
         this.fabricante = fabricante;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     public String getRolesToString(){

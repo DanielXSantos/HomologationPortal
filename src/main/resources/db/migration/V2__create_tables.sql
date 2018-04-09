@@ -9,8 +9,9 @@ CREATE TABLE `user` (
   `email` varchar(255) UNIQUE NOT NULL,
   `name` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `expiration_date` date NOT NULL,
+  `expiration_date` date,
   `fabricante_id` BIGINT,
+  `is_deleted` int(11) DEFAULT FALSE ,
   PRIMARY KEY (`user_id`),
   FOREIGN KEY (`fabricante_id`) REFERENCES `fabricante`(`id`)
 );
