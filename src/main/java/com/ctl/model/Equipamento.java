@@ -108,7 +108,6 @@ public class Equipamento {
     @JoinColumn(name = "fabricante_id", referencedColumnName = "id")
     private com.ctl.model.Fabricante fabricante;
 
-    @NotEmpty
     @ManyToMany(cascade = {CascadeType.MERGE})
     @JoinTable(name = "Equipamento_Features",
             joinColumns = {
@@ -117,7 +116,6 @@ public class Equipamento {
                 @JoinColumn(name = "features_id")})
     private Set<com.ctl.model.Features> features = new HashSet<>();
 
-    @NotEmpty
     @ManyToMany(cascade = {CascadeType.MERGE})
     @JoinTable(name = "Homologado_Para",
             joinColumns = {
@@ -126,7 +124,6 @@ public class Equipamento {
                 @JoinColumn(name = "homologado_id")})
     private Set<com.ctl.model.Features> homologado = new HashSet<>();
 
-    @NotEmpty
     @ManyToMany(cascade = {CascadeType.MERGE})
     @JoinTable(name = "Equipamento_Requisito",
             joinColumns = {

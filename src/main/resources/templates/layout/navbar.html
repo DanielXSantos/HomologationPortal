@@ -68,7 +68,9 @@
                     <a class="btn btn-outline-primary" th:href="@{/login} "
                        sec:authorize="!isAuthenticated()">Login</a>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link" sec:authorize="isAuthenticated()" th:text="'Olá ' +${userName}"></a>
+                </li>
                 <li class="nav-item">
                     <a class="btn btn-outline-danger" th:href="@{/logout}"
                        sec:authorize="isAuthenticated()">Logout</a>
