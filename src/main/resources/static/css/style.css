@@ -168,3 +168,12 @@ input[type="password"] {
     text-align: center;
     width: 100%;
 }
+
+.flex-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.flex-check{
+    width: 33%;
+}

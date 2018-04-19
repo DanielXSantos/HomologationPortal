@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ctl.model.Equipamento;
 import com.ctl.util.AdvancedSearchUtil;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -31,6 +32,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletResponse;
+
 import form.SearchForm;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.http.HttpHeaders;
@@ -48,25 +50,25 @@ public class EquipamentoController {
 
     @Autowired
     private EquipamentoRepository equipamentoRepository;
-    
+
     @Autowired
     private FabricanteRepository fabricanteRepository;
-    
+
     @Autowired
     private FeaturesRepository featuresRepository;
-    
+
     @Autowired
     private PrecificacaoRepository precificacaoRepository;
-    
+
     @Autowired
     private TipoRepository tipoRepository;
-    
+
     @Autowired
     private HomologadoRepository homologadoRepository;
-    
+
     @Autowired
-    private  AdvancedSearchUtil advancedSearch;
-    
+    private AdvancedSearchUtil advancedSearch;
+
     @Autowired
     private EquipamentoSearchRepositoryImpl repo;
 
@@ -76,19 +78,19 @@ public class EquipamentoController {
     @Autowired
     private UserRepository userRepository;
     private static String uploadDir = System.getProperty("user.dir") + "/uploads/";
-    
+
     @GetMapping
-    public String list(@RequestParam(required=false, value="segmento") String segmento,
-                       @RequestParam(required=false, value="tipo") List<Integer> tipo, Model model,
+    public String list(@RequestParam(required = false, value = "segmento") String segmento,
+                       @RequestParam(required = false, value = "tipo") List<Integer> tipo, Model model,
                        Authentication auth) {
-        
-        model = advancedSearch.build(model,auth);
+
+        model = advancedSearch.build(model, auth);
         // Escolhendo o Segmento (ex.: B2B, B2C ou ambos)
-        if(segmento == null && tipo == null){
+        if (segmento == null && tipo == null) {
             return "equipamento/segmento";
-            
-         // Segmento e tipo escolhidos
-        }else if(segmento != null && tipo != null){
+
+            // Segmento e tipo escolhidos
+        } else if (segmento != null && tipo != null) {
             SearchForm search = new SearchForm();
             List<String> seg = new ArrayList<>();
             seg.add(segmento);
@@ -97,27 +99,27 @@ public class EquipamentoController {
             User user = userRepository.findByDeletedFalseAndEmailIgnoreCase(auth.getName());
             Fabricante fabri = user.getFabricante();
 
-            if(fabri != null){
+            if (fabri != null) {
                 ArrayList<Integer> f = new ArrayList<>();
                 f.add(fabri.getId().intValue());
                 search.setFabricantes(f);
             }
             model.addAttribute("equipamento", new Equipamento());
             model.addAttribute("equipamentos", repo.search(search));
-            return "equipamento/listar";   
-            
-         // em caso de alguma falha retorna o usuário para escolher o segmento
-         // ex.:(caso o usuário tente inserir o tipo sem escolher o segmento, modificando a url)
-        }else if(segmento == null && tipo != null){
+            return "equipamento/listar";
+
+            // em caso de alguma falha retorna o usuário para escolher o segmento
+            // ex.:(caso o usuário tente inserir o tipo sem escolher o segmento, modificando a url)
+        } else if (segmento == null && tipo != null) {
             return "redirect:/equipamento";
-            
-         // Escolhe o Tipo de equipamento
-        }else{
+
+            // Escolhe o Tipo de equipamento
+        } else {
             model.addAttribute("tipos", tipoRepository.findByOrderByNomeAsc());
             model.addAttribute("tipoSearch", new HashSet<String>());
             return "equipamento/tipo";
         }
-        }
+    }
 
     @GetMapping("/editar")
     public String edit(Model model, @RequestParam Long id, Authentication auth) {
@@ -126,7 +128,7 @@ public class EquipamentoController {
         form = equipamentoRepository.findOne(id);
         String[] anexos = new File(uploadDir + id.toString() + "/anexos").list();
         // NULL SAFE
-        if(anexos==null){
+        if (anexos == null) {
             anexos = new String[0];
         }
         System.out.println(anexos);
@@ -148,11 +150,11 @@ public class EquipamentoController {
         model = advancedSearch.build(model, auth);
         String[] anexos = new File(uploadDir + id.toString() + "/anexos").list();
         // NULL SAFE
-        if(anexos==null){
+        if (anexos == null) {
             anexos = new String[0];
         }
         Equipamento e = equipamentoRepository.findOne(id);
-        if(e==null)
+        if (e == null)
             return "redirect:/equipamento";
         model.addAttribute("anexos", anexos);
         model.addAttribute("equipamento", e);
@@ -186,8 +188,8 @@ public class EquipamentoController {
             model.addAttribute("tipos", tipoRepository.findByOrderByNomeAsc());
             model.addAttribute("homologados", homologadoRepository.findByOrderByNomeAsc());
             model.addAttribute("requisitos", requisitoRepository.findByOrderByNomeAsc());
-	        model.addAttribute("editar",editar);
-	        model.addAttribute("anexos",new String[0]);
+            model.addAttribute("editar", editar);
+            model.addAttribute("anexos", new String[0]);
 
             return "equipamento/formulario";
         }
@@ -198,11 +200,11 @@ public class EquipamentoController {
             String path = uploadDir + equipamento.getId();
             // Abrindo a pasta, e criando se não existe
             File f = new File(path);
-            if (f!=null && !f.exists()) {
+            if (f != null && !f.exists()) {
                 f.mkdirs();
             }
-            if(equipamento.getImagem() != null && !equipamento.getImagem().isEmpty()){
-            // salvando imagem
+            if (equipamento.getImagem() != null && !equipamento.getImagem().isEmpty()) {
+                // salvando imagem
                 String imgType = equipamento.getImagem().getOriginalFilename();
                 int pointer = imgType.lastIndexOf(".");
                 if (pointer == -1) {
@@ -216,14 +218,14 @@ public class EquipamentoController {
 
             }
 
-            if(equipamento.getCaderno() != null && !equipamento.getCaderno().isEmpty()){
+            if (equipamento.getCaderno() != null && !equipamento.getCaderno().isEmpty()) {
                 // salvando caderno de Testes
                 File caderno = new File(path + "/caderno.pdf");
                 caderno.createNewFile();
                 equipamento.getCaderno().transferTo(caderno);
             }
 
-            if(equipamento.getCaderno() != null &&!equipamento.getCaderno().isEmpty()){
+            if (equipamento.getCaderno() != null && !equipamento.getCaderno().isEmpty()) {
                 // salvando dataSheet
                 File dataSheet = new File(path + "/dataSheet.pdf");
                 dataSheet.createNewFile();
@@ -231,29 +233,29 @@ public class EquipamentoController {
             }
             // Salvando anexos
             File dir = new File(path + "/anexos");
-            if(!dir.exists())
+            if (!dir.exists())
                 dir.mkdirs();
-            if(equipamento.getFiles() != null) {
+            if (equipamento.getFiles() != null) {
                 for (MultipartFile file : equipamento.getFiles()) {
                     if (!file.isEmpty())
                         file.transferTo(new File(path + "/anexos/" + file.getOriginalFilename()));
                 }
             }
             String names = equipamento.getFilesName();
-            if(names!=null && names.length() > 0){
-                if(names.contains(",")){
+            if (names != null && names.length() > 0) {
+                if (names.contains(",")) {
                     String files[] = names.split(",");
-                    for(String n: files){
-                        FileUtils.forceDelete(new File(path+"/anexos/"+n));
+                    for (String n : files) {
+                        FileUtils.forceDelete(new File(path + "/anexos/" + n));
                     }
-                }else{
-                    FileUtils.forceDelete(new File(path+"/anexos/"+names));
+                } else {
+                    FileUtils.forceDelete(new File(path + "/anexos/" + names));
                 }
             }
 
         } catch (Exception e) {
             File directory = new File(uploadDir + equipamento.getId());
-            if(!editar){
+            if (!editar) {
                 try {
                     FileUtils.cleanDirectory(directory);
                     FileUtils.forceDelete(directory);
@@ -269,7 +271,7 @@ public class EquipamentoController {
             model.addAttribute("tipos", tipoRepository.findByOrderByNomeAsc());
             model.addAttribute("homologados", homologadoRepository.findByOrderByNomeAsc());
             model.addAttribute("requisitos", requisitoRepository.findByOrderByNomeAsc());
-            model.addAttribute("editar",editar);
+            model.addAttribute("editar", editar);
 
             return "equipamento/formulario";
 
@@ -329,7 +331,7 @@ public class EquipamentoController {
 
     @GetMapping("/file/{id}/{fileName}.{type}")
     public void downloadFile(HttpServletResponse resonse, @PathVariable(value = "id") Integer id, @PathVariable(value = "fileName") String fileName,
-            @PathVariable(value = "type") String tipo) {
+                             @PathVariable(value = "type") String tipo) {
         try {
             File file = new File(uploadDir + id.toString() + "/anexos/" + fileName + "." + tipo);
             resonse.setContentType("application/pdf");
@@ -348,13 +350,13 @@ public class EquipamentoController {
             Logger.getLogger(EquipamentoController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @GetMapping("/search")
-    public String search(Model model, Authentication auth, SearchForm s){
+    public String search(Model model, Authentication auth, SearchForm s) {
         User user = userRepository.findByDeletedFalseAndEmailIgnoreCase(auth.getName());
         Fabricante fabri = user.getFabricante();
 
-        if(fabri != null){
+        if (fabri != null) {
             ArrayList<Integer> f = new ArrayList<>();
             f.add(fabri.getId().intValue());
             s.setFabricantes(f);

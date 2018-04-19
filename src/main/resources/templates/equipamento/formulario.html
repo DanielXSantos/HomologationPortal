@@ -5,14 +5,16 @@
 <body>
 <div layout:fragment="content" class="row">
     <div class="col-sm-12  btn-table">
-        <form id="formEquipamento" th:action="@{'/equipamento/salvar'(editar=${editar})}" th:object="${equipamento}" method="post"
+        <form id="formEquipamento" th:action="@{'/equipamento/salvar'(editar=${editar})}" th:object="${equipamento}"
+              method="post"
               enctype="multipart/form-data">
 
             <input th:field="${equipamento.id}" type="hidden"/>
             <p class="h1">Cadastro Equipamento</p>
             <div class="form-group">
                 <label for="inputNome">Nome</label>
-                <input type="text" class="form-control" id="inputNome" th:field="${equipamento.nome}" placeholder="Digite um nome..."/>
+                <input type="text" class="form-control" id="inputNome" th:field="${equipamento.nome}"
+                       placeholder="Digite um nome..."/>
                 <span th:if="${#fields.hasErrors('nome')}" th:errors="${equipamento.nome}"
                       class="badge badge-danger">erro</span>
             </div>
@@ -68,10 +70,12 @@
             <div class="form-group">
                 <label for="inputTipo">Tipo</label>
 
-                <div th:each="tipo : ${tipos}" class="form-check">
-                    <input class="form-check-input" type="checkbox" th:id="${tipo.id}"
-                           th:field="${equipamento.tipo}" th:value="${tipo.id}"/>
-                    <label class="form-check-label" th:text="${tipo.nome}" th:for="${tipo.id}"></label>
+                <div class="flex-container">
+                    <div th:each="tipo : ${tipos}" class="form-check flex-check">
+                        <input class="form-check-input" type="checkbox" th:id="${tipo.id}"
+                               th:field="${equipamento.tipo}" th:value="${tipo.id}"/>
+                        <label class="form-check-label" th:text="${tipo.nome}" th:for="${tipo.id}"></label>
+                    </div>
                 </div>
                 <span th:if="${#fields.hasErrors('tipo')}"
                       th:errors="${equipamento.tipo}" class="badge badge-danger">erro</span>
@@ -141,11 +145,14 @@
             <div class="form-group">
                 <label for="inputFeatures">Features:</label>
 
-                <div th:each="features : ${featuress}" class="form-check">
-                    <input class="form-check-input" type="checkbox" th:id="${features.id}"
-                           th:field="${equipamento.features}" th:value="${features.id}"/>
-                    <label class="form-check-label" th:text="${features.nome}" th:for="${features.id}"></label>
+                <div class="flex-container">
+                    <div th:each="features : ${featuress}" class="form-check flex-check">
+                        <input class="form-check-input" type="checkbox" th:id="${features.id}"
+                               th:field="${equipamento.features}" th:value="${features.id}"/>
+                        <label class="form-check-label" th:text="${features.nome}" th:for="${features.id}"></label>
+                    </div>
                 </div>
+
                 <div class="alert alert-warning" th:if="${featuress.empty}">
                     <label>Não há itens cadastrados, cadastre eles antes de cadastrar o equipamento</label>
                 </div>
@@ -155,11 +162,15 @@
 
             <div class="form-group">
                 <label for="inputHomologado">Homologado Para:</label>
-                <div th:each="homologado : ${homologados}" class="form-check">
-                    <input class="form-check-input" type="checkbox" th:id="${homologado.id}"
-                           th:field="${equipamento.homologado}" th:value="${homologado.id}"/>
-                    <label class="form-check-label" th:text="${homologado.nome}" th:for="${homologado.id}"></label>
+
+                <div class="flex-container">
+                    <div th:each="homologado : ${homologados}" class="form-check flex-check">
+                        <input class="form-check-input" type="checkbox" th:id="${homologado.id}"
+                               th:field="${equipamento.homologado}" th:value="${homologado.id}"/>
+                        <label class="form-check-label" th:text="${homologado.nome}" th:for="${homologado.id}"></label>
+                    </div>
                 </div>
+
                 <div class="alert alert-warning" th:if="${homologados.empty}">
                     <label>Não há itens cadastrados, cadastre eles antes de cadastrar o equipamento</label>
                 </div>
@@ -169,11 +180,16 @@
 
             <div class="form-group">
                 <label for="inputPrecificacao">Itens Avulsos:</label>
-                <div th:each="precificacao : ${precificacaos}" class="form-check">
-                    <input class="form-check-input" type="checkbox" th:id="${precificacao.id}"
-                           th:field="${equipamento.precificacao}" th:value="${precificacao.id}"/>
-                    <label class="form-check-label" th:text="${precificacao.tipo}" th:for="${precificacao.id}"></label>
+
+                <div class="flex-container">
+                    <div th:each="precificacao : ${precificacaos}" class="form-check flex-check">
+                        <input class="form-check-input" type="checkbox" th:id="${precificacao.id}"
+                               th:field="${equipamento.precificacao}" th:value="${precificacao.id}"/>
+                        <label class="form-check-label" th:text="${precificacao.tipo}"
+                               th:for="${precificacao.id}"></label>
+                    </div>
                 </div>
+
                 <div class="alert alert-warning" th:if="${precificacaos.empty}">
                     <label>Não há itens avulsos cadastrados, cadastre eles antes de cadastrar o
                         equipamento</label>
@@ -182,10 +198,16 @@
 
             <div class="form-group">
                 <label for="inputRequisito">Requisito:</label>
-                <div th:each="requisito : ${requisitos}">
-                    <input type="checkbox" th:field="${equipamento.requisito}" th:value="${requisito.id}"
-                           th:text="${requisito.nome}"></input>
+
+                <div class="flex-container">
+                    <div th:each="requisito : ${requisitos}" class="form-check flex-check">
+                        <input class="form-check-input" type="checkbox" th:id="${requisito.id}"
+                               th:field="${equipamento.requisito}" th:value="${requisito.id}"/>
+                        <label class="form-check-label" th:text="${requisito.nome}"
+                               th:for="${requisito.id}"></label>
+                    </div>
                 </div>
+
                 <div class="alert alert-warning" th:if="${requisitos.empty}">
                     <label>Não há itens cadastrados, cadastre eles antes de cadastrar o equipamento</label>
                 </div>

@@ -1,2 +1,32 @@
 INSERT INTO role VALUE (DEFAULT, 'ADMIN'),(DEFAULT, 'USER'),
                          (DEFAULT, 'MASTER_ADMIN'), (DEFAULT, 'FABRICANTE');
+
+INSERT INTO fabricante (nome, email, telefone) VALUES
+('Lucas','Lucasgomezsousa@gmail.com','992937515'),
+('Daniel','emaildaniel@email.com','998617878'),
+('Ronistone','ronipedra@gmail.com','993547060');
+
+INSERT INTO features (nome, descricao) VALUES
+('ADSL','Acesso a Internet'),
+('Wifi','Acesso a Internet'),
+('Ronistone','manda pro github');
+
+INSERT INTO precificacao (tipo, part_nro, descricao) VALUES
+('Cabo','123.456-789','Cabo de Energia'),
+('Cabo','987.654-321','Cabo de Energia'),
+('Teclado','1.0.0','Teclado ABNT2');
+
+INSERT INTO tipo (nome, descricao) VALUES
+('Cabos','Cabos de Rede'),
+('Mouse','Mouse Wireless'),
+('Teclado','Teclado ABNT');
+
+INSERT INTO homologado (nome, descricao) VALUES
+('Homologado','Concluido'),
+('Em Teste','Em Testes'),
+('Não-Homologado','Não foi homologado');
+
+INSERT INTO equipamento (nome, status, data_inicio, data_termino, segmento, descricao, fabricante_id, precificacao_id, homologado_id) VALUES
+('Switch','novo','2003-09-03','2012-11-17','B2B','Conexao a Internet',1,1,2),
+('Desktop','usado','2019-03-18','2017-04-18','B2C','Uso CTT',2,2,3),
+('Fax','antigo','2013-04-10','2017-03-18','B2B-B2C','Uso dos Associados',1,3,1);
