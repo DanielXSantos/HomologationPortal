@@ -1,6 +1,7 @@
 INSERT INTO role VALUE (DEFAULT, 'ADMIN'),(DEFAULT, 'USER'),
                          (DEFAULT, 'MASTER_ADMIN'), (DEFAULT, 'FABRICANTE');
 
+/*
 INSERT INTO fabricante (nome, email, telefone) VALUES
 ('Lucas','Lucasgomezsousa@gmail.com','992937515'),
 ('Daniel','emaildaniel@email.com','998617878'),
@@ -30,3 +31,4 @@ INSERT INTO equipamento (nome, status, data_inicio, data_termino, segmento, desc
 ('Switch','novo','2003-09-03','2012-11-17','B2B','Conexao a Internet',1,1,2),
 ('Desktop','usado','2019-03-18','2017-04-18','B2C','Uso CTT',2,2,3),
 ('Fax','antigo','2013-04-10','2017-03-18','B2B-B2C','Uso dos Associados',1,3,1);
+*/

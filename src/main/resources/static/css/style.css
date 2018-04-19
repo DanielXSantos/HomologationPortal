@@ -82,6 +82,10 @@ input[type="password"] {
 }
 
 /* Navbar */
+#labelWelcome{
+    margin-right: 2px;
+}
+
 .specialNavItem {
     padding-right: 10px;
 }
