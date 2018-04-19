@@ -1,5 +1,5 @@
 /* Commons */
-.modal-footer{
+.modal-footer {
     padding-right: 0;
 }
 
@@ -15,10 +15,10 @@
 }
 
 .form-signin-heading {
-    text-align:center;
+    text-align: center;
 }
 
-#subtitleHeading{
+#subtitleHeading {
     color: #343a40ab;
 }
 
@@ -63,17 +63,17 @@ input[type="password"] {
     margin-bottom: 20px;
 }
 
-#buttonSearchTypes{
+#buttonSearchTypes {
     margin-top: 15px;
 }
 
 /* default.html */
-.mainDefault{
+.mainDefault {
     margin-top: 25px;
 }
 
 /* Data Table CSS */
-.dataTables_filter{
+.dataTables_filter {
     padding-top: 5px;
 }
 
@@ -82,19 +82,19 @@ input[type="password"] {
 }
 
 /* Navbar */
-.specialNavItem{
+.specialNavItem {
     padding-right: 10px;
 }
 
-.nav-item{
+.nav-item {
     margin-right: 0px;
 }
 
-#containerAdvancedSearch{
+#containerAdvancedSearch {
     margin-top: 25px;
 }
 
-.form-inline{
+.form-inline {
     width: 100% !important;
 }
 
@@ -102,12 +102,12 @@ input[type="password"] {
     text-align: center;
 }
 
-.selectFormGroup{
+.selectFormGroup {
     margin-right: 15px;
     flex: 1 !important;
 }
 
-.selectFormGroup select{
+.selectFormGroup select {
     width: 100% !important;
 }
 
@@ -117,17 +117,17 @@ input[type="password"] {
     width: 50%;
 }
 
-.dateFormGroup input{
+.dateFormGroup input {
     width: 100% !important;
 }
 
-#divSearchButton{
+#divSearchButton {
     margin-top: 20px;
     width: 100%;
     text-align: center;
 }
 
-.bootstrap-select button{
+.bootstrap-select button {
     color: white !important;
 }
 
@@ -135,7 +135,36 @@ input[type="password"] {
 .open > .dropdown-menu {
     display: block !important;
 }
-.div-button{
+
+.div-button {
     display: inline !important;
     margin-top: 5px;
+}
+
+.div-button .btn {
+    margin-top: 5px;
+}
+
+/*Equipamentos */
+.cards {
+    margin-top: 20px;
+}
+
+.cards .card-title{
+    font-size: 1.12rem !important;
+}
+
+#imgDescricaoEquipamento {
+    max-width: 100%;
+    height: auto;
+}
+
+#divCloseInformations{
+    float: right;
+    margin-right: 15px;
+}
+
+#divButtonGenerate{
+    text-align: center;
+    width: 100%;
 }
