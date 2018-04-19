@@ -8,4 +8,5 @@ import com.ctl.model.Features;
 
 public interface FeaturesRepository extends CrudRepository<Features, Long>{
 	List<Features> findByNomeLike(String nome);
+	List<Features> findByOrderByNomeAsc();
 }

@@ -8,4 +8,5 @@ import com.ctl.model.Homologado;
 
 public interface HomologadoRepository extends CrudRepository<Homologado, Long>{
 	List<Homologado> findByNomeLike(String nome);
+	List<Homologado> findByOrderByNomeAsc();
 }

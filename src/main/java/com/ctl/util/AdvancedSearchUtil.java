@@ -71,16 +71,16 @@ public class AdvancedSearchUtil {
                 }
             }
         }
-        model.addAttribute("fabricantesForm", fabricanteRepository.findAll());
+        model.addAttribute("fabricantesForm", fabricanteRepository.findByOrderByNomeAsc());
 
         return model;
     }
 
     private Model __build__(Model model,Authentication auth){
         Object o = auth.getPrincipal();
-        model.addAttribute("featuresForm", featuresRepository.findAll());
-        model.addAttribute("tiposForm", tipoRepository.findAll());
-        model.addAttribute("homologadoForm", homologadoRepository.findAll());
+        model.addAttribute("featuresForm", featuresRepository.findByOrderByNomeAsc());
+        model.addAttribute("tiposForm", tipoRepository.findByOrderByNomeAsc());
+        model.addAttribute("homologadoForm", homologadoRepository.findByOrderByNomeAsc());
         //model.addAttribute("userForm", userRepository.findAll());
         model.addAttribute("form", new SearchForm());
         if(o instanceof User) {

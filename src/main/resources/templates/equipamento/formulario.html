@@ -5,7 +5,7 @@
 <body>
 <div layout:fragment="content" class="row">
     <div class="col-sm-12  btn-table">
-        <form th:action="@{'/equipamento/salvar'(editar=${editar})}" th:object="${equipamento}" method="post"
+        <form id="formEquipamento" th:action="@{'/equipamento/salvar'(editar=${editar})}" th:object="${equipamento}" method="post"
               enctype="multipart/form-data">
 
             <input th:field="${equipamento.id}" type="hidden"/>

@@ -113,7 +113,7 @@ public class EquipamentoController {
             
          // Escolhe o Tipo de equipamento
         }else{
-            model.addAttribute("tipos", tipoRepository.findAll());
+            model.addAttribute("tipos", tipoRepository.findByOrderByNomeAsc());
             model.addAttribute("tipoSearch", new HashSet<String>());
             return "equipamento/tipo";
         }
@@ -132,13 +132,14 @@ public class EquipamentoController {
         System.out.println(anexos);
         model.addAttribute("anexos", anexos);
         model.addAttribute("equipamento", form);
-        model.addAttribute("fabricantes", fabricanteRepository.findAll());
-        model.addAttribute("featuress", featuresRepository.findAll());
-        model.addAttribute("precificacaos", precificacaoRepository.findAll());
-        model.addAttribute("tipos", tipoRepository.findAll());
+        model.addAttribute("fabricantes", fabricanteRepository.findByOrderByNomeAsc());
+        model.addAttribute("featuress", featuresRepository.findByOrderByNomeAsc());
+        model.addAttribute("precificacaos", precificacaoRepository.findByOrderByTipoAsc());
+        model.addAttribute("tipos", tipoRepository.findByOrderByNomeAsc());
         model.addAttribute("editar", true);
-        model.addAttribute("homologados", homologadoRepository.findAll());
-        model.addAttribute("requisitos", requisitoRepository.findAll());
+        model.addAttribute("homologados", homologadoRepository.findByOrderByNomeAsc());
+        model.addAttribute("requisitos", requisitoRepository.findByOrderByNomeAsc());
+
         return "equipamento/formulario";
     }
 
@@ -162,13 +163,13 @@ public class EquipamentoController {
     public String novo(Model model, Authentication auth) {
         model = advancedSearch.build(model, auth);
         model.addAttribute("equipamento", new Equipamento());
-        model.addAttribute("fabricantes", fabricanteRepository.findAll());
-        model.addAttribute("featuress", featuresRepository.findAll());
-        model.addAttribute("precificacaos", precificacaoRepository.findAll());
-        model.addAttribute("tipos", tipoRepository.findAll());
+        model.addAttribute("fabricantes", fabricanteRepository.findByOrderByNomeAsc());
+        model.addAttribute("featuress", featuresRepository.findByOrderByNomeAsc());
+        model.addAttribute("precificacaos", precificacaoRepository.findByOrderByTipoAsc());
+        model.addAttribute("tipos", tipoRepository.findByOrderByNomeAsc());
         model.addAttribute("editar", false);
-        model.addAttribute("homologados", homologadoRepository.findAll());
-        model.addAttribute("requisitos", requisitoRepository.findAll());
+        model.addAttribute("homologados", homologadoRepository.findByOrderByNomeAsc());
+        model.addAttribute("requisitos", requisitoRepository.findByOrderByNomeAsc());
         return "equipamento/formulario";
     }
 
@@ -179,14 +180,15 @@ public class EquipamentoController {
         model = advancedSearch.build(model, auth);
         if (bindingResult.hasErrors()) {
             model.addAttribute("equipamento", equipamento);
-            model.addAttribute("fabricantes", fabricanteRepository.findAll());
-            model.addAttribute("featuress", featuresRepository.findAll());
-            model.addAttribute("precificacaos", precificacaoRepository.findAll());
-            model.addAttribute("tipos", tipoRepository.findAll());
-            model.addAttribute("homologados", homologadoRepository.findAll());
-	        model.addAttribute("requisitos", requisitoRepository.findAll());
+            model.addAttribute("fabricantes", fabricanteRepository.findByOrderByNomeAsc());
+            model.addAttribute("featuress", featuresRepository.findByOrderByNomeAsc());
+            model.addAttribute("precificacaos", precificacaoRepository.findByOrderByTipoAsc());
+            model.addAttribute("tipos", tipoRepository.findByOrderByNomeAsc());
+            model.addAttribute("homologados", homologadoRepository.findByOrderByNomeAsc());
+            model.addAttribute("requisitos", requisitoRepository.findByOrderByNomeAsc());
 	        model.addAttribute("editar",editar);
 	        model.addAttribute("anexos",new String[0]);
+
             return "equipamento/formulario";
         }
 
@@ -261,18 +263,17 @@ public class EquipamentoController {
             }
             e.printStackTrace();
             model.addAttribute("equipamento", equipamento);
-            model.addAttribute("fabricantes", fabricanteRepository.findAll());
-            model.addAttribute("featuress", featuresRepository.findAll());
-            model.addAttribute("precificacaos", precificacaoRepository.findAll());
-            model.addAttribute("tipos", tipoRepository.findAll());
-            model.addAttribute("homologados", homologadoRepository.findAll());
-	        model.addAttribute("requisitos", requisitoRepository.findAll());
+            model.addAttribute("fabricantes", fabricanteRepository.findByOrderByNomeAsc());
+            model.addAttribute("featuress", featuresRepository.findByOrderByNomeAsc());
+            model.addAttribute("precificacaos", precificacaoRepository.findByOrderByTipoAsc());
+            model.addAttribute("tipos", tipoRepository.findByOrderByNomeAsc());
+            model.addAttribute("homologados", homologadoRepository.findByOrderByNomeAsc());
+            model.addAttribute("requisitos", requisitoRepository.findByOrderByNomeAsc());
             model.addAttribute("editar",editar);
+
             return "equipamento/formulario";
-//                    return "equipamento/listar";
 
         }
-//                return "redirect:/"; 
         return "redirect:/equipamento";
     }
 
