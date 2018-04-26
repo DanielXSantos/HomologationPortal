@@ -17,13 +17,13 @@
 
         <div class="form-group">
             <label for="inputEmail">E-mail</label>
-            <input type="email" class="form-control" id="inputNome" th:field="*{email}" placeholder="username@email.com"/>
+            <input type="text" class="form-control" id="inputEmail" th:field="*{email}"/>
             <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="badge badge-danger">erro</span>
         </div>
 
         <div class="form-group">
             <label for="inputTelefone">Telefone</label>
-            <input type="text" class="form-control" id="inputNome" th:field="*{telefone}"/>
+            <input type="text" class="form-control" id="inputTelefone" th:field="*{telefone}"/>
             <span th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}"
                   class="badge badge-danger">erro</span>
         </div>
