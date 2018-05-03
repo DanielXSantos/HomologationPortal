@@ -8,5 +8,6 @@ import com.ctl.model.Fabricante;
 
 public interface FabricanteRepository extends CrudRepository<Fabricante, Long>{
 	List<Fabricante> findByNomeLike(String nome);
+	List<Fabricante> findByOrderByNomeAsc();
 }
 

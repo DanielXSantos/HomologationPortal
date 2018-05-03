@@ -10,4 +10,5 @@ import com.ctl.model.Tipo;
 
 public interface TipoRepository extends CrudRepository<Tipo, Long>{
 	List<Tipo> findByNomeLike(String nome);
+	List<Tipo> findByOrderByNomeAsc();
 }

@@ -14,7 +14,7 @@ CREATE TABLE features (
 );
 
 CREATE TABLE precificacao (
-  id	BIGINT	NOT NULL,
+  id	BIGINT	auto_increment NOT NULL,
   tipo	VARCHAR (250),
   part_nro	VARCHAR (250),
   descricao	VARCHAR (250),
