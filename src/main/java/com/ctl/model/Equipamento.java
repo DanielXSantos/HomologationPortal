@@ -33,7 +33,8 @@ public class Equipamento {
 
     @NotEmpty
     private String segmento = "";
-
+    
+    @Lob
     private String descricao = "";
 
     @Transient

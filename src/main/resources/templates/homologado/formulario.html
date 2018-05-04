@@ -17,11 +17,12 @@
 
             <div class="form-group">
                 <label for="inputDescricao">Descrição</label>
-                <input type="text" class="form-control" id="inputDescricao" th:field="*{descricao}"/>
+                <textarea type="text" class="form-control" id="inputDescricao" rows="3"
+                          th:field="*{descricao}" />
                 <span th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}"
                       class="badge badge-danger">erro</span>
             </div>
-
+            
             <div class="modal-footer">
                 <button type="submit" class="btn btn-success">Salvar</button>
                 <a th:href="@{/homologado/}" class="btn btn-danger">Cancelar</a>

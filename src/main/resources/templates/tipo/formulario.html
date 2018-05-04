@@ -17,7 +17,8 @@
 
             <div class="form-group">
                 <label for="inputNome">Descrição</label>
-                <input type="text" class="form-control" id="inputNome" th:field="*{descricao}"/>
+                <textarea type="text" class="form-control" id="inputDescricao" rows="3"
+                          th:field="*{descricao}" />
                 <span th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}"
                       class="badge badge-danger">erro</span>
             </div>

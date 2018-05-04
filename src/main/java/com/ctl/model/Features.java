@@ -1,9 +1,11 @@
 package com.ctl.model;
 
 import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -18,6 +20,7 @@ public class Features {
 	@NotBlank
 	private String nome="";
 	
+	@Lob
 	@NotBlank
 	private String descricao="";
         

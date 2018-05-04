@@ -3,6 +3,7 @@ package com.ctl.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -19,6 +20,7 @@ public class Precificacao {
 	@NotBlank
 	private String part_nro="";
 	
+    @Lob
 	@NotBlank
 	private String descricao="";
 	

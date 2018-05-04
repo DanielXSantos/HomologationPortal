@@ -9,7 +9,7 @@ CREATE TABLE fabricante (
 CREATE TABLE features (
   id	BIGINT	auto_increment NOT NULL,
   nome	VARCHAR (250),
-  descricao	VARCHAR (250),
+  descricao	VARCHAR (1000),
   PRIMARY KEY (id)
 );
 
@@ -17,28 +17,28 @@ CREATE TABLE precificacao (
   id	BIGINT	auto_increment NOT NULL,
   tipo	VARCHAR (250),
   part_nro	VARCHAR (250),
-  descricao	VARCHAR (250),
+  descricao	VARCHAR (1000),
   PRIMARY KEY (id)
 );
 
 CREATE TABLE tipo (
   id	BIGINT auto_increment NOT NULL,
   nome	VARCHAR (250),
-  descricao VARCHAR(250),
+  descricao VARCHAR(1000),
   PRIMARY KEY (id)
 );
 
 CREATE TABLE homologado(
   id	BIGINT	auto_increment	NOT NULL,
   nome	VARCHAR (250),
-  descricao	VARCHAR (250),
+  descricao	VARCHAR (1000),
   PRIMARY KEY	(id)
 );
 
 CREATE TABLE requisito (
   id	BIGINT	auto_increment NOT NULL,
   nome	VARCHAR (250),
-  descricao	VARCHAR (250),
+  descricao	VARCHAR (1000),
   PRIMARY KEY (id)
 );
 
@@ -49,7 +49,7 @@ CREATE TABLE equipamento (
   data_inicio	 DATETIME,
   data_termino DATETIME,
   segmento	VARCHAR (250),
-  descricao	VARCHAR (500),
+  descricao	VARCHAR (1000),
   fabricante_id	BIGINT,
   precificacao_id	BIGINT,
   homologado_id BIGINT,
