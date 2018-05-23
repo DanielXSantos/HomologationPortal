@@ -63,7 +63,7 @@ public class HomologadoController {
             return "homologado/formulario";
         }
         homologadoRepository.save(homologado);
-        return "homologado/listar";
+        return "redirect:/homologado/";
 
     }
 

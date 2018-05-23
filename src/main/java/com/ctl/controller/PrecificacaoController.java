@@ -63,7 +63,8 @@ public class PrecificacaoController {
             return "precificacao/formulario";
         }
         precificacaoRepository.save(precificacao);
-        return "precificacao/listar";
+        return "redirect:/precificacao/";
+
 
     }
 
