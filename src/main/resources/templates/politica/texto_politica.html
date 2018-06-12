@@ -2,6 +2,11 @@
 <html>
     <head>
     <div th:replace="layout/header :: head"></div>
+    <style>
+        h3{
+            color: #006bb3;
+        }
+        </style>
 </head>
 <body>
     <div th:replace="layout/navbar  :: navbar"></div>
@@ -11,7 +16,77 @@
                 <h3 class="form-signin-heading"><strong>POLÍTICA</strong></h3>
                 <hr class="colorgraph">
             </form>
-        </div>
-    </div>
+                    <b>Preparado por: </b>
+                    Luan Teodoro Mundim luant@algartelecom.com.br <br>
+                    <b>Avaliado por: </b> Gustavo Bacalá  gustavoh@algartelecom.com.br <br>
+                    <b>Aprovado por:</b> Jerônimo Mitsuyuki jeronimom@algartelecom.com.br <br>
+                    <b>Criado em: </b> 09/04/2018 <br>
+ 
+
+<h3> 1. Introdução </h3>
+<p>Esse documento tem como o objetivo apresentar a política de utilização do laboratório e atividades de homologação de produtos e tecnologias relacionadas as redes Algar Telecom. Um grande desafio que ainda permeia o universo de redes de computadores é a interoperabilidade dos equipamentos e tecnologia que a compõe, diante de um cenário complexo com inúmeros fabricantes e modelos de equipamentos a necessidade de certificar suas funcionalidades dentro da Rede Algar Telecom passou a ser ponto indispensável. Com isto fica garantido a interoperação e a qualidade de serviços prestados pela Algar Telecom aos nossos Clientes, e também reforça a parceria e os entendimentos técnicos e comerciais entre Algar Telecom e Fornecedores.</p><br>
+<h3>2. Desafios </h3>
+        <ul>
+            <li>Garantir o funcionamento do equipamento/serviço dentro do escopo especificado pelos cadernos de testes;</li>
+        <li>Garantir interoperabilidade com a rede da Algar Telecom, a relação de todos os protocolos com informações de itens mandatórios e desejáveis contidos nos cadernos de testes;</li>
+        <li>Garantir índices técnicos de qualidade e funcionalidades, estes índices se referem a interfaces homologadas na ANATEL, especificações elétricas dentro das normas, estas informações são detalhadas nos cadernos de testes;</li>
+        <li>Garantir que as especificações sejam aplicáveis na rede viva, de acordo com o check-list de testes de funcionalidades especificados nos cadernos de testes;</li>
+        </ul>
+<br>
+
+<h3>3. Responsabilidades </h3>
+
+<b>Fornecedor </b>
+
+<p>
+O fabricante é totalmente responsável pela configuração, tanto da topologia proposta pela Algar Telecom, quanto dos equipamentos a serem homologados.
+Ao fim dos testes de homologação, o fornecedor deverá fornecer um documento formalizando os testes que foram executados, configurações aplicadas em cada laboratório (todos os equipamentos envolvidos), desvios, falhas e anomalias que foram encontradas durante os testes.
+</p>
+<b>Algar Telecom</b>
+
+<p>
+Fica responsável por todos os recursos de interconexão com outros equipamentos (configurações, Switches, Routers, Dslam´s de outros vendors).
+</p>
+<br>
+<h3>4. Processo de Homologação</h3>
+
+<p>O processo de homologação começa de duas formas, ou com a empresa requisitante oferecendo um equipamento/serviço que seja de interesse da empresa ou através de um processo de prospecção realizado pela Algar Telecom. Após as duas empresas entrarem em acordo sobre a homologação o processo é devidamente iniciado com os testes. A empresa requisitante fornece para a Algar um número “X” de equipamentos que é previamente estabelecido (esta quantidade varia de acordo com a tecnologia e o segmento de utilização). Após o recebimento dos equipamentos, a Algar Telecom estabelece um cronograma para a execução dos testes, e após o término dos testes, o equipamento é classificado como homologado ou não.</p>
+    <p>O processo de homologação é realizado mediante empresa terceira, a qual trará neutralidade, agilidade e idoneidade ao processo, auxiliando no processo de homologação, visto ser necessário conhecimento da planta da Algar e estrutura do laboratório, sendo que todos os custos com a empresa certificadora, ficará a cargo do fabricante. </p>
+    <p> <b> B2C:</b> Caso o equipamento seja homologado é requerido ao fabricante 5 amostras sendo (02) duas para o laboratório de homologação, (01) uma para a academia técnica, (01) uma para a área de quality e (01) uma para a área e produtos.</p>
+    <p> <b>OLT e GPON:</b> Caso esteja previsto entrada em operação na planta da Algar Telecom, é requerido ao fabricante, com prazo de no mínimo (30) trinta dias antes do início das operações, fornecer (01) um modelo de cada OLT que entrará na planta (Doação) para instalação no laboratório e (03) três amostras de cada ONT (Bridge, ONTs e ONU Sticks) que serão ou poderão a vir ser utilizados na planta, sendo (01) uma para o laboratório de homologação, para posterior troubleshoot, (01) uma para a academia técnica, com finalidade de treinamento e (01) uma para a área de Quality Assurance.</p>
+    <p> <b>B2B:</b> Após o término dos testes, é requisitado um equipamento em modelo “Try and Buy”, para instalação na planta, no qual, será monitorado continuamente por um prazo de 60 dias, para avaliar qualquer outro impacto que poderá vir a ocorrer. Também é requisito para homologação, que o fabricante forneça treinamento para a Algar Telecom, em local e turmas definidos pela Algar Telecom.</p>
+    <p> <b>MISCELÂNEAS:</b> O processo de homologação de miscelâneas de rede consiste em testes de operação (campo) e academia. São testes de caráter destrutivos. São solicitado amostras para testes em campo e na academia técnica, e também amostras para o laboratório e Quality Assurance.
+    <p> <b>OBSERVAÇÃO: Caso haja Alteração do Software ou do hardware do equipamento durante o processo, é necessário reiniciar o processo de homologação. </b> </p> 
+</p>
+<br>
+
+<h3>5. Infraestrutura do Laboratório</h3>
+<p>O laboratório de homologações é consistido por 3 ambientes: </p>
+<b>Sala de Testes:</b> quadro, bancada para (10) dez pessoas, (02) dois aparelhos de fax Low Speed, (02) duas impressoras multifuncionais com fax High Speed, cabeamento estruturado HFC e DTH e quadro branco. Sala frequentemente utilizada para testes de homologação ou troubleshoot da planta. <br>
+<b>Sala Interna:</b> Sala de armários, com rack de distribuição de pontos Ethernet/Voz, DG para construção de Loops de rede de par metálica, bancada para (06) seis pessoas. Sala normalmente utilizada para planejamento ou execução de changes, treinamentos ou pequenas apresentações. <br>
+<b>Sala de Equipamentos:</b> Infraestrutura AC (podendo ou não ser estabilizada) e infraestrutura DC.<br> <br>
+
+<h3> 6. Utilização do Laboratório </h3>
+<p>Para utilização do laboratório para hom ologações ou outras atividades que seja necessário a utilização da infraestrutura do mesmo (espaço físico ou equipamentos), é necessário que seja solicitado, com antecedência enviando um e-mail para o Luiz Cláudio Theodoro (<a href="mailto:lclaudio@algartelecom.com.br">lclaudio@algartelecom.com.br </a>), o atual coordenador do laboratório. </p>
+
+<h3>7. Instalação/retirada de Equipamentos </h3>
+
+<p>Toda e qualquer instalação de equipamentos, é necessário aviso com antecedência, para que seja preparado estrutura para comportar o novo equipamento, sendo necessário o envio das seguintes informações: <p>
+<ul>	
+    <li>Tipo de Alimentação</li>
+    <li>Carga Consumida</li>
+    <li>Projeto</li>
+    <li>Responsável pelo Equipamento</li>
+    <li>Tempo de Estadia no Laboratório</li>
+</ul>
+
+<p> Para retirada de qualquer equipamento do laboratório, é necessário avisar com antecedência sobre a retirada do mesmo, e em casos de urgência, deve-se notificar todos abaixo por e-mail e pelo menos um por telefone: </p> 
+Luiz Cláudio Theodoro (<a href="mailto:lclaudio@algartelecom.com.br">lclaudio@algartelecom.com.br </a> ) <br>
+Jeronimo Mitsuyuki Saito (<a href="mailto:jeronimom@algartelecom.com.br"> jeronimom@algartelecom.com.br </a>) <br>
+Frederico Henrique Batista Santos (<a href="mailto:fredericohbs@algartelecom.com.br">fredericohbs@algartelecom.com.br </a>) <br>
+Gustavo Henrique de Aguiar Bacalá (<a href="mailto:gustavoh@algartelecom.com.br">gustavoh@algartelecom.com.br </a>) <br>
+
+</div>
+</div>
 </body>
 </html>
