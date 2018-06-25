@@ -77,7 +77,13 @@ public class AdvancedSearchUtil {
     }
 
     private Model __build__(Model model,Authentication auth){
-        Object o = auth.getPrincipal();
+        Object o;
+        try{
+            o = auth.getPrincipal();
+        } catch (Exception e){
+            o = null;
+        }
+
         model.addAttribute("featuresForm", featuresRepository.findByOrderByNomeAsc());
         model.addAttribute("tiposForm", tipoRepository.findByOrderByNomeAsc());
         model.addAttribute("homologadoForm", homologadoRepository.findByOrderByNomeAsc());
@@ -85,7 +91,7 @@ public class AdvancedSearchUtil {
         model.addAttribute("form", new SearchForm());
         if(o instanceof User) {
             model.addAttribute("userName", ((User)o).getName());
-        }else{
+        }else if (o != null){
             model.addAttribute("userName", userRepository.findByDeletedFalseAndEmailIgnoreCase((String)o).getName());
         }
         return model;

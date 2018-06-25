@@ -16,7 +16,7 @@
             <br>
 
             <a class="btn btn-lg btn-primary btn-block" type="button" th:href="@{/equipamento}">Equipamentos</a>
-            <a class="btn btn-lg btn-primary btn-block" type="button" th:href="@{/politica}">Politica de Homologacao</a>
+            <a class="btn btn-lg btn-primary btn-block" type="button" th:href="@{/politica}">Politica de Homologação</a>
             <a sec:authorize="hasAnyAuthority('ADMIN','MASTER_ADMIN')" class="btn btn-lg btn-primary btn-block" type="button" th:href="@{/admin}">Administração</a>
         </form>
     </div>

@@ -4,7 +4,7 @@
 
 <body>
 <form layout:fragment="content" th:action="@{/precificacao/salvar}" th:object="${precificacao}" method="post">
-    <p class="h1">Cadastro Precificação</p>
+    <p class="h1">Cadastro Itens Avulsos</p>
 
     <div class="form-group">
         <label for="inputTipo">Tipo</label>
@@ -14,7 +14,7 @@
 
     <div class="form-group">
         <label for="inputId">Numero R12</label>
-        <input type="text" class="form-control" id="inputId" th:field="*{id}"/>
+        <input type="number" class="form-control" id="inputId" th:field="*{id}"/>
         <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}" class="badge badge-danger">erro</span>
     </div>
 

@@ -1,7 +1,14 @@
 FROM openjdk:8-jre-alpine
-WORKDIR /usr/src/HomologationPortal/
-RUN touch app.jar
-COPY lab-0.0.1-SNAPSHOT.jar /usr/src/HomologationPortal/app.jar
+
+ENV DATABASE_HOST=mysql
+ENV DATABASE_PORT=3306
+ENV DATABASE_NAME=portal
+ENV DATABASE_USER=root
+ENV DATABASE_PASSWORD=123
+
+ARG JAR_FILE
+COPY ${JAR_FILE} app.jar
+
 EXPOSE 8080
 
-CMD ["java", "-Dspring.profiles.active=container","-jar", "app.jar"]
+CMD ["java", "-Dspring.profiles.active=container","-jar", "/app.jar"]

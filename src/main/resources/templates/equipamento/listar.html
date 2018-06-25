@@ -5,91 +5,69 @@
     <div th:replace="layout/headerListar :: head"></div>
     <!-- E script para caralho para a DataTable funcionar certinho kkkkk-->
     <script type="text/javascript" class="init">
-        $(document)
-            .ready(
-                function () {
-                    var table = $('#example')
-                        .DataTable(
+        $(document).ready(
+            function () {
+                $.fn.dataTable.moment( 'DD/MM/YYYY' );
+
+                var table = $('#example')
+                    .DataTable({
+                        lengthChange: true,
+                        responsive: true,
+                        buttons: [
+                            'copy',
                             {
-                                lengthChange: true,
-                                responsive: true,
-                                buttons: [
-                                    'copy',
-                                    {
-                                        extend: 'excelHtml5',
-                                        customize: function (xlsx) {
-                                            var sheet = xlsx.xl.worksheets['sheet1.xml'];
-                                            //$('row:first c', sheet).attr('s', '7');
-                                            //color the background of the cells if found the value
-                                            $('row c[r^="F"]',
-                                                sheet)
-                                                .each(
-                                                    function () {
-                                                        if ($(
-                                                                'is t',
-                                                                this)
-                                                                .text() == "Homologado") {
-                                                            $(
-                                                                this)
-                                                                .attr(
-                                                                    's',
-                                                                    '15');
-                                                        } else if ($(
-                                                                'is t',
-                                                                this)
-                                                                .text() == "EmTestes") {
-                                                            $(
-                                                                this)
-                                                                .attr(
-                                                                    's',
-                                                                    '5');
-                                                        } else if ($(
-                                                                'is t',
-                                                                this)
-                                                                .text() == "NaoHomologado") {
-                                                            $(
-                                                                this)
-                                                                .attr(
-                                                                    's',
-                                                                    '10');
-                                                        }
-                                                    });
-                                        },
-                                        exportOptions: {
-                                            columns: [0, 1,
-                                                2, 3, 4, 5]
+                                extend: 'excelHtml5',
+                                customize: function (xlsx) {
+                                    var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                                    //$('row:first c', sheet).attr('s', '7');
+                                    //color the background of the cells if found the value
+                                    $('row c[r^="F"]', sheet).each(
+                                        function () {
+                                            if ($('is t', this).text() == "Homologado") {
+                                                $(this).attr('s', '15');
+                                            } else if ($('is t', this).text() == "EmTestes") {
+                                                $(this).attr('s', '5');
+                                            } else if ($('is t', this).text() == "NaoHomologado") {
+                                                $(this).attr('s', '10');
+                                            }
                                         }
-                                    },
-                                    {
-                                        extend: 'pdfHtml5',
-                                        /*customize: function(doc) {
-                                            var sheet = doc..xl.worksheets['sheet1.xml'];
-                                            //$('row:first c', sheet).attr('s', '7');
-                                            //color the background of the cells if found the value
-                                            $('row c[r^="F"]',sheet).each(function(){
-                                              if($('is t', this).text() =="Homologado"){
-                                                  $(this).attr('s',  '40');
-                                              }
-                                              else if ($('is t', this).text()=="EmTestes"){
-                                                  $(this).attr('s',  '60');
-                                              }
-                                              else if ($('is t', this).text()=="NaoHomologado"){
-                                                  $(this).attr('s',  '10');
-                                              }
-                                            });
-                                        },*/
-                                        exportOptions: {
-                                            columns: [0, 1,
-                                                2, 3, 4, 5]
-                                        }
-                                    }, 'colvis'],
+                                    );
+                                },
+                                exportOptions: {
+                                    columns: [0, 1,
+                                        2, 3, 4, 5]
+                                }
+                            },
+                            {
+                                extend: 'pdfHtml5',
+                                /*customize: function(doc) {
+                                    var sheet = doc..xl.worksheets['sheet1.xml'];
+                                    //$('row:first c', sheet).attr('s', '7');
+                                    //color the background of the cells if found the value
+                                    $('row c[r^="F"]',sheet).each(function(){
+                                      if($('is t', this).text() =="Homologado"){
+                                          $(this).attr('s',  '40');
+                                      }
+                                      else if ($('is t', this).text()=="EmTestes"){
+                                          $(this).attr('s',  '60');
+                                      }
+                                      else if ($('is t', this).text()=="NaoHomologado"){
+                                          $(this).attr('s',  '10');
+                                      }
+                                    });
+                                },*/
+                                exportOptions: {
+                                    columns: [0, 1,
+                                        2, 3, 4, 5]
+                                }
+                            }, 'colvis'],
 
-                            });
+                    });
 
-                    table.buttons().container().appendTo(
-                        '#example_wrapper .col-md-6:eq(0)');
+                table.buttons().container().appendTo(
+                    '#example_wrapper .col-md-6:eq(0)');
 
-                });
+            });
     </script>
 </head>
 
@@ -117,15 +95,16 @@
         <td th:text="${equipamento.fabricante.nome}"></td>
         <td th:text="${equipamento.nome}"></td>
         <td th:text="${equipamento.segmento}"></td>
-        <td th:text="${#dates.format(equipamento.dataInicio, 'dd-MM-yyyy')}"></td>
+        <td th:text="${#dates.format(equipamento.dataInicio, 'dd/MM/yyyy')}"></td>
         <td
-                th:text="${equipamento.dataTermino != null} ? ${#dates.format(equipamento.dataTermino, 'dd-MM-yyyy')}
+                th:text="${equipamento.dataTermino != null} ? ${#dates.format(equipamento.dataTermino, 'dd/MM/yyyy')}
         				: 'Teste não finalizado'"></td>
         <td
                 th:style="${equipamento.status == 'Homologado' ? 'background-color: #00cc00;'
         				: equipamento.status == 'EmTestes' ? 'background-color: #ffcc00;' : 'background-color: #cc0000;'}"
                 th:text="${equipamento.status}"></td>
-        <td sec:authorize="hasAnyAuthority('USER','ADMIN','MASTER_ADMIN')"><a th:href="@{/equipamento/editar(id=${equipamento.id})}">Editar</a></td>
+        <td sec:authorize="hasAnyAuthority('USER','ADMIN','MASTER_ADMIN')"><a
+                th:href="@{/equipamento/editar(id=${equipamento.id})}">Editar</a></td>
         <td><a th:href="@{/equipamento/view(id=${equipamento.id})}">Informações</a></td>
     </tr>
     </tbody>
